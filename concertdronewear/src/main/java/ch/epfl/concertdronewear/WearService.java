@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static android.app.Service.START_NOT_STICKY;
+
 public class WearService extends WearableListenerService {
 
     // Tag for Logcat

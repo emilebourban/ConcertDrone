@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,9 +19,11 @@ import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 
+import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.drone.BebopDrone;
 import ch.epfl.concertdrone.view.BebopVideoView;
-import ch.epfl.concertdrone.R;
+
+//import android.support.v7.app.AppCompatActivity;
 
 //import ch.epfl.load.concertdrone.R;
 //import ch.epfl.bebopdrone.drone.BebopDrone;
