@@ -12,9 +12,12 @@ import ch.epfl.concertdrone.R;
 
 public class InitialActivity extends AppCompatActivity {
 
+    private static final String TAG = "ManualFlightActivity";
+
     private static final int START_DEVICE_LIST = 1;
 
-    private static final String TAG = "ManualFlightActivity";
+    public static final int RESULT_GALLERY = 0;
+
 
 
     @Override
@@ -38,5 +41,10 @@ public class InitialActivity extends AppCompatActivity {
 
     public void OpenGallery(View view) {
         // TODO: implement a function leading to the footages (pictures + videos) taken by the drone
+        // --> cf.: https://stackoverflow.com/questions/16928727/open-gallery-app-from-android-intent/23821227
+        Intent galleryIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent , RESULT_GALLERY );
     }
 }
