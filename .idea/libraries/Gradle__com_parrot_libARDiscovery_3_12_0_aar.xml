@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARDiscovery:3.12.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2908c6b3e363da808548c9251b99e48f/jetified-libARDiscovery-3.12.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2908c6b3e363da808548c9251b99e48f/jetified-libARDiscovery-3.12.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARDiscovery/3.12.0/605fbbc0e8ce7a2d455f738f940ddcc92f3617ae/libARDiscovery-3.12.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARDiscovery/3.12.0/1fcf8f9ce4d8bb085899485a47aca491c5476b44/libARDiscovery-3.12.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

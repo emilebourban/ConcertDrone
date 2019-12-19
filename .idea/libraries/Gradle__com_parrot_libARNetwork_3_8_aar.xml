@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARNetwork:3.8@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/002f6598dbf25434e7c7722eb53930d7/libARNetwork-3.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/002f6598dbf25434e7c7722eb53930d7/libARNetwork-3.8/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARNetwork/3.8/2a008cc9fd9ffa650b3fee97e97c269982537564/libARNetwork-3.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARNetwork/3.8/e7d3c8fbb2f3db0a67e4e11ca95775b1a5203c70/libARNetwork-3.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context="ch.epfl.concertdrone.ch.epfl.concertdrone.activity.InitialActivity">
+    tools:context="ch.epfl.concertdrone.activity.InitialActivity">
 
     <TextView
         android:id="@+id/welcome_message"

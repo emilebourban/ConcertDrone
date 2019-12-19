@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARSAL:3.8@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0b341b503432dedbb2f539555766618a/libARSAL-3.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0b341b503432dedbb2f539555766618a/libARSAL-3.8/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARSAL/3.8/2893916f320593b34817dcf30a1a31fa7f9e51fa/libARSAL-3.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARSAL/3.8/84e9674c2599e8f757dfda85e7dd5dcfd12d6d21/libARSAL-3.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

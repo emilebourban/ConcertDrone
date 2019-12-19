@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARController:3.8@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9e4a9c4fb59b68c0233ed9e7f3effe0a/jetified-libARController-3.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9e4a9c4fb59b68c0233ed9e7f3effe0a/jetified-libARController-3.8/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARController/3.8/51697287eb3c42888460122545a7020b2988818c/libARController-3.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARController/3.8/ede05f37e596e3b61332d68f55670a4a4ab3c49f/libARController-3.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

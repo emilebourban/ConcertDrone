@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARMavlink:3.8@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b07145f225720a18daee7244a13af1dc/libARMavlink-3.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b07145f225720a18daee7244a13af1dc/libARMavlink-3.8/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARMavlink/3.8/e7420d6a1d0ae5b7879a1a200631c132e404f71c/libARMavlink-3.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARMavlink/3.8/faa1bcbae8b5c5c9d1275be5e522c5d4cdb28411/libARMavlink-3.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.parrot:libARStream:3.12.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c60ce73100f0a398cf0d53feb8806f17/libARStream-3.12.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c60ce73100f0a398cf0d53feb8806f17/libARStream-3.12.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARStream/3.12.0/12772fc1e406f8c68c5b8ad5c3bcd6d33bb06c66/libARStream-3.12.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.parrot/libARStream/3.12.0/23203f997f204bb86a3189e8d6730661d014a8eb/libARStream-3.12.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
