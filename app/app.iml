@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$/../../../__-LOADFTS&amp;amp;S__LabOnAppDevelopmentForTablets,SmartphonesAndSmartwatches__PlanBA_MA__4Credits/ConcertDrone/app" external.root.project.path="$MODULE_DIR$/../../../__-LOADFTS&amp;amp;S__LabOnAppDevelopmentForTablets,SmartphonesAndSmartwatches__PlanBA_MA__4Credits/ConcertDrone" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -112,6 +112,10 @@
     <orderEntry type="library" name="Gradle: javax.jmdns:jmdns:3.4.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.parrot:arsdk:3.12.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat:1.0.2@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-wearable:17.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-base:17.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tasks:17.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement:17.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.parrot:libARMedia:3.12.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.parrot:libARUpdater:3.12.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.parrot:libARDataTransfer:3.12.0@aar" level="project" />
