@@ -14,7 +14,7 @@ https://developer.parrot.com/docs/bebop/?java#a-name-common-arlibsversionsstate-
 - Comprendre comment recevoir données GPS du drone
 - Prendre photo / video + les télécharger
 - Afficher position de la tablette +  du drone sur une carte (et plus tard montre aussi)
-- Tester des preprgramed flights
+- Tester des preprogramed flight paths
 
 
 Processus pour actualiser porjet du Drone
