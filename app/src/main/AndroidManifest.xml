@@ -18,22 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+        <activity android:name=".activity.DebugAutonomousFlightActivity"></activity>
         <activity
-            android:name="ch.epfl.concertdrone.activity.InitialActivity"
+            android:name=".activity.InitialActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name="ch.epfl.concertdrone.activity.DeviceListActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:name=".activity.DeviceListActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="ch.epfl.concertdrone.activity.UsbAccessoryActivityImpl"
+            android:name=".activity.UsbAccessoryActivityImpl"
             android:noHistory="true"
             android:taskAffinity="com.parrot.sdk.usb"
             android:theme="@android:style/Theme.NoDisplay">
@@ -46,15 +45,16 @@
                 android:resource="@xml/usb_accessory_filter" />
         </activity>
         <activity
-            android:name="ch.epfl.concertdrone.activity.ManualFlightActivity"
+            android:name=".activity.ManualFlightActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="ch.epfl.concertdrone.activity.AutonomousFlightActivity"
+            android:name=".activity.AutonomousFlightActivity"
             android:screenOrientation="landscape" />
 
         <service android:name=".WearService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+
                 <data
                     android:host="*"
                     android:pathPrefix=""
@@ -62,6 +62,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+
                 <data
                     android:host="*"
                     android:pathPrefix=""

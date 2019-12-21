@@ -5,6 +5,7 @@ import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,11 +33,9 @@ public class InitialActivity extends AppCompatActivity {
     // XML callback of the button of MainActivity
     // (leading from MainActivity to PlayActivity)
     public void StartDeviceListActivity(View view) {
-        Intent intentStartPlayActivity = new Intent(this, DeviceListActivity.class);
-        startActivityForResult(intentStartPlayActivity, START_DEVICE_LIST);
+        Intent intentToDeviceListActivity = new Intent(this, DeviceListActivity.class);
+        startActivityForResult(intentToDeviceListActivity, START_DEVICE_LIST);
     }
-
-
 
 
     public void OpenGallery(View view) {
@@ -46,5 +45,12 @@ public class InitialActivity extends AppCompatActivity {
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent , RESULT_GALLERY );
+    }
+
+    //For debugging, acces to AutonomousFlightActivity without pass to Device ListaActivty
+    public void OnClicktoAutonomus(View view) {
+        Intent intentToAutonomusFlight = new Intent(this, DebugAutonomousFlightActivity.class);
+        startActivity(intentToAutonomusFlight);
+        Toast.makeText(getApplicationContext(), "Debug AutonomusFlight", Toast.LENGTH_SHORT).show();
     }
 }

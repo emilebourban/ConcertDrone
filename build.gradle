@@ -38,6 +38,9 @@ allprojects {
 
                 profile_path        : "/PROFILE",
                 profile_key         : "profile_key",
+
+                //Pour la comunication de Send Message a la montre
+                path_example_message: "/EXAMPLE_PATH_MESSAGE"
         ]
     }
 }
