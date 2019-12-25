@@ -9,6 +9,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.os.Debug;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,12 +36,18 @@ import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.concertdrone.activity.AutonomousFlightActivity;
+import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
 
 public class WearService extends WearableListenerService {
 
     // Tag for Logcat
     private static final String TAG = "WearService";
 
+    // Actions defined for the onStartCommand(...)
+    public enum ACTION_SEND {
+        EXAMPLE_SEND_STRING, EXAMPLE_SEND_STRING_DUBUG,STARTACTIVITY,EXAMPLE_DATAMAP,
+        EXAMPLE_ASSET,MESSAGE
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
@@ -72,6 +79,26 @@ public class WearService extends WearableListenerService {
                 putDataMapRequest.getDataMap().putAsset(BuildConfig.W_some_other_key, (Asset) intent.getParcelableExtra(IMAGE));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
+                //Rajouté
+            case EXAMPLE_SEND_STRING:
+                // Example action of sending a String received from the MainActivity
+                String message_to_send = intent.getStringExtra(AutonomousFlightActivity
+                        .EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE);
+                sendMessage(message_to_send, BuildConfig.W_path_example_message);
+                Log.i(TAG, "Send String");
+
+                break;
+
+            //Rajouté Pour le DEUBG
+            case EXAMPLE_SEND_STRING_DUBUG:
+                // Example action of sending a String received from the MainActivity
+                String message_to_send_debug = intent.getStringExtra(DebugAutonomousFlightActivity
+                        .DEBUG_ACTIVTY_SEND);
+                sendMessage(message_to_send_debug, BuildConfig.W_path_example_message);
+                Log.i(TAG, "Send String Debug");
+
+                break;
+
             default:
                 Log.w(TAG, "Unknown action");
                 break;
@@ -324,10 +351,5 @@ public class WearService extends WearableListenerService {
                         Log.e(TAG, "Failed to get bitmap from asset");
                     }
                 });
-    }
-
-    // Constants
-    public enum ACTION_SEND {
-        STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET
     }
 }

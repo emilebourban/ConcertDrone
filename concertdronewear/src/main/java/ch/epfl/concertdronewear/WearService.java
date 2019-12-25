@@ -39,6 +39,10 @@ public class WearService extends WearableListenerService {
 
     // Tag for Logcat
     private static final String TAG = "WearService";
+    // Constants
+    public enum ACTION_SEND {
+        STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET,EXAMPLE_SEND_STRING
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -71,6 +75,17 @@ public class WearService extends WearableListenerService {
                 putDataMapRequest.getDataMap().putAsset(BuildConfig.W_some_other_key, (Asset) intent.getParcelableExtra(IMAGE));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
+            //Rajouté
+            /*case EXAMPLE_SEND_STRING:
+                // Example action of sending a String received from the MainActivity
+                String message_to_send = intent.getStringExtra(MainActivity
+                        .EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE);
+                sendMessage(message_to_send, BuildConfig.W_path_example_message);
+                Log.i(TAG, "Send String");
+              //Il faudra rajouter ceci si on veut cominique de la montre a la tablette
+                  public static final String EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE =
+            "EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE"; (DANS LE MAIN ACTIVITY DE LA MONTRE)
+             */
             default:
                 Log.w(TAG, "Unknown action");
                 break;
@@ -232,6 +247,16 @@ public class WearService extends WearableListenerService {
                 putDataMapRequest.getDataMap().putIntegerArrayList(BuildConfig.W_some_other_key, arrayList);
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
+
+                //Rajouté
+            case BuildConfig.W_path_example_message:
+                // The message received is already extracted in the `data` variable
+                Intent intent = new Intent(MainActivity
+                        .EXAMPLE_BROADCAST_NAME_FOR_NOTIFICATION_MESSAGE_STRING_RECEIVED);
+                intent.putExtra(MainActivity
+                        .EXAMPLE_INTENT_STRING_NAME_WHEN_BROADCAST, data);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
@@ -323,10 +348,5 @@ public class WearService extends WearableListenerService {
                         Log.e(TAG, "Failed to get bitmap from asset");
                     }
                 });
-    }
-
-    // Constants
-    public enum ACTION_SEND {
-        STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET
     }
 }

@@ -20,6 +20,7 @@ import com.parrot.arsdk.arcontroller.ARFrame;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 
 import ch.epfl.concertdrone.R;
+import ch.epfl.concertdrone.WearService;
 import ch.epfl.concertdrone.drone.BebopDrone;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
@@ -32,6 +33,10 @@ import ch.epfl.concertdrone.view.BebopVideoView;
 public class AutonomousFlightActivity extends AppCompatActivity {
     private static final String TAG = "ManualFlightActivity";
     private BebopDrone mBebopDrone;
+
+    //Pour la comunication avec la montre
+    public static final String EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE =
+            "EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE";
 
     private ProgressDialog mConnectionProgressDialog;
     private ProgressDialog mDownloadProgressDialog;
@@ -167,7 +172,7 @@ public class AutonomousFlightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manual_flight);
+        setContentView(R.layout.activity_manual_flight);//Why is Activity Manual??
         Log.i(TAG, "entering onCreate ManualFlightActivity");
 
         initIHM();
@@ -228,7 +233,7 @@ public class AutonomousFlightActivity extends AppCompatActivity {
     private void initIHM() {
         Log.i(TAG, "entering initIHM ManualFlightActivity");
 
-        mVideoView = (BebopVideoView) findViewById(R.id.videoView);
+        mVideoView = findViewById(R.id.videoView);
 
         findViewById(R.id.emergencyBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -236,7 +241,7 @@ public class AutonomousFlightActivity extends AppCompatActivity {
             }
         });
 
-        mTakeOffLandBt = (Button) findViewById(R.id.takeOffOrLandBt);
+        mTakeOffLandBt = findViewById(R.id.takeOffOrLandBt);
         mTakeOffLandBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, "clicking takeOffOrLandBt ManualFlightActivity");
@@ -260,7 +265,7 @@ public class AutonomousFlightActivity extends AppCompatActivity {
             }
         });
 
-        mDownloadBt = (Button) findViewById(R.id.downloadBt);
+        mDownloadBt = findViewById(R.id.downloadBt);
         mDownloadBt.setEnabled(false);
         mDownloadBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -497,6 +502,21 @@ public class AutonomousFlightActivity extends AppCompatActivity {
             }
         });
 
-        mBatteryLabel = (TextView) findViewById(R.id.batteryLabel);
+        mBatteryLabel = findViewById(R.id.batteryLabel);
     }
+
+    //OnClick listener pour esseyer la comunication entre la tablette et la montre
+    public void onClickTry(View view) {
+        Log.i(TAG, "OnClick Try Fonction");
+        sendMessagee("La comunication est faite");//Envoi a la montre le string a linterieru
+    }
+
+    //Fontion pour envoyer un string a la montre
+    public void sendMessagee(String mensaje) {
+        Intent intent_send = new Intent(this, WearService.class);
+        intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING.name());
+        intent_send.putExtra(EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE, mensaje);
+        startService(intent_send);
+    }
+
 }
