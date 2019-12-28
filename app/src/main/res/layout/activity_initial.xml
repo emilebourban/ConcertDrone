@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:outlineSpotShadowColor="@color/primary_dark"
     android:orientation="vertical"
-    android:background="@drawable/ic_launcher_background"
+    android:background="@mipmap/ic_launcher_drone_foreground"
     tools:context="ch.epfl.concertdrone.activity.InitialActivity">
 
 
