@@ -108,6 +108,63 @@ public class BebopDrone {
     private ARCONTROLLER_DEVICE_STATE_ENUM mState;
     private ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM mFlyingState;
     private String mCurrentRunId;
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Declare drone GPS coordinates
+    private static double lat_bebop;
+    private static double long_bebop;
+    private static double alt_bebop;
+
+    // Declare yaw value of drone
+    private static float yaw_bebop;
+
+    // Other declarations
+    private static float yaw_target = 90;
+
+    // PD controller constants
+    /////////////////////////////
+    // Tests of values:
+    // works quite well:
+    // KP = 0.2, KD = 0.00001
+    // KP = 0.3, KD = 0.00001
+    // KP = 0.5, KD = 0.00001
+    // KP = 0.5, KD = 0.5
+    // KP = 0.4, KD = 0.05 --> error of ~ 2 degrees after stabilization
+    // KP = 0.4, KD = 0.001 --> error of ~ 1.7 degree after stabilization
+    // KP = 0.4, KD = 0.0001 --> error of ~ 1.5 degrees after stabilization
+    // KP = 0.4, KD = 0.00001 --> error of ~ 2 degrees after stabilization
+    // KP = 0.3, KD = 0.00001 --> error of ~ 2 degrees after stabilization
+    //
+    private final double KP = 0.3;
+    private final double KD = 0.00001;
+    private static float bias = 0;
+    /////////////////////////////
+
+    private static float error;
+    private static float error_prior;
+    private static double derivative;
+    private static int input;
+    private static byte input_byte;
+
+    private final int iteration_time = 250; // we get yaw values from the bebop every 250[ms]
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
     private final ARDeviceControllerListener mDeviceControllerListener = new ARDeviceControllerListener() {
         @Override
         public void onStateChanged(ARDeviceController deviceController, ARCONTROLLER_DEVICE_STATE_ENUM newState, ARCONTROLLER_ERROR_ENUM error) {
@@ -197,11 +254,11 @@ public class BebopDrone {
             else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED) && (elementDictionary != null)){
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
                 if (args != null) {
-                    double latitude = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_LATITUDE);
-                    double longitude = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_LONGITUDE);
-                    double altitude = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_ALTITUDE);
+                    lat_bebop = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_LATITUDE);
+                    long_bebop = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_LONGITUDE);
+                    alt_bebop = (double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED_ALTITUDE);
 
-                    Log.i(TAG, "GPS coordinates --> latitude: "+latitude+"; longitude: "+longitude+"; altitude: "+altitude);
+                    Log.i(TAG, "GPS coordinates --> latitude: "+lat_bebop+"; longitude: "+long_bebop+"; altitude: "+alt_bebop);
                 }
             }
 
@@ -219,18 +276,6 @@ public class BebopDrone {
                 }
             }
 
-            // Getting roll, pitch, yaw current values
-            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED) && (elementDictionary != null)){
-                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
-                if (args != null) {
-                    float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
-                    float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
-                    float yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
-
-                    Log.i(TAG, "Yaw [degree]: "+yaw_bebop*180/Math.PI); // 0° = facing South; +180° or -180° = facing North
-                }
-            }
-
             // Getting number of satellites
             else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_GPSSTATE_NUMBEROFSATELLITECHANGED) && (elementDictionary != null)){
                 ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
@@ -240,6 +285,70 @@ public class BebopDrone {
                     Log.i(TAG, "Number of satellites: "+numberOfSatellite);
                 }
             }
+
+            // Getting roll, pitch, yaw current values
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
+                    //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
+                    yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
+                    yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+                    if (yaw_bebop > 180 && yaw_bebop < 270) {
+                        yaw_bebop = (float) -180 + (yaw_bebop-180);
+                    }
+
+                    Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+                                                                  // For me: 0° = facing East; 90° = facing North
+
+
+
+                    // Yaw Controller
+                    // /!\ uncomment this part if you want the drone to automatically orient in a
+                    // direction you want (cf. "yaw_target")
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
+//
+//                    // Continuous computation of yaw_target
+//                    /*
+//                    diff_y = lat_watch - lat_bebop;
+//                    diff_x = long_watch - long_bebop;
+//                    yaw_target = Math.atan2(diff_y/diff_x);
+//                    */
+//
+//                    error = yaw_target - yaw_bebop;
+//                    Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+//
+//
+//                    derivative = (error - error_prior)/iteration_time;
+//
+//                    // Controller input calculation
+//                    input = (int) (KP*error + KD*derivative + bias);
+//                    if (input > 100) {
+//                        input = 100;
+//                    }
+//                    if (input < -100) {
+//                        input = -100;
+//                    }
+//                    Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+//
+//                    // Adapting input
+//                    input = input*(-1);
+//
+//                    // Conversion from int to byte
+//                    input_byte = (byte) input;
+//
+//                    //"setYaw((byte) input);" or:
+//                    if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+//                        mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+//                    }
+//
+//                    error_prior = error;
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
+                }
+            }
+
 
         }
     };
@@ -451,6 +560,7 @@ public class BebopDrone {
             mDeviceController.getFeatureARDrone3().setPilotingPCMDGaz(gaz);
         }
     }
+
 
     /**
      * Take in account or not the pitch and roll values

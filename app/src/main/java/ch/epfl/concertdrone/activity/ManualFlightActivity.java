@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_MINIDRONE_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
@@ -22,11 +23,20 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 
 import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.drone.BebopDrone;
+import ch.epfl.concertdrone.preprogrammed.BebopDroneRoutine;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
 public class ManualFlightActivity extends AppCompatActivity {
+
+    // Declarations Antho
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private final int power = 15;
+    private final int duration = 10000; // [ms]
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     private static final String TAG = "ManualFlightActivity";
     private BebopDrone mBebopDrone;
+    private BebopDroneRoutine mBebopDroneRoutine;
 
     //test
     private static final int START_DEVICE_LIST = 1;
@@ -174,6 +184,19 @@ public class ManualFlightActivity extends AppCompatActivity {
         ARDiscoveryDeviceService service = intent.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_SERVICE);
         mBebopDrone = new BebopDrone(this, service);
         mBebopDrone.addListener(mBebopListener);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // Testing the autonomous path
+        Button TestPathButton = findViewById(R.id.button_test_path);
+        TestPathButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "executePath clicking 'TestPathButton'.");
+                executePath();
+            }
+        });
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
     }
 
@@ -507,4 +530,107 @@ public class ManualFlightActivity extends AppCompatActivity {
 
         mBatteryLabel = (TextView) findViewById(R.id.batteryLabel);
     }
+
+
+
+
+
+
+
+
+
+
+
+    // For XML callback "executePath" --> write "public void executePath(View view)" instead of "public void executePath()"
+    // Method to test simple autonomous path
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    private static long endTime_wait;
+
+    // Simple path to go right and left a few times
+    // If the drone is NOT HOVERING, we shouldn't have pressed on the button
+    public void executePath() {
+
+        // Going middle way on the right
+        long endTime_begin_right = System.currentTimeMillis() + duration / 2;
+        while (System.currentTimeMillis() < endTime_begin_right) {
+            // Going right
+            mBebopDrone.setRoll((byte) power);
+            mBebopDrone.setFlag((byte) 1);
+        }
+        // Wait a bit...
+        endTime_wait = System.currentTimeMillis() + duration / 10;
+        while (System.currentTimeMillis() < endTime_wait) {
+            // Going right
+            mBebopDrone.setRoll((byte) 0);
+            mBebopDrone.setFlag((byte) 0);
+        }
+
+
+        // Going full path left and then full path right, etc.
+        int j = 1;
+        while (j < 4) {  // infinite loop --> simply set "while(true)"
+
+            // Going full path LEFT
+            long endTime_left = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_left) {
+                // Going right
+                mBebopDrone.setRoll((byte) -power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + duration / 10;
+            while (System.currentTimeMillis() < endTime_wait) {
+                // Going right
+                mBebopDrone.setRoll((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            // Going full path RIGHT
+            long endTime_right = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_right) {
+                // Going left
+                mBebopDrone.setRoll((byte) power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + duration / 10;
+            while (System.currentTimeMillis() < endTime_wait) {
+                // Going right
+                mBebopDrone.setRoll((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            j = j + 1;
+        }
+
+        // Going middle way back on the left
+        long endTime_end_left = System.currentTimeMillis() + duration / 2;
+        while (System.currentTimeMillis() < endTime_end_left) {
+            // Going right
+            mBebopDrone.setRoll((byte) -power);
+            mBebopDrone.setFlag((byte) 1);
+        }
+
+
+        mBebopDrone.setRoll((byte) 0);
+        mBebopDrone.setFlag((byte) 0);
+
+
+
+    }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 }
+
