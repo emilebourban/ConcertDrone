@@ -8,12 +8,11 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="BebopClass" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="814a9912-25a1-42d3-b566-04069c8bf65d" name="Default Changelist" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.bin&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.lock&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.bin&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.lock&#10;#&#9;.gradle/5.4.1/fileHashes/resourceHashesCache.bin&#10;#&#9;.gradle/5.4.1/javaCompile/classAnalysis.bin&#10;#&#9;.gradle/5.4.1/javaCompile/javaCompile.lock&#10;#&#9;.gradle/5.4.1/javaCompile/taskHistory.bin&#10;#&#9;.gradle/buildOutputCleanup/buildOutputCleanup.lock&#10;#&#9;.gradle/buildOutputCleanup/outputFiles.bin&#10;#&#9;.idea/caches/build_file_checksums.ser&#10;#&#9;.idea/caches/gradle_models.ser&#10;#&#9;.idea/workspace.xml">
+    <list default="true" id="814a9912-25a1-42d3-b566-04069c8bf65d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -21,16 +20,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARController_3_12_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARController_3_12_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARDiscovery_3_12_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARDiscovery_3_12_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARMedia_3_12_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARMedia_3_12_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/WearService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/WearService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/WearService.java" beforeDir="false" afterPath="$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/WearService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +33,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="PE030158" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="TKQ7N17410000121" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -54,8 +46,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="716" column="48" selection-start-line="716" selection-start-column="48" selection-end-line="716" selection-end-column="48" />
+            <state relative-caret-position="628">
+              <caret line="744" column="33" selection-start-line="744" selection-start-column="33" selection-end-line="744" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2894#3061#0" expanded="true" />
@@ -84,11 +76,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="61" />
+            <state relative-caret-position="213">
+              <caret line="528" selection-start-line="528" selection-end-line="529" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-47">
+              <caret line="103" column="45" lean-forward="true" selection-start-line="103" selection-start-column="45" selection-end-line="103" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -115,7 +116,13 @@
       <find>Activity</find>
       <find>Debug</find>
       <find>W_recordingactivity</find>
+      <find>startRecordingOnWear()</find>
+      <find>sendMessage</find>
+      <find>onCre</find>
+      <find>onResu</find>
+      <find>onStop</find>
       <find>Lat</find>
+      <find>onRe</find>
     </findStrings>
     <replaceStrings>
       <replace>.concertdrone</replace>
@@ -143,7 +150,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/ManualFlightActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/audio/AudioPlayer.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_autonomous_flight.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DeviceListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/InitialActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" />
@@ -165,6 +171,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/WearService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java" />
       </list>
     </option>
   </component>
@@ -241,8 +248,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="PE030158" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-12-29T13:16:04.450Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="TKQ7N17410000121" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-12-29T13:42:33.154Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -281,7 +288,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.concertdronewear">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -442,15 +449,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576926515702</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="La classe BebopDrone Devrait recevoir les donnes GPS de la montre.&#10;Je n'ai pas pu avoir la confirmation, mais tout y est.&#10;(Si ça marche pas je sais pas comment faire alors...)&#10;Les modification se trouvent a la fin de la page de BebopDrone.&#10;&#10;===============================================================&#10;Prochaine Etapes: link les nouvelles fontion de la classe avec lactivite&#10;AutonomusFlight. Et voir si on reçoit tout bien.&#10;&#10;YANN&#10;&#10;&#10;&#10;Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.bin&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.lock&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.bin&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.lock&#10;#&#9;.gradle/5.4.1/fileHashes/resourceHashesCache.bin&#10;#&#9;.gradle/5.4.1/javaCompile/classAnalysis.bin&#10;#&#9;.gradle/5.4.1/javaCompile/javaCompile.lock&#10;#&#9;.gradle/5.4.1/javaCompile/taskHistory.bin&#10;#&#9;.gradle/buildOutputCleanup/buildOutputCleanup.lock&#10;#&#9;.gradle/buildOutputCleanup/outputFiles.bin&#10;#&#9;.idea/caches/build_file_checksums.ser&#10;#&#9;.idea/caches/gradle_models.ser&#10;#&#9;.idea/workspace.xml">
+      <created>1577626257379</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1577626257379</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.18724832" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.18724832" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -460,7 +473,7 @@
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Debug" order="0" />
       <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49932885" weight="0.3286119" />
-      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" visible="true" weight="0.14447592" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" visible="true" weight="0.3186969" />
       <window_info anchor="bottom" id="TODO" order="3" />
       <window_info anchor="bottom" id="Find" order="4" sideWeight="0.49932885" weight="0.3286119" />
       <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.6934968" weight="0.31728044" />
@@ -510,7 +523,8 @@
     <MESSAGE value="Adding Wear Service to Watch and App modules correctly&#10;Did not try if the comunication works yet" />
     <MESSAGE value="Comunication Tablette--&gt;Wacht Implementé &#10;Il envoi un string a la montre&#10;&#10;J'ai cree une nouvelle activité DebugAutonom...&#10;Pour pouvoir faire de essay là. C'est un copie sans la Device Discover.&#10;==========================================&#10;A tester&#10;Il faut tester si le botton TRY dans l'activite AutonomousFlightActivity envoi bien le string a la montre&#10;&#10;YANN" />
     <MESSAGE value="Comunication Tablette--&gt;Wacht Implementé &#10;Donnée GPS Lat, Alt Long OK&#10;&#10;J'ai cree une nouvelle activité DebugAutonomusFLightActivty&#10;Pour pouvoir faire de essay là. C'est un copie de  sans AutonomusFLightActivty la Device Discover.&#10;J'ai mis des commentaire de ce que j'ai fait et (j'ai compris :) )&#10;==================================================================================================&#10;Prochaine Etape: envoyer les donnes GPS a la Clase Drone&#10;&#10;&#10;YANN" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comunication Tablette--&gt;Wacht Implementé &#10;Donnée GPS Lat, Alt Long OK&#10;&#10;J'ai cree une nouvelle activité DebugAutonomusFLightActivty&#10;Pour pouvoir faire de essay là. C'est un copie de  sans AutonomusFLightActivty la Device Discover.&#10;J'ai mis des commentaire de ce que j'ai fait et (j'ai compris :) )&#10;==================================================================================================&#10;Prochaine Etape: envoyer les donnes GPS a la Clase Drone&#10;&#10;&#10;YANN" />
+    <MESSAGE value="La classe BebopDrone Devrait recevoir les donnes GPS de la montre.&#10;Je n'ai pas pu avoir la confirmation, mais tout y est.&#10;(Si ça marche pas je sais pas comment faire alors...)&#10;Les modification se trouvent a la fin de la page de BebopDrone.&#10;&#10;===============================================================&#10;Prochaine Etapes: link les nouvelles fontion de la classe avec lactivite&#10;AutonomusFlight. Et voir si on reçoit tout bien.&#10;&#10;YANN&#10;&#10;&#10;&#10;Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.bin&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.lock&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.bin&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.lock&#10;#&#9;.gradle/5.4.1/fileHashes/resourceHashesCache.bin&#10;#&#9;.gradle/5.4.1/javaCompile/classAnalysis.bin&#10;#&#9;.gradle/5.4.1/javaCompile/javaCompile.lock&#10;#&#9;.gradle/5.4.1/javaCompile/taskHistory.bin&#10;#&#9;.gradle/buildOutputCleanup/buildOutputCleanup.lock&#10;#&#9;.gradle/buildOutputCleanup/outputFiles.bin&#10;#&#9;.idea/caches/build_file_checksums.ser&#10;#&#9;.idea/caches/gradle_models.ser&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="La classe BebopDrone Devrait recevoir les donnes GPS de la montre.&#10;Je n'ai pas pu avoir la confirmation, mais tout y est.&#10;(Si ça marche pas je sais pas comment faire alors...)&#10;Les modification se trouvent a la fin de la page de BebopDrone.&#10;&#10;===============================================================&#10;Prochaine Etapes: link les nouvelles fontion de la classe avec lactivite&#10;AutonomusFlight. Et voir si on reçoit tout bien.&#10;&#10;YANN&#10;&#10;&#10;&#10;Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.bin&#10;#&#9;.gradle/5.4.1/executionHistory/executionHistory.lock&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.bin&#10;#&#9;.gradle/5.4.1/fileHashes/fileHashes.lock&#10;#&#9;.gradle/5.4.1/fileHashes/resourceHashesCache.bin&#10;#&#9;.gradle/5.4.1/javaCompile/classAnalysis.bin&#10;#&#9;.gradle/5.4.1/javaCompile/javaCompile.lock&#10;#&#9;.gradle/5.4.1/javaCompile/taskHistory.bin&#10;#&#9;.gradle/buildOutputCleanup/buildOutputCleanup.lock&#10;#&#9;.gradle/buildOutputCleanup/outputFiles.bin&#10;#&#9;.idea/caches/build_file_checksums.ser&#10;#&#9;.idea/caches/gradle_models.ser&#10;#&#9;.idea/workspace.xml" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
@@ -669,13 +683,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -750,13 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="75" column="8" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/WearService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
@@ -767,10 +767,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="716" column="48" selection-start-line="716" selection-start-column="48" selection-end-line="716" selection-end-column="48" />
+        <state relative-caret-position="628">
+          <caret line="744" column="33" selection-start-line="744" selection-start-column="33" selection-end-line="744" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2894#3061#0" expanded="true" />
@@ -795,10 +802,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-47">
+          <caret line="103" column="45" lean-forward="true" selection-start-line="103" selection-start-column="45" selection-end-line="103" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="61" />
+        <state relative-caret-position="213">
+          <caret line="528" selection-start-line="528" selection-end-line="529" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

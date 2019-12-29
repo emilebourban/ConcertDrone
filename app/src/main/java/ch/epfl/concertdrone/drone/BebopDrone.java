@@ -734,7 +734,7 @@ public class BebopDrone {
 
     //Is the fonction called to start the sensor-->It will call the Recording Activity from the wacht
     //TODO call this in the constructor to start recording
-    private  void startRecordingOnWear(){
+    public void startRecordingOnWear(){
         Log.i(TAG, "Launch smartwatch Sensor reading");
         Intent intentStartRec = new Intent(mContext, WearService.class);
         intentStartRec.setAction(WearService.ACTION_SEND.STARTACTIVITY.name());//Call Command of the Wear Service

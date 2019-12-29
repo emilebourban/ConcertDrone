@@ -177,6 +177,12 @@ public class AutonomousFlightActivity extends AppCompatActivity {
 
         initIHM();
 
+        //YANN adition
+        //Send an intent to the watch to confirm the link to the watch
+        mBebopDrone.sendMessage("AutonomousFlightActivity Linked");//Debug
+        //start The sensor take data
+        mBebopDrone.startRecordingOnWear();
+
         Intent intent = getIntent();
         ARDiscoveryDeviceService service = intent.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_SERVICE);
         mBebopDrone = new BebopDrone(this, service);
@@ -517,6 +523,26 @@ public class AutonomousFlightActivity extends AppCompatActivity {
         intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING.name());
         intent_send.putExtra(EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE, mensaje);
         startService(intent_send);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBebopDrone.onRegisterReciver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Stop to get sensor data-->(Save Energy)
+        mBebopDrone.onUnRegisterReceiver();
+    }
+
+    //To stop comunicating when closing the mobile app
+    @Override
+    protected  void onStop(){
+        super.onStop();
+        mBebopDrone.stopRecordingOnWear();
     }
 
 }
