@@ -14,10 +14,10 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textTry"
+            android:id="@+id/textCom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ça comunique??"
+            android:text="En attente de la Tablete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"

@@ -1,11 +1,18 @@
 package ch.epfl.concertdrone.drone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 //import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
@@ -37,6 +44,11 @@ import com.parrot.arsdk.arutils.ARUtilsManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import ch.epfl.concertdrone.BuildConfig;
+import ch.epfl.concertdrone.R;
+import ch.epfl.concertdrone.WearService;
+import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
 
 public class BebopDrone {
     private static final String TAG = "BebopDrone";
@@ -708,6 +720,7 @@ public class BebopDrone {
     private void notifyDownloadComplete(String mediaName) {
         Log.i(TAG, "entering notifyDownloadComplete of class BebopDrone");
 
+
         List<Listener> listenersCpy = new ArrayList<>(mListeners);
         for (Listener listener : listenersCpy) {
             listener.onDownloadComplete(mediaName);
@@ -788,4 +801,92 @@ public class BebopDrone {
          */
         void onDownloadComplete(String mediaName);
     }
+
+
+    //Pour la comunication entre la montre et la tablette YANN----------------------------------------------------------------------------------------
+    /*
+    J'ai rajoute tout ça mais je sais pas si ça focntione encore.
+    Pour les intetn plutot de metre this jai mis mContext (c'est ce que j'ai vu sur google comme solution)
+     */
+    public static final String RECEIVED_LOCATION = "RECEIVE_LOCATION";
+    public static final String LONGITUDE = "LONGITUDE";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String ALTITUDE = "ALTITUDE";
+
+    private LocationBroadcastReceiver locationBroadcastReceiver;
+
+    //For the comunication of the wacht
+    public static final String ACTIVTY_SEND = "ACTIVTY_SEND";
+
+
+    //Sensor Recived Location (NECESSARRY)
+    private class LocationBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "entering onReceiveIntent of class BebopDrone");
+            // Get the variables of the location from the wach.
+            double longitude_watch = intent.getDoubleExtra(LONGITUDE, -1);
+            double latitude_watch = intent.getDoubleExtra(LATITUDE, -1);
+            double altitude_watch = intent.getDoubleExtra(ALTITUDE, -1);
+            Log.i(TAG, (String.format("Recived Location BebopClass-->Lat: %s \nLong: %s\nAlt; %s", latitude_watch, longitude_watch,altitude_watch)));
+        }
+    }
+
+    //TODO implemtents next fonction in AutonumusFlight Activity-->Take reference of Debug AutonumusFlightActivity
+    //Fontion to send a string to the wacht via Wear Service and intent
+    public void sendMessage(String mensaje) {
+        Intent intent_send = new Intent(mContext, WearService.class);
+        intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING.name());//For the Autonomus flight Original (no debug)
+        intent_send.putExtra(ACTIVTY_SEND, mensaje);
+        mContext.startService(intent_send);
+    }
+
+    //Is the fonction called to start the sensor-->It will call the Recording Activity from the wacht
+    //TODO call this in the constructor to start recording
+    public void startRecordingOnWear(){
+        Log.i(TAG, "Launch smartwatch Sensor reading");
+        Intent intentStartRec = new Intent(mContext, WearService.class);
+        intentStartRec.setAction(WearService.ACTION_SEND.STARTACTIVITY.name());//Call Command of the Wear Service
+        intentStartRec.putExtra(WearService.ACTIVITY_TO_START, BuildConfig.W_recordingactivity);//Start the Activity described
+        mContext.startService(intentStartRec);
+    }
+    //TODO Implemnter onResume, onPause, onStop
+    public void onRegisterReciver(){//For the onResume
+        //Get the location back from the watch
+        locationBroadcastReceiver = new LocationBroadcastReceiver();
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(locationBroadcastReceiver, new
+                IntentFilter(RECEIVED_LOCATION));
+    }
+
+    public void onUnRegisterReceiver(){//For the onPause
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(locationBroadcastReceiver);
+    }
+
+    //Definition of the focntion called in onStop
+    public void stopRecordingOnWear() {//For the onStop
+        //It will call the comand STOPACTIVTY declared in the WaerActivity to stop the specified Actiivity
+        Intent intentStopRec = new Intent(mContext, WearService.class);
+        intentStopRec.setAction(WearService.ACTION_SEND.STOPACTIVITY.name());
+        intentStopRec.putExtra(WearService.ACTIVITY_TO_STOP, BuildConfig.W_recordingactivity);
+        mContext.startService(intentStopRec);
+    }
+
+    //Autogenerated (Empty fontion) I dont know if it necessarry
+    public void onLocationChanged(Location location) {
+
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    public void onProviderDisabled(String provider) {
+
+    }
+
 }

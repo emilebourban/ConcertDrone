@@ -4,11 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -29,25 +26,24 @@ public class MainActivity extends WearableActivity {
             "EXAMPLE_INTENT_IMAGE_NAME_WHEN_BROADCAST";
 
     private TextView mTextView;
-    private TextView TextTry; //Text d'essay
+    private TextView TextCom; //Text d'essay
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setAmbientEnabled();
-        mTextView = findViewById(R.id.text);
-        TextTry =findViewById(R.id.textTry);
+        setAmbientEnabled(); //Set the save energy mode-->Enables Always-on
 
-        // Enables Always-on
-        setAmbientEnabled();
+        //For Debug
+        mTextView = findViewById(R.id.text);
+        TextCom =findViewById(R.id.textCom);
     }
 
-    //Fontion qui ressoi le string envoye par la tablette
+    //Fonction for DEBUG. It recive a String from the tablete to see if is well conected to the Wacth
     private BroadcastReceiver mBroadcastReveiverString = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            TextTry.setText(
+            TextCom.setText(
                     intent.getStringExtra(EXAMPLE_INTENT_STRING_NAME_WHEN_BROADCAST));
         }
     };
@@ -66,13 +62,13 @@ public class MainActivity extends WearableActivity {
     protected void onPause() {
         super.onPause();
 
-        // Un-register broadcasts from WearService
+        // Un-register broadcasts from WearService (For save energy)
         LocalBroadcastManager
                 .getInstance(this)
                 .unregisterReceiver(mBroadcastReveiverString);
     }
 
-    //Esto es para el modo ambiente si hace falta
+    //Ambietn Mode Fontions
     @Override
     public void onEnterAmbient(Bundle ambientDetails) {
         super.onEnterAmbient(ambientDetails);

@@ -37,17 +37,30 @@ import java.util.List;
 
 import ch.epfl.concertdrone.activity.AutonomousFlightActivity;
 import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
+import ch.epfl.concertdrone.drone.BebopDrone;
 
 public class WearService extends WearableListenerService {
 
     // Tag for Logcat
     private static final String TAG = "WearService";
 
+    //ID's of the diferents isntruction and variables
+    public static final String ACTIVITY_TO_START = "ACTIVITY_TO_START";
+    public static final String ACTIVITY_TO_STOP = "ACTIVITY_TO_STOP";
+
+    public static final String MESSAGE = "MESSAGE";
+    public static final String DATAMAP_INT = "DATAMAP_INT";
+    public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
+    public static final String IMAGE = "IMAGE";
+    public static final String PATH = "PATH";
+
     // Actions defined for the onStartCommand(...)
     public enum ACTION_SEND {
-        EXAMPLE_SEND_STRING, EXAMPLE_SEND_STRING_DUBUG,STARTACTIVITY,EXAMPLE_DATAMAP,
-        EXAMPLE_ASSET,MESSAGE
+        EXAMPLE_SEND_STRING, EXAMPLE_SEND_STRING_DUBUG,STARTACTIVITY,STOPACTIVITY,
+        EXAMPLE_DATAMAP, EXAMPLE_ASSET,MESSAGE
     }
+
+    //Start Comand
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
@@ -59,28 +72,35 @@ public class WearService extends WearableListenerService {
         ACTION_SEND action = ACTION_SEND.valueOf(intent.getAction());
         PutDataMapRequest putDataMapRequest;
         switch (action) {
-            case STARTACTIVITY:
+            case STARTACTIVITY://Start the Activity defined of the wach
+                Log.i(TAG, "WearSeviceClass Start Activity");
                 String activity = intent.getStringExtra(ACTIVITY_TO_START);
                 sendMessage(activity, BuildConfig.W_path_start_activity);
                 break;
-            case MESSAGE:
+            case STOPACTIVITY://Stop the activity defined of the watch
+                Log.i(TAG, "WearSeviceClass Stop Activity");
+                String activityStop = intent.getStringExtra(ACTIVITY_TO_STOP);
+                sendMessage(activityStop, BuildConfig.W_path_stop_activity);
+                break;
+            case MESSAGE://Send an Message to the wathc (another form used to do it?)
                 String message = intent.getStringExtra(MESSAGE);
-                if (message == null) message = "";
+                if (message == null) message = "No Message";
                 sendMessage(message, intent.getStringExtra(PATH));
                 break;
-            case EXAMPLE_DATAMAP:
+            case EXAMPLE_DATAMAP://Not Used
                 putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_example_path_datamap);
                 putDataMapRequest.getDataMap().putInt(BuildConfig.W_a_key, intent.getIntExtra(DATAMAP_INT, -1));
                 putDataMapRequest.getDataMap().putIntegerArrayList(BuildConfig.W_some_other_key, intent.getIntegerArrayListExtra(DATAMAP_INT_ARRAYLIST));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
-            case EXAMPLE_ASSET:
+            case EXAMPLE_ASSET://Not used
                 putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_example_path_asset);
                 putDataMapRequest.getDataMap().putAsset(BuildConfig.W_some_other_key, (Asset) intent.getParcelableExtra(IMAGE));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
+
                 //Rajouté
-            case EXAMPLE_SEND_STRING:
+            case EXAMPLE_SEND_STRING: //Send String to the Autonomus Flight (ORiginal)
                 // Example action of sending a String received from the MainActivity
                 String message_to_send = intent.getStringExtra(AutonomousFlightActivity
                         .EXAMPLE_INTENT_STRING_NAME_ACTIVITY_TO_SERVICE);
@@ -89,7 +109,7 @@ public class WearService extends WearableListenerService {
 
                 break;
 
-            //Rajouté Pour le DEUBG
+            //Rajouté Pour le DEUBG, il envoi a la classe DebugAutonomus FLight (C'est pour le text debug) //TODO a enlever
             case EXAMPLE_SEND_STRING_DUBUG:
                 // Example action of sending a String received from the MainActivity
                 String message_to_send_debug = intent.getStringExtra(DebugAutonomousFlightActivity
@@ -107,61 +127,11 @@ public class WearService extends WearableListenerService {
         return START_NOT_STICKY;
     }
 
-    public static final String ACTIVITY_TO_START = "ACTIVITY_TO_START";
 
-    public static final String MESSAGE = "MESSAGE";
-    public static final String DATAMAP_INT = "DATAMAP_INT";
-    public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
-    public static final String IMAGE = "IMAGE";
-    public static final String PATH = "PATH";
 
-    public static Asset createAssetFromBitmap(Bitmap bitmap) {
-        bitmap = resizeImage(bitmap, 390);
 
-        if (bitmap != null) {
-            final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
-            return Asset.createFromBytes(byteStream.toByteArray());
-        }
-        return null;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    private static Bitmap resizeImage(Bitmap bitmap, int newSize) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-
-        // Image smaller, return it as is!
-        if (width <= newSize && height <= newSize) return bitmap;
-
-        int newWidth;
-        int newHeight;
-
-        if (width > height) {
-            newWidth = newSize;
-            newHeight = (newSize * height) / width;
-        } else if (width < height) {
-            newHeight = newSize;
-            newWidth = (newSize * width) / height;
-        } else {
-            newHeight = newSize;
-            newWidth = newSize;
-        }
-
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        return Bitmap.createBitmap(bitmap, 0, 0,
-                width, height, matrix, true);
-    }
-
+    //When the value has change it send  the new value recived from the wear service from the watch to the Activty
+    //in a intent defined depending of the key used
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
         Log.v(TAG, "onDataChanged: " + dataEvents);
@@ -182,6 +152,7 @@ public class WearService extends WearableListenerService {
                         + "\tDatamap: " + dataMapItem.getDataMap() + "\n");
 
                 Intent intent;
+                Intent intentDebug;//Another Intent for debuging
 
                 assert uri.getPath() != null;
                 switch (uri.getPath()) {
@@ -201,6 +172,72 @@ public class WearService extends WearableListenerService {
                         intent.putExtra("REPLACE_THIS_WITH_A_STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", integer);
                         intent.putExtra("REPLACE_THIS_WITH_A_STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", arraylist);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        break;
+
+                        //ajouté et utilisé
+                    case BuildConfig.W_heart_rate_path:
+                        int heartRate = dataMapItem.getDataMap()
+                                .getInt(BuildConfig.W_heart_rate_key);
+
+                        //TODO modification pour l'intent
+                        //Pour la AutonomousFlightActivity (original)
+                        /*
+                        intent = new Intent(AutonomousFlightActivity.RECEIVE_HEART_RATE);
+                        intent.putExtra(AutonomousFlightActivity.HEART_RATE, heartRate);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        */
+
+                        //pour le mode Debug
+                        ///*
+                        intentDebug = new Intent(DebugAutonomousFlightActivity.RECEIVE_HEART_RATE);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.HEART_RATE, heartRate);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);
+                        //*/
+
+                        //La classe Bebop ne devrait rien faire avec ça-->(C'est optionel)
+
+                        break;
+
+                        //Pour le GPS
+                    case BuildConfig.W_location_path:
+                        double longitude = dataMapItem.getDataMap().getDouble(BuildConfig
+                                .W_longitude_key);
+                        double latitude = dataMapItem.getDataMap().getDouble(BuildConfig
+                            .W_latitude_key);
+                        double altitude = dataMapItem.getDataMap().getDouble(BuildConfig
+                                .W_altitude_key);
+
+                        //TODO modification ou les info vont
+
+                        //Pour la AutonomousFlightActivity
+                        /*
+                        intent = new Intent(AutonomousFlightActivity.RECEIVED_LOCATION);
+                        intent.putExtra(AutonomousFlightActivity.LONGITUDE, longitude);
+                        intent.putExtra(AutonomousFlightActivity.LATITUDE, latitude);
+                        intent.putExtra(AutonomousFlightActivity.ALTITUDE, altitude);
+                         */
+
+                        //Pour DeBug DebugAutonomousFlightActivity (ça marche)
+                        ///*
+                        intentDebug = new Intent(DebugAutonomousFlightActivity.RECEIVED_LOCATION);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.LONGITUDE, longitude);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.LATITUDE, latitude);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.ALTITUDE, altitude);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);//For debug
+                        //*/
+
+                        //Pour la classe BebopDrone (a la demande de Anthony)
+                        ///*
+                        intent = new Intent(BebopDrone.RECEIVED_LOCATION);
+                        intent.putExtra(BebopDrone.LONGITUDE, longitude);
+                        intent.putExtra(BebopDrone.LATITUDE, latitude);
+                        intent.putExtra(BebopDrone.ALTITUDE, altitude);
+
+                        //*/
+
+                        //A modifier pour Autonomus Activity OU BebopDrone class
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        Log.i(TAG, "GPS send to DebugAutonomousFlight Activity and BebopDrone");
                         break;
                     default:
                         Log.v(TAG, "Data changed for unhandled path: " + uri);
@@ -227,7 +264,7 @@ public class WearService extends WearableListenerService {
 
         if (path.equals(BuildConfig.W_path_start_activity)
                 && data.equals(BuildConfig.W_mainactivity)) {
-            startActivity(new Intent(this, AutonomousFlightActivity.class));
+            startActivity(new Intent(this, AutonomousFlightActivity.class));//Je sais pas s'il faut modifier
         }
 
         switch (path) {
@@ -236,7 +273,7 @@ public class WearService extends WearableListenerService {
                 Intent startIntent = null;
                 switch (data) {
                     case BuildConfig.W_mainactivity:
-                        startIntent = new Intent(this, AutonomousFlightActivity.class);
+                        startIntent = new Intent(this, AutonomousFlightActivity.class);//Je sais pas bis
                         break;
                 }
 
@@ -264,7 +301,7 @@ public class WearService extends WearableListenerService {
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
     }
-
+//---------------------------------------------------------NOT MODIFIY AFTER THIS----------------------------------------------------------------//
     private void sendMessage(String message, String path, final String nodeId) {
         // Sends a message through the Wear API
         Wearable.getMessageClient(this)
@@ -303,6 +340,7 @@ public class WearService extends WearableListenerService {
         });
     }
 
+    //FOR DATA MAP (not used)
     void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {
         putDataMapRequest.getDataMap().putLong("time", System.nanoTime());
         PutDataRequest request = putDataMapRequest.asPutDataRequest();
@@ -351,5 +389,51 @@ public class WearService extends WearableListenerService {
                         Log.e(TAG, "Failed to get bitmap from asset");
                     }
                 });
+    }
+    public static Asset createAssetFromBitmap(Bitmap bitmap) {
+        bitmap = resizeImage(bitmap, 390);
+
+        if (bitmap != null) {
+            final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
+            return Asset.createFromBytes(byteStream.toByteArray());
+        }
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    private static Bitmap resizeImage(Bitmap bitmap, int newSize) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        // Image smaller, return it as is!
+        if (width <= newSize && height <= newSize) return bitmap;
+
+        int newWidth;
+        int newHeight;
+
+        if (width > height) {
+            newWidth = newSize;
+            newHeight = (newSize * height) / width;
+        } else if (width < height) {
+            newHeight = newSize;
+            newWidth = (newSize * width) / height;
+        } else {
+            newHeight = newSize;
+            newWidth = newSize;
+        }
+
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        return Bitmap.createBitmap(bitmap, 0, 0,
+                width, height, matrix, true);
     }
 }
