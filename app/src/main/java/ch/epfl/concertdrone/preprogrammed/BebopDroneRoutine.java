@@ -23,7 +23,7 @@ public class BebopDroneRoutine {
         Log.i(TAG, "entering BebopDroneRoutine Class BebopDroneRoutine");
         mBebopDrone = miniDrone;
 
-        // If the drone is not HOVERING, then don't execute.
+        // If the drone is NOT HOVERING, then don't execute.
         if (miniDrone.getFlyingState().equals(ARCOMMANDS_MINIDRONE_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM
                 .ARCOMMANDS_MINIDRONE_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_HOVERING)) {
             execute();
@@ -38,9 +38,36 @@ public class BebopDroneRoutine {
 
         // Some quick help:
 
+        // Go RIGHT / LEFT
         // Use "mMiniDrone.setRoll((byte) n);" where n is a number from -100 to 100 to fly the drone left or right.
         // Negative numbers are left, positive right. Use numbers closer to 0 for slower speeds, and closer to
         // +- 100 for faster speeds. 0 to stop the roll.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Simple path to go right and left a few times
+
+        // Going right (begin)
+        mBebopDrone.setRoll((byte) 10);
+        mBebopDrone.setFlag((byte) 1);
+        sleep(200); // maintain the action and sleep the thread for a certain amount of [ms] ("mills")
+        for (int i = 0; i < 2; i++) {
+
+            // Going Left
+            mBebopDrone.setRoll((byte) -10);
+            mBebopDrone.setFlag((byte) 1);
+            sleep(400);
+
+            // Going Right
+            mBebopDrone.setRoll((byte) 10);
+            mBebopDrone.setFlag((byte) 1);
+            sleep(400);
+
+        }
+        // Going left (end)
+        mBebopDrone.setRoll((byte) -10);
+        sleep(200); // maintain the action and sleep the thread for a certain amount of [ms] ("mills")
+        mBebopDrone.setRoll((byte) 0);
+        mBebopDrone.setFlag((byte) 0);
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Use "mMiniDrone.setPitch((byte) n);" where n is a number from -100 to 100 to fly the drone forward or backward.
         // Negative numbers are backward, positive forward. Use numbers closer to 0 for slower speeds, and closer to
