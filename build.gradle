@@ -25,6 +25,7 @@ allprojects {
     project.ext {
         constants = [
                 path_start_activity : "/START_ACTIVITY",
+                path_stop_activity  : "/STOP_ACTIVITY",
                 path_acknowledge    : "/ACKNOWLEDGE",
 
                 example_path_asset  : "/ ASSET ",
@@ -40,7 +41,19 @@ allprojects {
                 profile_key         : "profile_key",
 
                 //Pour la comunication de Send Message a la montre
-                path_example_message: "/EXAMPLE_PATH_MESSAGE"
+                path_example_message: "/EXAMPLE_PATH_MESSAGE",
+                //Pour comuniquer les valeur de GPS pour la montre
+                recordingactivity   : "RecordingActivity",
+
+                //Pour comuniquer HP
+                heart_rate_key : "heart_rate_key",
+                heart_rate_path : "/HEART_RATE_PATH",
+
+                //Pour comuniquer le GPS
+                location_path       : "/LOCATION",
+                longitude_key       : "longitude",
+                latitude_key        : "latitude",
+                altitude_key        : "altitude",
         ]
     }
 }

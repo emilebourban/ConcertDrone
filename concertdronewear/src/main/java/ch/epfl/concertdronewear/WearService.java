@@ -39,9 +39,24 @@ public class WearService extends WearableListenerService {
 
     // Tag for Logcat
     private static final String TAG = "WearService";
+
+    //String code for the variable transmited
+    public static final String HEART_RATE = "HEART_RATE";
+    public static final String LONGITUDE = "LONGITUDE";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String ALTITUDE = "ALTITUDE";
+
+    //String code for the COmand Transmited
+    public static final String ACTIVITY_TO_START = "ACTIVITY_TO_START";
+    public static final String MESSAGE = "MESSAGE";
+    public static final String DATAMAP_INT = "DATAMAP_INT";
+    public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
+    public static final String IMAGE = "IMAGE";
+    public static final String PATH = "PATH";
     // Constants
     public enum ACTION_SEND {
-        STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET,EXAMPLE_SEND_STRING
+        STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET,EXAMPLE_SEND_STRING,
+        HEART_RATE, LOCATION
     }
 
     @Override
@@ -55,24 +70,44 @@ public class WearService extends WearableListenerService {
         ACTION_SEND action = ACTION_SEND.valueOf(intent.getAction());
         PutDataMapRequest putDataMapRequest;
         switch (action) {
-            case STARTACTIVITY:
+            case STARTACTIVITY://Necesarry
+                //Sart an Activty of the tablette
                 String activity = intent.getStringExtra(ACTIVITY_TO_START);
                 sendMessage(activity, BuildConfig.W_path_start_activity);
                 break;
-            case MESSAGE:
+            case MESSAGE://Usefull
                 String message = intent.getStringExtra(MESSAGE);
-                if (message == null) message = "";
+                if (message == null) message = "error";
                 sendMessage(message, intent.getStringExtra(PATH));
                 break;
-            case EXAMPLE_DATAMAP:
+            case EXAMPLE_DATAMAP://Not used
                 putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_example_path_datamap);
                 putDataMapRequest.getDataMap().putInt(BuildConfig.W_a_key, intent.getIntExtra(DATAMAP_INT, -1));
                 putDataMapRequest.getDataMap().putIntegerArrayList(BuildConfig.W_some_other_key, intent.getIntegerArrayListExtra(DATAMAP_INT_ARRAYLIST));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
-            case EXAMPLE_ASSET:
+            case EXAMPLE_ASSET: //Not used
                 putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_example_path_asset);
                 putDataMapRequest.getDataMap().putAsset(BuildConfig.W_some_other_key, (Asset) intent.getParcelableExtra(IMAGE));
+                sendPutDataMapRequest(putDataMapRequest);
+                break;
+                //Ajouté pour test
+            case HEART_RATE://OPTIONAL
+                putDataMapRequest = PutDataMapRequest
+                        .create(BuildConfig.W_heart_rate_path);
+                putDataMapRequest.getDataMap()
+                        .putInt(BuildConfig.W_heart_rate_key,
+                                intent.getIntExtra(HEART_RATE, -1));
+                sendPutDataMapRequest(putDataMapRequest);
+                break;
+            case LOCATION://NECESARRY
+                putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_location_path);
+                putDataMapRequest.getDataMap().putDouble(BuildConfig.W_latitude_key, intent
+                        .getDoubleExtra(LATITUDE, -1));
+                putDataMapRequest.getDataMap().putDouble(BuildConfig.W_longitude_key, intent
+                        .getDoubleExtra(LONGITUDE, -1));
+                putDataMapRequest.getDataMap().putDouble(BuildConfig.W_altitude_key, intent
+                        .getDoubleExtra(ALTITUDE, -1));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
             //Rajouté
@@ -94,61 +129,10 @@ public class WearService extends WearableListenerService {
         return START_NOT_STICKY;
     }
 
-    public static final String ACTIVITY_TO_START = "ACTIVITY_TO_START";
 
-    public static final String MESSAGE = "MESSAGE";
-    public static final String DATAMAP_INT = "DATAMAP_INT";
-    public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
-    public static final String IMAGE = "IMAGE";
-    public static final String PATH = "PATH";
 
-    public static Asset createAssetFromBitmap(Bitmap bitmap) {
-        bitmap = resizeImage(bitmap, 390);
-
-        if (bitmap != null) {
-            final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
-            return Asset.createFromBytes(byteStream.toByteArray());
-        }
-        return null;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    private static Bitmap resizeImage(Bitmap bitmap, int newSize) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-
-        // Image smaller, return it as is!
-        if (width <= newSize && height <= newSize) return bitmap;
-
-        int newWidth;
-        int newHeight;
-
-        if (width > height) {
-            newWidth = newSize;
-            newHeight = (newSize * height) / width;
-        } else if (width < height) {
-            newHeight = newSize;
-            newWidth = (newSize * width) / height;
-        } else {
-            newHeight = newSize;
-            newWidth = newSize;
-        }
-
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        return Bitmap.createBitmap(bitmap, 0, 0,
-                width, height, matrix, true);
-    }
-
+    //Will link the variables of the watch and the tablette as the same key W_....
+    //when change the value. Not Used in this Wear service
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
         Log.v(TAG, "onDataChanged: " + dataEvents);
@@ -172,13 +156,13 @@ public class WearService extends WearableListenerService {
 
                 assert uri.getPath() != null;
                 switch (uri.getPath()) {
-                    case BuildConfig.W_example_path_asset:
+                    case BuildConfig.W_example_path_asset://not used
                         // Extract the data behind the key you know contains data
                         Asset asset = dataMapItem.getDataMap().getAsset(BuildConfig.W_some_other_key);
                         intent = new Intent("REPLACE_THIS_WITH_A_STRING_OF_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
                         bitmapFromAsset(asset, intent, "REPLACE_THIS_WITH_A_STRING_OF_IMAGE_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
                         break;
-                    case BuildConfig.W_example_path_datamap:
+                    case BuildConfig.W_example_path_datamap://For data map Not used
                         // Extract the data behind the key you know contains data
                         int integer = dataMapItem.getDataMap().getInt(BuildConfig.W_a_key);
                         ArrayList<Integer> arraylist = dataMapItem.getDataMap().getIntegerArrayList(BuildConfig.W_some_other_key);
@@ -202,6 +186,7 @@ public class WearService extends WearableListenerService {
         }
     }
 
+    //The information from the Tablette
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         // A message has been received from the Wear API
@@ -218,12 +203,17 @@ public class WearService extends WearableListenerService {
         }
 
         switch (path) {
-            case BuildConfig.W_path_start_activity:
+            case BuildConfig.W_path_start_activity://Ask to open a selected activity  of the wach
                 Log.v(TAG, "Message asked to open Activity");
                 Intent startIntent = null;
                 switch (data) {
-                    case BuildConfig.W_mainactivity:
+                    case BuildConfig.W_mainactivity://not used,
                         startIntent = new Intent(this, MainActivity.class);
+                        break;
+                        //Ajouté
+                    case BuildConfig.W_recordingactivity://It will open recording activity
+                        Log.d(TAG, "Start recording message received");
+                        startIntent = new Intent(this, RecordingActivity.class);
                         break;
                 }
 
@@ -234,10 +224,20 @@ public class WearService extends WearableListenerService {
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startIntent);
                 break;
-            case BuildConfig.W_path_acknowledge:
+            case BuildConfig.W_path_stop_activity://Ask to stop an activity of the wach
+                switch (data) {
+                    case BuildConfig.W_recordingactivity://Stop the recording activity
+                        Intent intentStop = new Intent();
+                        intentStop.setAction(RecordingActivity.STOP_ACTIVITY);
+                        LocalBroadcastManager.getInstance(WearService.this)
+                                .sendBroadcast(intentStop);
+                        break;
+                }
+                break;
+            case BuildConfig.W_path_acknowledge://Debug, use to konw the path and show in Logcat
                 Log.v(TAG, "Received acknowledgment");
                 break;
-            case BuildConfig.W_example_path_text:
+            case BuildConfig.W_example_path_text://I dont know (Test??)(it was by Yann)
                 Log.v(TAG, "Message contained text. Return a datamap for demo purpose");
                 ArrayList<Integer> arrayList = new ArrayList<>();
                 Collections.addAll(arrayList, 5, 7, 9, 10);
@@ -249,7 +249,7 @@ public class WearService extends WearableListenerService {
                 break;
 
                 //Rajouté
-            case BuildConfig.W_path_example_message:
+            case BuildConfig.W_path_example_message://recivei an mesage
                 // The message received is already extracted in the `data` variable
                 Intent intent = new Intent(MainActivity
                         .EXAMPLE_BROADCAST_NAME_FOR_NOTIFICATION_MESSAGE_STRING_RECEIVED);
@@ -280,6 +280,7 @@ public class WearService extends WearableListenerService {
                 });
     }
 
+    //For Text Mesage (Used??)
     private void sendMessage(String message, String path) {
         // Send message to ALL connected nodes
         sendMessageToNodes(message, path);
@@ -300,6 +301,7 @@ public class WearService extends WearableListenerService {
         });
     }
 
+    //For DATAMAP not used
     void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {
         putDataMapRequest.getDataMap().putLong("time", System.nanoTime());
         PutDataRequest request = putDataMapRequest.asPutDataRequest();
@@ -349,4 +351,52 @@ public class WearService extends WearableListenerService {
                     }
                 });
     }
+    //FOR BITMAP-->Not Used
+    public static Asset createAssetFromBitmap(Bitmap bitmap) {
+        bitmap = resizeImage(bitmap, 390);
+
+        if (bitmap != null) {
+            final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
+            return Asset.createFromBytes(byteStream.toByteArray());
+        }
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    private static Bitmap resizeImage(Bitmap bitmap, int newSize) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        // Image smaller, return it as is!
+        if (width <= newSize && height <= newSize) return bitmap;
+
+        int newWidth;
+        int newHeight;
+
+        if (width > height) {
+            newWidth = newSize;
+            newHeight = (newSize * height) / width;
+        } else if (width < height) {
+            newHeight = newSize;
+            newWidth = (newSize * width) / height;
+        } else {
+            newHeight = newSize;
+            newWidth = newSize;
+        }
+
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        return Bitmap.createBitmap(bitmap, 0, 0,
+                width, height, matrix, true);
+    }
+
 }
