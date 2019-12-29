@@ -24,6 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -60,7 +61,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$USER_HOME$/GoogleDrive/EPFL/MA1_LOADFTS&amp;S_Project/AppIcon/DroneConcertIcon.png" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/GoogleDrive/EPFL/MA1_LOADFTS&amp;S_Project/AppIcon/concert.png" />
+                                      <entry key="outputName" value="ic_launcher_drone" />
                                     </map>
                                   </option>
                                 </PersistentState>
