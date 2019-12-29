@@ -239,6 +239,26 @@ public class WearService extends WearableListenerService {
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         Log.i(TAG, "GPS send to DebugAutonomousFlight Activity and BebopDrone");
                         break;
+
+                    case BuildConfig.W_acceleration_path:
+                        double acceleration = dataMapItem.getDataMap().getDouble(BuildConfig
+                                .W_acceleration_key);
+                        boolean mouvement = dataMapItem.getDataMap().getBoolean(BuildConfig
+                                .W_mouvement_key);
+                        Log.i(TAG, (String.format("Wear App Service Accel: %s Mouve: %s", acceleration,mouvement)));
+                        //For debug
+                        intentDebug = new Intent(DebugAutonomousFlightActivity.RECEIVED_ACCELERATION);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.ACCELERATIONVAR, acceleration);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.MOUVEMENT, mouvement);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);//For debug
+
+                        //Send to bebopDron class
+                        intent = new Intent(BebopDrone.RECEIVED_ACCELERATION);
+                        intent.putExtra(BebopDrone.ACCELERATIONVAR, acceleration);
+                        intent.putExtra(BebopDrone.MOUVEMENT, mouvement);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+                        break;
                     default:
                         Log.v(TAG, "Data changed for unhandled path: " + uri);
                         break;

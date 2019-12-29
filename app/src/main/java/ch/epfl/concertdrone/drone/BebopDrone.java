@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -703,11 +704,29 @@ public class BebopDrone {
     public static final String LATITUDE = "LATITUDE";
     public static final String ALTITUDE = "ALTITUDE";
 
-    private LocationBroadcastReceiver locationBroadcastReceiver;
+    public static final String RECEIVED_ACCELERATION = "RECEIVED_ACCELERATION";
+    public static final String ACCELERATIONVAR = "ACCELERATIONVAR";
+    public static final String MOUVEMENT = "MOUVEMENT";
 
+    private LocationBroadcastReceiver locationBroadcastReceiver;
+    private AccelerationBroadcastReceiver accelerationBroadcastReceiver;//NECESSARRY
+
+    //Variable to store the mouvement acceleration
+    private double acceleration =0;
+    private boolean mouvement =false;
     //For the comunication of the wacht
     public static final String ACTIVTY_SEND = "ACTIVTY_SEND";
 
+    //Senesor Recived Acceleration Necesarry
+    private class AccelerationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Show HR in a TextView
+            acceleration = intent.getDoubleExtra(ACCELERATIONVAR, -1);//Get the value of the mAccel
+            mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
+            Log.i(TAG, (String.format("Recived Acceleration-->Accel: %s Mouve: %s", acceleration,mouvement)));
+        }
+    }
 
     //Sensor Recived Location (NECESSARRY)
     private class LocationBroadcastReceiver extends BroadcastReceiver {
@@ -747,10 +766,15 @@ public class BebopDrone {
         locationBroadcastReceiver = new LocationBroadcastReceiver();
         LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(locationBroadcastReceiver, new
                 IntentFilter(RECEIVED_LOCATION));
+
+        accelerationBroadcastReceiver = new AccelerationBroadcastReceiver();
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).registerReceiver(accelerationBroadcastReceiver, new
+                IntentFilter(RECEIVED_ACCELERATION));
     }
 
     public void onUnRegisterReceiver(){//For the onPause
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(locationBroadcastReceiver);
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(accelerationBroadcastReceiver);
     }
 
     //Definition of the focntion called in onStop

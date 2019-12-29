@@ -267,6 +267,13 @@
                     android:text="GPS Altitude"
                     android:textColor="#0A0EFF" />
 
+                <TextView
+                    android:id="@+id/textViewAcceleration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Acceleration"
+                    android:textColor="#0A0EFF" />
+
             </LinearLayout>
 
         </LinearLayout>

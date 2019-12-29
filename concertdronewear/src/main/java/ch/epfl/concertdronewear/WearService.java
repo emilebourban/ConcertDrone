@@ -46,6 +46,10 @@ public class WearService extends WearableListenerService {
     public static final String LATITUDE = "LATITUDE";
     public static final String ALTITUDE = "ALTITUDE";
 
+    public static final String ACCELERATIONVAR = "ACCELERATIONVAR";
+    public static final String MOUVEMENT = "MOUVEMENT";
+
+
     //String code for the COmand Transmited
     public static final String ACTIVITY_TO_START = "ACTIVITY_TO_START";
     public static final String MESSAGE = "MESSAGE";
@@ -56,7 +60,7 @@ public class WearService extends WearableListenerService {
     // Constants
     public enum ACTION_SEND {
         STARTACTIVITY, MESSAGE, EXAMPLE_DATAMAP, EXAMPLE_ASSET,EXAMPLE_SEND_STRING,
-        HEART_RATE, LOCATION
+        HEART_RATE, LOCATION,ACCELERATION
     }
 
     @Override
@@ -100,6 +104,20 @@ public class WearService extends WearableListenerService {
                                 intent.getIntExtra(HEART_RATE, -1));
                 sendPutDataMapRequest(putDataMapRequest);
                 break;
+
+            case ACCELERATION:
+                Log.i(TAG, "Acceleration DataMapRequest");
+                putDataMapRequest = PutDataMapRequest
+                        .create(BuildConfig.W_acceleration_path);
+                putDataMapRequest.getDataMap()
+                        .putDouble(BuildConfig.W_acceleration_key,
+                                intent.getDoubleExtra(ACCELERATIONVAR, -1));
+                putDataMapRequest.getDataMap()
+                        .putBoolean(BuildConfig.W_mouvement_key,//Becareful of the type putBolean and getBolean
+                                intent.getBooleanExtra(MOUVEMENT, false));
+                sendPutDataMapRequest(putDataMapRequest);
+                break;
+
             case LOCATION://NECESARRY
                 putDataMapRequest = PutDataMapRequest.create(BuildConfig.W_location_path);
                 putDataMapRequest.getDataMap().putDouble(BuildConfig.W_latitude_key, intent

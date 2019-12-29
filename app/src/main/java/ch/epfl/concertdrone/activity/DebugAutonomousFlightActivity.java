@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -25,16 +26,27 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     //ID of the variables recive or transmited from/to the wach
     public static final String RECEIVE_HEART_RATE = "RECEIVE_HEART_RATE";
     public static final String HEART_RATE = "HEART_RATE";
+
     public static final String RECEIVED_LOCATION = "RECEIVE_LOCATION";
     public static final String LONGITUDE = "LONGITUDE";
     public static final String LATITUDE = "LATITUDE";
     public static final String ALTITUDE = "ALTITUDE";
-    //Reciver of the Heart and Location Snensor
+
+    public static final String RECEIVED_ACCELERATION = "RECEIVED_ACCELERATION";
+    public static final String ACCELERATIONVAR = "ACCELERATIONVAR";
+    public static final String MOUVEMENT = "MOUVEMENT";
+
+
+    //Reciver of the Heart and Location Snensor Objetc creation
     private HeartRateBroadcastReceiver heartRateBroadcastReceiver;//OPTIONAL
     private LocationBroadcastReceiver locationBroadcastReceiver;//NECESSARRY
+    private AccelerationBroadcastReceiver accelerationBroadcastReceiver;//NECESSARRY
 
     //Variable with the value of the Heart Rate (OPTIONAL)
     private int heartRateWatch = 0;
+    private double acceleration =0;
+    private boolean mouvement =false;
+
 
     //For the comunication of the wacht
     public static final String DEBUG_ACTIVTY_SEND =
@@ -92,6 +104,10 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         locationBroadcastReceiver = new LocationBroadcastReceiver();
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(locationBroadcastReceiver, new
                 IntentFilter(RECEIVED_LOCATION));
+
+        accelerationBroadcastReceiver = new AccelerationBroadcastReceiver();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(accelerationBroadcastReceiver, new
+                IntentFilter(RECEIVED_ACCELERATION));
     }
 
 
@@ -102,6 +118,7 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         LocalBroadcastManager.getInstance(this).unregisterReceiver
                 (heartRateBroadcastReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationBroadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(accelerationBroadcastReceiver);
     }
 
 
@@ -153,6 +170,22 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         }
     }
 
+    //Senesor Recived Acceleration Necesarry
+    private class AccelerationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Show HR in a TextView
+            acceleration = intent.getDoubleExtra(ACCELERATIONVAR, -1);//Get the value of the mAccel
+            mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
+            Log.i(TAG, (String.format("Recived Acceleration-->Accel: %s Mouve: %s", acceleration,mouvement)));
+
+            TextView accelTextView = findViewById(R.id.textViewAcceleration);
+            if(mouvement) accelTextView.setTextColor(Color.RED);
+            else accelTextView.setTextColor(Color.GREEN);
+            accelTextView.setText(String.valueOf(acceleration));
+        }
+    }
+
     //Sensor Recived Location (NECESSARRY)
     private class LocationBroadcastReceiver extends BroadcastReceiver {
 
@@ -162,7 +195,7 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
             double longitude = intent.getDoubleExtra(LONGITUDE, -1);
             double latitude = intent.getDoubleExtra(LATITUDE, -1);
             double altitude = intent.getDoubleExtra(ALTITUDE, -1);
-            Log.i(TAG, (String.format("Recived Location-->Lat: %s \nLong: %s\nAlt; %s", latitude, longitude,altitude)));
+            Log.i(TAG, (String.format("Recived Location-->Lat: %s Long: %s  Alt; %s", latitude, longitude,altitude)));
 
             //Update the text view for debugging
             TextView longitudeTextView = findViewById(R.id.textViewLongitude);

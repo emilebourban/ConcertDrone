@@ -54,6 +54,11 @@ allprojects {
                 longitude_key       : "longitude",
                 latitude_key        : "latitude",
                 altitude_key        : "altitude",
+
+                //Pour Comunique l'acceleration
+                acceleration_path   : "/ACCELERATION",
+                acceleration_key    : "accel",
+                mouvement_key       : "mouvement",
         ]
     }
 }
