@@ -37,6 +37,7 @@ import java.util.List;
 
 import ch.epfl.concertdrone.activity.AutonomousFlightActivity;
 import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
+import ch.epfl.concertdrone.drone.BebopDrone;
 
 public class WearService extends WearableListenerService {
 
@@ -151,6 +152,7 @@ public class WearService extends WearableListenerService {
                         + "\tDatamap: " + dataMapItem.getDataMap() + "\n");
 
                 Intent intent;
+                Intent intentDebug;//Another Intent for debuging
 
                 assert uri.getPath() != null;
                 switch (uri.getPath()) {
@@ -176,16 +178,24 @@ public class WearService extends WearableListenerService {
                     case BuildConfig.W_heart_rate_path:
                         int heartRate = dataMapItem.getDataMap()
                                 .getInt(BuildConfig.W_heart_rate_key);
-                        /*//TODO enlver si pas en mode debug
+
+                        //TODO modification pour l'intent
+                        //Pour la AutonomousFlightActivity (original)
+                        /*
                         intent = new Intent(AutonomousFlightActivity.RECEIVE_HEART_RATE);
                         intent.putExtra(AutonomousFlightActivity.HEART_RATE, heartRate);
-                        */
-                        //pour le mode Debug,mettre en comentaire
-                        intent = new Intent(DebugAutonomousFlightActivity.RECEIVE_HEART_RATE);
-                        intent.putExtra(DebugAutonomousFlightActivity.HEART_RATE, heartRate);
-
-                        //Ça non
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        */
+
+                        //pour le mode Debug
+                        ///*
+                        intentDebug = new Intent(DebugAutonomousFlightActivity.RECEIVE_HEART_RATE);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.HEART_RATE, heartRate);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);
+                        //*/
+
+                        //La classe Bebop ne devrait rien faire avec ça-->(C'est optionel)
+
                         break;
 
                         //Pour le GPS
@@ -196,21 +206,38 @@ public class WearService extends WearableListenerService {
                             .W_latitude_key);
                         double altitude = dataMapItem.getDataMap().getDouble(BuildConfig
                                 .W_altitude_key);
-                        /*//TODO enlever les commentaire et les mettre dans lautre
+
+                        //TODO modification ou les info vont
+
+                        //Pour la AutonomousFlightActivity
+                        /*
                         intent = new Intent(AutonomousFlightActivity.RECEIVED_LOCATION);
                         intent.putExtra(AutonomousFlightActivity.LONGITUDE, longitude);
                         intent.putExtra(AutonomousFlightActivity.LATITUDE, latitude);
                         intent.putExtra(AutonomousFlightActivity.ALTITUDE, altitude);
                          */
-                        //DEBUG mettre en commentaire si pas ebug
 
-                        intent = new Intent(DebugAutonomousFlightActivity.RECEIVED_LOCATION);
-                        intent.putExtra(DebugAutonomousFlightActivity.LONGITUDE, longitude);
-                        intent.putExtra(DebugAutonomousFlightActivity.LATITUDE, latitude);
-                        intent.putExtra(DebugAutonomousFlightActivity.ALTITUDE, altitude);
+                        //Pour DeBug DebugAutonomousFlightActivity (ça marche)
+                        ///*
+                        intentDebug = new Intent(DebugAutonomousFlightActivity.RECEIVED_LOCATION);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.LONGITUDE, longitude);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.LATITUDE, latitude);
+                        intentDebug.putExtra(DebugAutonomousFlightActivity.ALTITUDE, altitude);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);//For debug
+                        //*/
 
-                        //ça non
+                        //Pour la classe BebopDrone (a la demande de Anthony)
+                        ///*
+                        intent = new Intent(BebopDrone.RECEIVED_LOCATION);
+                        intent.putExtra(BebopDrone.LONGITUDE, longitude);
+                        intent.putExtra(BebopDrone.LATITUDE, latitude);
+                        intent.putExtra(BebopDrone.ALTITUDE, altitude);
+
+                        //*/
+
+                        //A modifier pour Autonomus Activity OU BebopDrone class
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        Log.i(TAG, "GPS send to DebugAutonomousFlight Activity and BebopDrone");
                         break;
                     default:
                         Log.v(TAG, "Data changed for unhandled path: " + uri);
@@ -237,7 +264,7 @@ public class WearService extends WearableListenerService {
 
         if (path.equals(BuildConfig.W_path_start_activity)
                 && data.equals(BuildConfig.W_mainactivity)) {
-            startActivity(new Intent(this, AutonomousFlightActivity.class));
+            startActivity(new Intent(this, AutonomousFlightActivity.class));//Je sais pas s'il faut modifier
         }
 
         switch (path) {
@@ -246,7 +273,7 @@ public class WearService extends WearableListenerService {
                 Intent startIntent = null;
                 switch (data) {
                     case BuildConfig.W_mainactivity:
-                        startIntent = new Intent(this, AutonomousFlightActivity.class);
+                        startIntent = new Intent(this, AutonomousFlightActivity.class);//Je sais pas bis
                         break;
                 }
 

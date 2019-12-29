@@ -261,6 +261,7 @@ public class WearService extends WearableListenerService {
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
     }
+//---------------------------------------------------------NOT MODIFIY AFTER THIS----------------------------------------------------------------//
 
     private void sendMessage(String message, String path, final String nodeId) {
         // Sends a message through the Wear API

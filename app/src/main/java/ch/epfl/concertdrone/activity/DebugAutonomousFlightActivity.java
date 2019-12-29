@@ -51,14 +51,14 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     //Buton To try the correct comunication between Wacht and Tablette
     public void onClickTryComunication(View view) {
         Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();//Debug
-        sendMessagee("Conexion Etablie");//Send that string to the wacht to be sure that wrork
+        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
         //For debugging, it stop the Sensors comunication
         stopRecordingOnWear();
     }
 
 
     //Fontion to send a string to the wacht via Wear Service and intent
-    public void sendMessagee(String mensaje) {
+    public void sendMessage(String mensaje) {//C'est moi qui l'ai faite
         Intent intent_send = new Intent(this, WearService.class);
         intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING_DUBUG.name());//This is for debug
         //intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING.name());//For the Autonomus flight Original (no debug)
