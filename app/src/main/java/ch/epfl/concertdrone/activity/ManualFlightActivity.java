@@ -28,15 +28,15 @@ import ch.epfl.concertdrone.view.BebopVideoView;
 
 public class ManualFlightActivity extends AppCompatActivity {
 
-    // Declarations Antho
+    // Declarations Antho for autonomous paths
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private final int power = 15;
-    private final int duration = 10000; // [ms]
+    private final int duration = 4000; // [ms]
+    private final int cycles = 2;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final String TAG = "ManualFlightActivity";
     private BebopDrone mBebopDrone;
-    private BebopDroneRoutine mBebopDroneRoutine;
 
     //test
     private static final int START_DEVICE_LIST = 1;
@@ -187,13 +187,31 @@ public class ManualFlightActivity extends AppCompatActivity {
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        // Testing the autonomous path
+        // Testing the autonomous paths in onCreate of ManualFlightActivity
         Button TestPathButton = findViewById(R.id.button_test_path);
         TestPathButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "executePath clicking 'TestPathButton'.");
+                Log.i(TAG, "executePath 1 clicking 'TestPathButton'.");
                 executePath();
+            }
+        });
+
+        Button TestPathButton_2 = findViewById(R.id.button_test_path_2);
+        TestPathButton_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "executePath 2 clicking 'TestPathButton'.");
+                executePath_2();
+            }
+        });
+
+        Button TestPathButton_3 = findViewById(R.id.button_test_path_3);
+        TestPathButton_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "executePath 3 clicking 'TestPathButton'.");
+                executePath_3();
             }
         });
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -542,7 +560,7 @@ public class ManualFlightActivity extends AppCompatActivity {
 
 
     // For XML callback "executePath" --> write "public void executePath(View view)" instead of "public void executePath()"
-    // Method to test simple autonomous path
+    // Methods to test simple autonomous path
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -556,14 +574,13 @@ public class ManualFlightActivity extends AppCompatActivity {
         // Going middle way on the right
         long endTime_begin_right = System.currentTimeMillis() + duration / 2;
         while (System.currentTimeMillis() < endTime_begin_right) {
-            // Going right
             mBebopDrone.setRoll((byte) power);
             mBebopDrone.setFlag((byte) 1);
+
         }
         // Wait a bit...
-        endTime_wait = System.currentTimeMillis() + duration / 10;
+        endTime_wait = System.currentTimeMillis() + 1000;
         while (System.currentTimeMillis() < endTime_wait) {
-            // Going right
             mBebopDrone.setRoll((byte) 0);
             mBebopDrone.setFlag((byte) 0);
         }
@@ -571,19 +588,19 @@ public class ManualFlightActivity extends AppCompatActivity {
 
         // Going full path left and then full path right, etc.
         int j = 1;
-        while (j < 4) {  // infinite loop --> simply set "while(true)"
+        while (j <= cycles) {  // infinite loop --> simply set "while(true)"
 
             // Going full path LEFT
             long endTime_left = System.currentTimeMillis() + duration;
             while (System.currentTimeMillis() < endTime_left) {
-                // Going right
                 mBebopDrone.setRoll((byte) -power);
                 mBebopDrone.setFlag((byte) 1);
+
+
             }
             // Wait a bit...
-            endTime_wait = System.currentTimeMillis() + duration / 10;
+            endTime_wait = System.currentTimeMillis() + 1000;
             while (System.currentTimeMillis() < endTime_wait) {
-                // Going right
                 mBebopDrone.setRoll((byte) 0);
                 mBebopDrone.setFlag((byte) 0);
             }
@@ -592,14 +609,13 @@ public class ManualFlightActivity extends AppCompatActivity {
             // Going full path RIGHT
             long endTime_right = System.currentTimeMillis() + duration;
             while (System.currentTimeMillis() < endTime_right) {
-                // Going left
                 mBebopDrone.setRoll((byte) power);
                 mBebopDrone.setFlag((byte) 1);
+
             }
             // Wait a bit...
-            endTime_wait = System.currentTimeMillis() + duration / 10;
+            endTime_wait = System.currentTimeMillis() + 1000;
             while (System.currentTimeMillis() < endTime_wait) {
-                // Going right
                 mBebopDrone.setRoll((byte) 0);
                 mBebopDrone.setFlag((byte) 0);
             }
@@ -611,9 +627,9 @@ public class ManualFlightActivity extends AppCompatActivity {
         // Going middle way back on the left
         long endTime_end_left = System.currentTimeMillis() + duration / 2;
         while (System.currentTimeMillis() < endTime_end_left) {
-            // Going right
             mBebopDrone.setRoll((byte) -power);
             mBebopDrone.setFlag((byte) 1);
+
         }
 
 
@@ -623,6 +639,144 @@ public class ManualFlightActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
+
+    // Simple path to go up and down a few times
+    // If the drone is NOT HOVERING, we shouldn't have pressed on the button
+    public void executePath_2() {
+
+
+        // Going full path up and then full path down, etc.
+        int j = 1;
+        while (j <= cycles) {  // infinite loop --> simply set "while(true)"
+
+            // Going full path UP
+            long endTime_up = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_up) {
+                mBebopDrone.setGaz((byte) power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                mBebopDrone.setGaz((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            // Going full path DOWN
+            long endTime_down = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_down) {
+                // Going left
+                mBebopDrone.setGaz((byte) -power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                // Going right
+                mBebopDrone.setGaz((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            j = j + 1;
+        }
+
+
+        mBebopDrone.setGaz((byte) 0);
+        mBebopDrone.setFlag((byte) 0);
+
+
+    }
+
+
+
+
+
+    // Simple path to go square a few times
+    // If the drone is NOT HOVERING, we shouldn't have pressed on the button
+    public void executePath_3() {
+
+
+        // Going full path right, up, left, down, etc.
+        int j = 1;
+        while (j <= cycles) {  // infinite loop --> simply set "while(true)"
+
+            // Going full path RIGHT
+            long endTime_right = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_right) {
+                mBebopDrone.setRoll((byte) power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                mBebopDrone.setRoll((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            // Going full path UP
+            long endTime_up = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_up) {
+                mBebopDrone.setGaz((byte) power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                mBebopDrone.setGaz((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            // Going full path LEFT
+            long endTime_left = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_left) {
+                mBebopDrone.setRoll((byte) -power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                mBebopDrone.setRoll((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+            // Going full path DOWN
+            long endTime_down = System.currentTimeMillis() + duration;
+            while (System.currentTimeMillis() < endTime_down) {
+                // Going left
+                mBebopDrone.setGaz((byte) -power);
+                mBebopDrone.setFlag((byte) 1);
+            }
+            // Wait a bit...
+            endTime_wait = System.currentTimeMillis() + 1000;
+            while (System.currentTimeMillis() < endTime_wait) {
+                // Going right
+                mBebopDrone.setGaz((byte) 0);
+                mBebopDrone.setFlag((byte) 0);
+            }
+
+
+
+
+            j = j + 1;
+        }
+
+
+        mBebopDrone.setGaz((byte) 0);
+        mBebopDrone.setFlag((byte) 0);
+
+    }
+
 
 
 

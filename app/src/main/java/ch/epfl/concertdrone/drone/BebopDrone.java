@@ -321,42 +321,42 @@ public class BebopDrone {
                     // direction you want (cf. "yaw_target")
                     ////////////////////////////////////////////////////////////////////////////////
                     ////////////////////////////////////////////////////////////////////////////////
-//
-//                    // Continuous computation of yaw_target
-//                    /*
-//                    diff_y = lat_watch - lat_bebop;
-//                    diff_x = long_watch - long_bebop;
-//                    yaw_target = Math.atan2(diff_y/diff_x);
-//                    */
-//
-//                    error = yaw_target - yaw_bebop;
-//                    Log.i(TAG, "Yaw yaw_error error yawController: " + error);
-//
-//
-//                    derivative = (error - error_prior)/iteration_time;
-//
-//                    // Controller input calculation
-//                    input = (int) (KP*error + KD*derivative + bias);
-//                    if (input > 100) {
-//                        input = 100;
-//                    }
-//                    if (input < -100) {
-//                        input = -100;
-//                    }
-//                    Log.i(TAG, "Yaw yaw_input input yawController: " + input);
-//
-//                    // Adapting input
-//                    input = input*(-1);
-//
-//                    // Conversion from int to byte
-//                    input_byte = (byte) input;
-//
-//                    //"setYaw((byte) input);" or:
-//                    if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-//                        mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
-//                    }
-//
-//                    error_prior = error;
+
+                    // Continuous computation of yaw_target
+                    /*
+                    diff_y = lat_watch - lat_bebop;
+                    diff_x = long_watch - long_bebop;
+                    yaw_target k= Math.atan2(diff_y/diff_x);
+                    */
+
+                    error = yaw_target - yaw_bebop;
+                    Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+
+
+                    derivative = (error - error_prior)/iteration_time;
+
+                    // Controller input calculation
+                    input = (int) (KP*error + KD*derivative + bias);
+                    if (input > 100) {
+                        input = 100;
+                    }
+                    if (input < -100) {
+                        input = -100;
+                    }
+                    Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+
+                    // Adapting input
+                    input = input*(-1);
+
+                    // Conversion from int to byte
+                    input_byte = (byte) input;
+
+                    //"setYaw((byte) input);" or:
+                    if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                        mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+                    }
+
+                    error_prior = error;
                     ////////////////////////////////////////////////////////////////////////////////
                     ////////////////////////////////////////////////////////////////////////////////
                 }

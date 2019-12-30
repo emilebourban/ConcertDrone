@@ -179,15 +179,35 @@
         android:gravity="center_horizontal"/>
 
 
-
     <Button
         android:id="@+id/button_test_path"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="231dp"
-        android:layout_marginBottom="125dp"
-        android:text="test path" />
+        android:layout_marginStart="314dp"
+        android:layout_marginBottom="272dp"
+        android:text="test path 1" />
+
+    <Button
+        android:id="@+id/button_test_path_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="314dp"
+        android:layout_marginBottom="217dp"
+        android:text="test path 2" />
+
+    <Button
+        android:id="@+id/button_test_path_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="315dp"
+        android:layout_marginBottom="151dp"
+        android:text="test path 3" />
+
 
 </RelativeLayout>
