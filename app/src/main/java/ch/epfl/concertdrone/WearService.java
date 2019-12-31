@@ -228,12 +228,12 @@ public class WearService extends WearableListenerService {
                         //*/
 
                         //Pour la classe BebopDrone (a la demande de Anthony)
-                        /*
+
                         intent = new Intent(BebopDrone.RECEIVED_LOCATION);
                         intent.putExtra(BebopDrone.LONGITUDE, longitude);
                         intent.putExtra(BebopDrone.LATITUDE, latitude);
                         intent.putExtra(BebopDrone.ALTITUDE, altitude);
-                        */
+
 
                         //Pour la Activite ManualFlightActivity
                         intent = new Intent(ManualFlightActivity.RECEIVED_LOCATION);

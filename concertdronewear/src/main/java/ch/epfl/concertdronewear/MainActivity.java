@@ -32,7 +32,7 @@ public class MainActivity extends WearableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setAmbientEnabled(); //Set the save energy mode-->Enables Always-on
+//        setAmbientEnabled(); //Set the save energy mode-->Enables Always-on
 
         //For Debug
         mTextView = findViewById(R.id.text);

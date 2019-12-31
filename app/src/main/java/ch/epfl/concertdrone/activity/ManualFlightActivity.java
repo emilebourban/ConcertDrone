@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -28,6 +29,8 @@ import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 
+import java.lang.reflect.Array;
+
 import ch.epfl.concertdrone.BuildConfig;
 import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.WearService;
@@ -38,6 +41,8 @@ import ch.epfl.concertdrone.view.BebopVideoView;
 public class ManualFlightActivity extends AppCompatActivity implements LocationListener {
     //Pour comunication avec la Montre
     //For GPS location
+    public static final String MESSAGE = "MESSAGE";
+
     public static final String RECEIVED_LOCATION = "RECEIVE_LOCATION";
     public static final String LONGITUDE = "LONGITUDE";
     public static final String LATITUDE = "LATITUDE";
@@ -98,15 +103,29 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
             Log.i(TAG, (String.format("Recived Acceleration-->Accel: %s Mouve: %s", acceleration,mouvement)));
 
-            /*
+            mBebopDrone.set_acc_watch(acceleration);
+
             TextView accelTextView = findViewById(R.id.textViewAcceleration);
             if(mouvement) accelTextView.setTextColor(Color.RED);
             else accelTextView.setTextColor(Color.GREEN);
             accelTextView.setText(String.valueOf(acceleration));
 
-            */
+
         }
     }
+
+    //Buton To try the correct comunication between Wacht and Tablette
+    public void onClickTryComunication(View view) {
+        Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();//Debug
+        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
+        //For debugging, it stop the Sensors comunication
+        stopRecordingOnWear();
+    }
+    //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
+    public void onClickStartSensors(View view) {
+        startRecordingOnWear();
+    }
+
 
     //Sensor Recived Location (NECESSARRY)
     private class LocationBroadcastReceiver extends BroadcastReceiver {
@@ -119,8 +138,12 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             double altitude = intent.getDoubleExtra(ALTITUDE, -1);
             Log.i(TAG, (String.format("Recived Location-->Lat: %s Long: %s  Alt; %s", latitude, longitude,altitude)));
 
+            mBebopDrone.set_lat_watch(latitude);
+            mBebopDrone.set_long_watch(longitude);
+            mBebopDrone.set_alt_watch(altitude);
+
             //TODO mettre des texteView
-            /*
+
             //Update the text view for debugging
             TextView longitudeTextView = findViewById(R.id.textViewLongitude);
             longitudeTextView.setText(String.valueOf(longitude));
@@ -131,7 +154,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             TextView altitudeTextView = findViewById(R.id.textViewAltitude);
             altitudeTextView.setText(String.valueOf(altitude));
 
-            */
+
         }
     }
 

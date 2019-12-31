@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 //import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -47,9 +45,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import ch.epfl.concertdrone.BuildConfig;
-import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.WearService;
-import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
+import ch.epfl.concertdrone.activity.ManualFlightActivity;
 
 public class BebopDrone {
     private static final String TAG = "BebopDrone";
@@ -135,11 +132,33 @@ public class BebopDrone {
     private static double long_bebop;
     private static double alt_bebop;
 
+    private static double lat_watch;
+    private static double long_watch;
+    private static double alt_watch;
+    private static double acc_watch;
+
+    public void set_lat_watch(double lat){
+        lat_watch = lat;
+    }
+
+    public void set_long_watch(double longitude){
+        long_watch = longitude;
+    }
+
+    public void set_alt_watch(double alt){
+        alt_watch = alt;
+    }
+
+    public void set_acc_watch(double acc){
+        acc_watch = acc;
+    }
+
+
     // Declare yaw value of drone
     private static float yaw_bebop;
 
     // Other declarations
-    private static float yaw_target = 90;
+    private static float yaw_target;
 
     // PD controller constants
     /////////////////////////////
@@ -160,8 +179,8 @@ public class BebopDrone {
     private static float bias = 0;
     /////////////////////////////
 
-    private static float error;
-    private static float error_prior;
+    private static double error;
+    private static double error_prior;
     private static double derivative;
     private static int input;
     private static byte input_byte;
@@ -323,11 +342,14 @@ public class BebopDrone {
                     ////////////////////////////////////////////////////////////////////////////////
 
                     // Continuous computation of yaw_target
-                    /*
-                    diff_y = lat_watch - lat_bebop;
-                    diff_x = long_watch - long_bebop;
-                    yaw_target k= Math.atan2(diff_y/diff_x);
-                    */
+                    Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+                    Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+
+                    double diff_y = lat_watch - lat_bebop;
+                    double diff_x = long_watch - long_bebop;
+                    yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+                    Log.i(TAG, "YAW TARGET: "+yaw_target);
+                    Log.i(TAG, "YAW BEBOP: "+yaw_bebop);
 
                     error = yaw_target - yaw_bebop;
                     Log.i(TAG, "Yaw yaw_error error yawController: " + error);
