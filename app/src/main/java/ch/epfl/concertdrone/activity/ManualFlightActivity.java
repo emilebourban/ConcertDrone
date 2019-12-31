@@ -1,8 +1,14 @@
 package ch.epfl.concertdrone.activity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
@@ -21,12 +28,113 @@ import com.parrot.arsdk.arcontroller.ARControllerCodec;
 import com.parrot.arsdk.arcontroller.ARFrame;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 
+import ch.epfl.concertdrone.BuildConfig;
 import ch.epfl.concertdrone.R;
+import ch.epfl.concertdrone.WearService;
 import ch.epfl.concertdrone.drone.BebopDrone;
 import ch.epfl.concertdrone.preprogrammed.BebopDroneRoutine;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
-public class ManualFlightActivity extends AppCompatActivity {
+public class ManualFlightActivity extends AppCompatActivity implements LocationListener {
+    //Pour comunication avec la Montre
+    //For GPS location
+    public static final String RECEIVED_LOCATION = "RECEIVE_LOCATION";
+    public static final String LONGITUDE = "LONGITUDE";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String ALTITUDE = "ALTITUDE";
+
+    //For accelerometer sensor
+    public static final String RECEIVED_ACCELERATION = "RECEIVED_ACCELERATION";
+    public static final String ACCELERATIONVAR = "ACCELERATIONVAR";
+    public static final String MOUVEMENT = "MOUVEMENT";
+
+    //Listener of the intent from the watch
+    private LocationBroadcastReceiver locationBroadcastReceiver;//NECESSARRY
+    private AccelerationBroadcastReceiver accelerationBroadcastReceiver;//NECESSARRY
+
+    //Global variables of the accelerometer (default optional)
+    private double acceleration =0;
+    private boolean mouvement =false;
+
+    //For the send a message (string) to the wach (optional)
+    public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
+
+
+
+    //Fontion to send a string to the wacht via Wear Service and intent
+    public void sendMessage(String mensaje) {//C'est moi qui l'ai faite
+        Intent intent_send = new Intent(this, WearService.class);
+        intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING_DUBUG.name());//This is for debug
+        //intent_send.setAction(WearService.ACTION_SEND.EXAMPLE_SEND_STRING.name());//For the Autonomus flight Original (no debug)
+        intent_send.putExtra(DEBUG_ACTIVTY_SEND, mensaje);
+        startService(intent_send);
+    }
+
+    //Is the fonction called to start the sensor-->It will call the Recording Activity from the wacht
+    private  void startRecordingOnWear(){
+        Log.i(TAG, "Launch smartwatch Sensor reading");
+        Intent intentStartRec = new Intent(this, WearService.class);
+        intentStartRec.setAction(WearService.ACTION_SEND.STARTACTIVITY.name());//Call Command of the Wear Service
+        intentStartRec.putExtra(WearService.ACTIVITY_TO_START, BuildConfig.W_recordingactivity);//Start the Activity described
+        this.startService(intentStartRec);
+    }
+
+    //Definition of the focntion called in onStop
+    public void stopRecordingOnWear() {
+        //It will call the comand STOPACTIVTY declared in the WaerActivity to stop the specified Actiivity
+        Intent intentStopRec = new Intent(this, WearService.class);
+        intentStopRec.setAction(WearService.ACTION_SEND.STOPACTIVITY.name());
+        intentStopRec.putExtra(WearService.ACTIVITY_TO_STOP, BuildConfig.W_recordingactivity);
+        startService(intentStopRec);
+    }
+
+
+    //Senesor Recived Acceleration Necesarry
+    private class AccelerationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Show HR in a TextView
+            acceleration = intent.getDoubleExtra(ACCELERATIONVAR, -1);//Get the value of the mAccel
+            mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
+            Log.i(TAG, (String.format("Recived Acceleration-->Accel: %s Mouve: %s", acceleration,mouvement)));
+
+            /*
+            TextView accelTextView = findViewById(R.id.textViewAcceleration);
+            if(mouvement) accelTextView.setTextColor(Color.RED);
+            else accelTextView.setTextColor(Color.GREEN);
+            accelTextView.setText(String.valueOf(acceleration));
+
+            */
+        }
+    }
+
+    //Sensor Recived Location (NECESSARRY)
+    private class LocationBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get the variables of the location from the wach.
+            double longitude = intent.getDoubleExtra(LONGITUDE, -1);
+            double latitude = intent.getDoubleExtra(LATITUDE, -1);
+            double altitude = intent.getDoubleExtra(ALTITUDE, -1);
+            Log.i(TAG, (String.format("Recived Location-->Lat: %s Long: %s  Alt; %s", latitude, longitude,altitude)));
+
+            //TODO mettre des texteView
+            /*
+            //Update the text view for debugging
+            TextView longitudeTextView = findViewById(R.id.textViewLongitude);
+            longitudeTextView.setText(String.valueOf(longitude));
+
+            TextView latitudeTextView = findViewById(R.id.textViewLatitude);
+            latitudeTextView.setText(String.valueOf(latitude));
+
+            TextView altitudeTextView = findViewById(R.id.textViewAltitude);
+            altitudeTextView.setText(String.valueOf(altitude));
+
+            */
+        }
+    }
+
 
     // Declarations Antho for autonomous paths
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +288,8 @@ public class ManualFlightActivity extends AppCompatActivity {
 
         initIHM();
 
+        startRecordingOnWear();//initialization of the sensor of the watch YANN
+
         Intent intent = getIntent();
         ARDiscoveryDeviceService service = intent.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_SERVICE);
         mBebopDrone = new BebopDrone(this, service);
@@ -216,6 +326,57 @@ public class ManualFlightActivity extends AppCompatActivity {
         });
         ////////////////////////////////////////////////////////////////////////////////////////////
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //ADDED for comunication of the watch YANN
+        //Get the location back from the watch
+        locationBroadcastReceiver = new LocationBroadcastReceiver();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(locationBroadcastReceiver, new
+                IntentFilter(RECEIVED_LOCATION));
+
+        accelerationBroadcastReceiver = new AccelerationBroadcastReceiver();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(accelerationBroadcastReceiver, new
+                IntentFilter(RECEIVED_ACCELERATION));
+    }
+
+    @Override
+    protected void onPause() {
+        //ADDED for comunication of the watch YANN
+        super.onPause();
+        //Stop to get sensor data-->(Save Energy)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationBroadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(accelerationBroadcastReceiver);
+    }
+
+    //Autogenerated (Empty fontion) //ADDED for comunication of the watch YANN
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    protected  void onStop(){
+        //ADDED for comunication of the watch YANN
+        super.onStop();
+        stopRecordingOnWear();
     }
 
     @Override

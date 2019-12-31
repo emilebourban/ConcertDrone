@@ -37,6 +37,7 @@ import java.util.List;
 
 import ch.epfl.concertdrone.activity.AutonomousFlightActivity;
 import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
+import ch.epfl.concertdrone.activity.ManualFlightActivity;
 import ch.epfl.concertdrone.drone.BebopDrone;
 
 public class WearService extends WearableListenerService {
@@ -227,15 +228,20 @@ public class WearService extends WearableListenerService {
                         //*/
 
                         //Pour la classe BebopDrone (a la demande de Anthony)
-                        ///*
+                        /*
                         intent = new Intent(BebopDrone.RECEIVED_LOCATION);
                         intent.putExtra(BebopDrone.LONGITUDE, longitude);
                         intent.putExtra(BebopDrone.LATITUDE, latitude);
                         intent.putExtra(BebopDrone.ALTITUDE, altitude);
+                        */
 
-                        //*/
+                        //Pour la Activite ManualFlightActivity
+                        intent = new Intent(ManualFlightActivity.RECEIVED_LOCATION);
+                        intent.putExtra(ManualFlightActivity.LONGITUDE, longitude);
+                        intent.putExtra(ManualFlightActivity.LATITUDE, latitude);
+                        intent.putExtra(ManualFlightActivity.ALTITUDE, altitude);
 
-                        //A modifier pour Autonomus Activity OU BebopDrone class
+                        //A modifier pour Autonomus Activity OU BebopDrone class OU ManualFlightActivity
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         Log.i(TAG, "GPS send to DebugAutonomousFlight Activity and BebopDrone");
                         break;
@@ -253,9 +259,17 @@ public class WearService extends WearableListenerService {
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intentDebug);//For debug
 
                         //Send to bebopDron class
+                        /*
                         intent = new Intent(BebopDrone.RECEIVED_ACCELERATION);
                         intent.putExtra(BebopDrone.ACCELERATIONVAR, acceleration);
                         intent.putExtra(BebopDrone.MOUVEMENT, mouvement);
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        */
+
+                        //Send to ManualFlightActivity
+                        intent = new Intent(ManualFlightActivity.RECEIVED_ACCELERATION);
+                        intent.putExtra(ManualFlightActivity.ACCELERATIONVAR, acceleration);
+                        intent.putExtra(ManualFlightActivity.MOUVEMENT, mouvement);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
                         break;

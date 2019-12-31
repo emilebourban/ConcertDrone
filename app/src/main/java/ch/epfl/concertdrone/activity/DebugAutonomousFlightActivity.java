@@ -49,8 +49,7 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
 
 
     //For the comunication of the wacht
-    public static final String DEBUG_ACTIVTY_SEND =
-            "DEBUG_ACTIVTY_SEND";
+    public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
     private static final String TAG = "DebugAutonomousFlight" ;
 
     @Override
