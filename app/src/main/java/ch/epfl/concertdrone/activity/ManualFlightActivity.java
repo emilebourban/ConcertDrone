@@ -1,5 +1,7 @@
 package ch.epfl.concertdrone.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -36,6 +39,12 @@ import ch.epfl.concertdrone.preprogrammed.BebopDroneRoutine;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
 public class ManualFlightActivity extends AppCompatActivity implements LocationListener {
+    //Pour les notification
+    //Notifcation
+    private NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this);
+    private NotificationManager mNotifyManager;
+    private static final int NOTIFICATION_ID=0;
+
     //Pour comunication avec la Montre
     //For GPS location
     public static final String RECEIVED_LOCATION = "RECEIVE_LOCATION";
@@ -119,7 +128,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             double altitude = intent.getDoubleExtra(ALTITUDE, -1);
             Log.i(TAG, (String.format("Recived Location-->Lat: %s Long: %s  Alt; %s", latitude, longitude,altitude)));
 
-            //TODO mettre des texteView
             /*
             //Update the text view for debugging
             TextView longitudeTextView = findViewById(R.id.textViewLongitude);
@@ -133,6 +141,41 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
             */
         }
+    }
+
+    public void callNotificationProximity(){
+        mNotifyBuilder.setContentTitle("Proximity Alert!!");
+        mNotifyBuilder.setContentText("The Drone is near the Watch");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+    }
+    public void callNotificationRemoteness(){
+        mNotifyBuilder.setContentTitle("Drone too far Away!!");
+        mNotifyBuilder.setContentText("The Drone is too far from the watch");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+
+    }
+    public void callNotificationBatery(){
+        mNotifyBuilder.setContentTitle("Low Drone Batery!!");
+        mNotifyBuilder.setContentText("Need to land the Drone");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_lock_idle_low_battery);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+    }
+    public void callNotificationCycleLeft(){
+        mNotifyBuilder.setContentTitle("Only one path left");
+        mNotifyBuilder.setContentText("The Drone will start it last cycle of the path");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_menu_revert);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+
     }
 
 
@@ -289,6 +332,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         initIHM();
 
         startRecordingOnWear();//initialization of the sensor of the watch YANN
+        //Notification
+        mNotifyManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         Intent intent = getIntent();
         ARDiscoveryDeviceService service = intent.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_SERVICE);
