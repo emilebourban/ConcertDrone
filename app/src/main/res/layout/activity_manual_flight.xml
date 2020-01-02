@@ -123,14 +123,6 @@
         android:layout_alignParentRight="true"
         android:width="150dp"/>
 
-    <Button
-        android:id="@+id/startAutonomousBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Autonomous"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -253,6 +245,15 @@
             app:layout_constraintBottom_toTopOf="@+id/buttonHP"
             app:layout_constraintStart_toStartOf="parent" />
 
+
+        <Button
+            android:id="@+id/startAutonomousBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/button_autonom_yaw"
+            android:text="Autonomous mode" />
+
+
         <Button
             android:id="@+id/button_autonom_att_rep"
             android:layout_width="wrap_content"
@@ -334,6 +335,8 @@
                     android:layout_height="wrap_content"
                     android:text="Acceleration"
                     android:textColor="#0A0EFF" />
+
+
 
             </LinearLayout>
 

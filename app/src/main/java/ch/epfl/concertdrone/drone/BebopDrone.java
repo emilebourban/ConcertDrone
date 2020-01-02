@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_COMMON_COMMONSTATE_SENSORSSTATESLISTCHANGED_SENSORNAME_ENUM;
@@ -123,6 +124,12 @@ public class BebopDrone {
 
 
 
+    ////// Declarations for taking pictures and videos
+    //private final enum snapshot;
+    private static byte timelapse_enabled = 0;   // 0 = disabled, 1 = enabled
+    private static float timelapse_interval = 5; // in [s]
+    public enum type {raw, jpeg, snapshot, jpeg_fisheye};
+    public enum record {stop, start};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -885,12 +892,36 @@ public class BebopDrone {
         Log.i(TAG, "entering takePicture of class BebopDrone");
 
         // Setting the format of the pictures to "snapshot"
+        // type (enum): The type of photo format
+        // - raw: Take raw image
+        // - jpeg: Take a 4:3 jpeg photo
+        // - snapshot: Take a 16:9 snapshot from camera
+        // - jpeg_fisheye: Take jpeg fisheye image only
         //mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM)type);
 
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
         }
     }
+
+
+    public void takeVideo() {
+        Log.i(TAG, "entering takeVideo of class BebopDrone");
+
+        // Configure timelapse mode
+        // - enabled (u8): 1 if timelapse is enabled, 0 otherwise
+        // - interval (float): interval in seconds for taking pictures
+        //
+        mDeviceController.getFeatureARDrone3().sendPictureSettingsTimelapseSelection(timelapse_enabled, timelapse_interval);
+
+        // Video (or timelapse if enabled) record
+        // record (enum): Command to record video (or timelapse)
+        // - stop: Stop the video recording
+        // - start: Start the video recording
+        //mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2((ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM)record);
+
+    }
+
 
     /**
      * Set the forward/backward angle of the drone
