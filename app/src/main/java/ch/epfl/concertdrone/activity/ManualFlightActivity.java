@@ -94,6 +94,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     }
 
 
+
     //Senesor Recived Acceleration Necesarry
     private class AccelerationBroadcastReceiver extends BroadcastReceiver {
         @Override
@@ -164,6 +165,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private final int power = 15;
     private final int duration = 4000; // [ms]
     private final int cycles = 2;
+    // Boolean to eventually exit paths
+    boolean keepGoing = true;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final String TAG = "ManualFlightActivity";
@@ -748,6 +751,15 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void exitPath(View view) {
+        // Toggling the Boolean "keepGoing"
+        if (keepGoing == true) {
+            keepGoing = false;
+        } else {
+            keepGoing = true;
+        }
+    }
+
 
     private static long endTime_wait;
 
@@ -755,16 +767,17 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     // If the drone is NOT HOVERING, we shouldn't have pressed on the button
     public void executePath() {
 
+
         // Going middle way on the right
         long endTime_begin_right = System.currentTimeMillis() + duration / 2;
-        while (System.currentTimeMillis() < endTime_begin_right) {
+        while ((System.currentTimeMillis() < endTime_begin_right) && (keepGoing)) {
             mBebopDrone.setRoll((byte) power);
             mBebopDrone.setFlag((byte) 1);
 
         }
         // Wait a bit...
         endTime_wait = System.currentTimeMillis() + 1000;
-        while (System.currentTimeMillis() < endTime_wait) {
+        while ((System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
             mBebopDrone.setRoll((byte) 0);
             mBebopDrone.setFlag((byte) 0);
         }
@@ -776,7 +789,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
             // Going full path LEFT
             long endTime_left = System.currentTimeMillis() + duration;
-            while (System.currentTimeMillis() < endTime_left) {
+            while ((System.currentTimeMillis() < endTime_left) && (keepGoing)) {
                 mBebopDrone.setRoll((byte) -power);
                 mBebopDrone.setFlag((byte) 1);
 
@@ -784,7 +797,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
             // Wait a bit...
             endTime_wait = System.currentTimeMillis() + 1000;
-            while (System.currentTimeMillis() < endTime_wait) {
+            while ((System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
                 mBebopDrone.setRoll((byte) 0);
                 mBebopDrone.setFlag((byte) 0);
             }
@@ -792,14 +805,14 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
             // Going full path RIGHT
             long endTime_right = System.currentTimeMillis() + duration;
-            while (System.currentTimeMillis() < endTime_right) {
+            while ((System.currentTimeMillis() < endTime_right) && (keepGoing)) {
                 mBebopDrone.setRoll((byte) power);
                 mBebopDrone.setFlag((byte) 1);
 
             }
             // Wait a bit...
             endTime_wait = System.currentTimeMillis() + 1000;
-            while (System.currentTimeMillis() < endTime_wait) {
+            while ((System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
                 mBebopDrone.setRoll((byte) 0);
                 mBebopDrone.setFlag((byte) 0);
             }
@@ -810,7 +823,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         // Going middle way back on the left
         long endTime_end_left = System.currentTimeMillis() + duration / 2;
-        while (System.currentTimeMillis() < endTime_end_left) {
+        while ((System.currentTimeMillis() < endTime_end_left) && (keepGoing)) {
             mBebopDrone.setRoll((byte) -power);
             mBebopDrone.setFlag((byte) 1);
 
@@ -833,7 +846,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     // Simple path to go up and down a few times
     // If the drone is NOT HOVERING, we shouldn't have pressed on the button
     public void executePath_2() {
-
 
         // Going full path up and then full path down, etc.
         int j = 1;
@@ -968,6 +980,39 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+
+
+
+
+    // onClicks to enable/disable autonomous modes
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private boolean enable_autonom_yaw = false;
+    public void onClick_enable_autonom_yaw(View view) {
+        // Toggling the button
+        if (enable_autonom_yaw == false) {
+            enable_autonom_yaw = true;
+        } else {
+            enable_autonom_yaw = false;
+        }
+        mBebopDrone.set_autonom_yaw(enable_autonom_yaw);
+    }
+
+    private boolean enable_autonom_att_rep = false;
+    public void onClick_enable_autonom_att_rep(View view) {
+        // Toggling the button
+        if (enable_autonom_att_rep == false) {
+            enable_autonom_att_rep = true;
+        } else {
+            enable_autonom_att_rep = false;
+        }
+        mBebopDrone.set_autonom_att_rep(enable_autonom_att_rep);
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }

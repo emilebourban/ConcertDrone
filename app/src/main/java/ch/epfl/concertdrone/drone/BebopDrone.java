@@ -127,11 +127,14 @@ public class BebopDrone {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    ////// Declarations of the received measurements
     // Declare drone GPS coordinates
     private static double lat_bebop;
     private static double long_bebop;
     private static double alt_bebop;
 
+    // Declare watch GPS coordinates
     private static double lat_watch;
     private static double long_watch;
     private static double alt_watch;
@@ -154,6 +157,19 @@ public class BebopDrone {
     }
 
 
+    // In order to enable or disable the autonomous modes
+    private static boolean enable_autonom_yaw;
+    public void set_autonom_yaw(boolean enable_autonom_yaw_button){
+        enable_autonom_yaw = enable_autonom_yaw_button;
+    }
+    private static boolean enable_autonom_att_rep;
+    public void set_autonom_att_rep(boolean enable_autonom_att_rep_button){
+        enable_autonom_att_rep = enable_autonom_att_rep_button;
+    }
+
+
+
+    ////// Declarations for yaw controller
     // Declare yaw value of drone
     private static float yaw_bebop;
 
@@ -186,6 +202,15 @@ public class BebopDrone {
     private static byte input_byte;
 
     private final int iteration_time = 250; // we get yaw values from the bebop every 250[ms]
+
+
+
+
+    ////// Declarations for autonomous attractive/repulsive behaviour
+    private static byte pitch_byte;
+    private static int iter = 1;
+    private static double sum_acc = 0;
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -334,53 +359,113 @@ public class BebopDrone {
                                                                   // For me: 0° = facing East; 90° = facing North
 
 
+                    if (enable_autonom_yaw) {
+                        // Yaw Controller
+                        // /!\ uncomment this part if you want the drone to automatically orient in a
+                        // direction you want (cf. "yaw_target")
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
 
-                    // Yaw Controller
-                    // /!\ uncomment this part if you want the drone to automatically orient in a
-                    // direction you want (cf. "yaw_target")
-                    ////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////
+                        // Continuous computation of yaw_target
+                        Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+                        Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
 
-                    // Continuous computation of yaw_target
-                    Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
-                    Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+                        double diff_y = lat_watch - lat_bebop;
+                        double diff_x = long_watch - long_bebop;
+                        yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+                        Log.i(TAG, "YAW TARGET: "+yaw_target);
+                        Log.i(TAG, "YAW BEBOP: "+yaw_bebop);
 
-                    double diff_y = lat_watch - lat_bebop;
-                    double diff_x = long_watch - long_bebop;
-                    yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
-                    Log.i(TAG, "YAW TARGET: "+yaw_target);
-                    Log.i(TAG, "YAW BEBOP: "+yaw_bebop);
-
-                    error = yaw_target - yaw_bebop;
-                    Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+                        error = yaw_target - yaw_bebop;
+                        Log.i(TAG, "Yaw yaw_error error yawController: " + error);
 
 
-                    derivative = (error - error_prior)/iteration_time;
+                        derivative = (error - error_prior)/iteration_time;
 
-                    // Controller input calculation
-                    input = (int) (KP*error + KD*derivative + bias);
-                    if (input > 100) {
-                        input = 100;
+                        // Controller input calculation
+                        input = (int) (KP*error + KD*derivative + bias);
+                        if (input > 100) {
+                            input = 100;
+                        }
+                        if (input < -100) {
+                            input = -100;
+                        }
+                        Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+
+                        // Adapting input
+                        input = input*(-1);
+
+                        // Conversion from int to byte
+                        input_byte = (byte) input;
+
+                        //"setYaw((byte) input);" or:
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                            mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+                        }
+
+                        error_prior = error;
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
                     }
-                    if (input < -100) {
-                        input = -100;
+
+
+
+
+
+
+                    if (enable_autonom_att_rep) {
+                        // Autonomous Attractive / Repulsive behaviour
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
+
+                        // Defining constant K
+                        //--------
+                        int K = 2;
+                        //--------
+
+                        // Defining mean_range (the approximate mean of the possible accelerometer values)
+                        //--------------------
+                        double mean_range = 8;
+                        //--------------------
+
+                        // Defining the number of iterations (over which we will take the mean of the acceleration values)
+                        //-------------
+                        int Niter = 10;
+                        //-------------
+
+
+                        // Taking the mean of acc_watch over some iterations
+
+                        sum_acc += acc_watch;
+
+                        iter += 1;
+
+                        if (iter == Niter) {
+
+                            double acc_average = sum_acc / Niter;
+
+                            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+                            double pitch_input = (acc_average - mean_range)*(-K);
+
+                            // Conversion from double to byte
+                            pitch_byte = (byte) pitch_input;
+
+                            if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                                mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+                            }
+
+                            iter = 1;
+                            sum_acc = 0;
+
+                        }
+
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
                     }
-                    Log.i(TAG, "Yaw yaw_input input yawController: " + input);
 
-                    // Adapting input
-                    input = input*(-1);
 
-                    // Conversion from int to byte
-                    input_byte = (byte) input;
 
-                    //"setYaw((byte) input);" or:
-                    if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                        mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
-                    }
 
-                    error_prior = error;
-                    ////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////
                 }
             }
 
