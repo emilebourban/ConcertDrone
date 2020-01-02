@@ -233,7 +233,7 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
     protected void onPause() {//When stop, Stop the location updates
         super.onPause();
         sensorManager.unregisterListener(RecordingActivity.this);//Unregister all the sensor
-        stopLocationUpdates();
+//        stopLocationUpdates();
     }
 
 }

@@ -164,7 +164,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private final int power = 15;
     private final int duration = 4000; // [ms]
-    private final int cycles = 2;
+    private final int cycles = 1;
     // Boolean to eventually exit paths
     boolean keepGoing = true;
     ////////////////////////////////////////////////////////////////////////////////////////////////

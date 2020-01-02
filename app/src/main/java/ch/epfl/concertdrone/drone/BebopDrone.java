@@ -350,125 +350,248 @@ public class BebopDrone {
                     //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
                     //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
                     yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
-                    yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
-                    if (yaw_bebop > 180 && yaw_bebop < 270) {
-                        yaw_bebop = (float) -180 + (yaw_bebop-180);
-                    }
+//                    yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+//                    if (yaw_bebop > 180 && yaw_bebop < 270) {
+//                        yaw_bebop = (float) -180 + (yaw_bebop-180);
+//                    }
 
                     Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
                                                                   // For me: 0° = facing East; 90° = facing North
 
 
-                    if (enable_autonom_yaw) {
-                        // Yaw Controller
-                        // /!\ uncomment this part if you want the drone to automatically orient in a
-                        // direction you want (cf. "yaw_target")
-                        ////////////////////////////////////////////////////////////////////////////////
-                        ////////////////////////////////////////////////////////////////////////////////
-
-                        // Continuous computation of yaw_target
-                        Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
-                        Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
-
-                        double diff_y = lat_watch - lat_bebop;
-                        double diff_x = long_watch - long_bebop;
-                        yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
-                        Log.i(TAG, "YAW TARGET: "+yaw_target);
-                        Log.i(TAG, "YAW BEBOP: "+yaw_bebop);
-
-                        error = yaw_target - yaw_bebop;
-                        Log.i(TAG, "Yaw yaw_error error yawController: " + error);
-
-
-                        derivative = (error - error_prior)/iteration_time;
-
-                        // Controller input calculation
-                        input = (int) (KP*error + KD*derivative + bias);
-                        if (input > 100) {
-                            input = 100;
-                        }
-                        if (input < -100) {
-                            input = -100;
-                        }
-                        Log.i(TAG, "Yaw yaw_input input yawController: " + input);
-
-                        // Adapting input
-                        input = input*(-1);
-
-                        // Conversion from int to byte
-                        input_byte = (byte) input;
-
-                        //"setYaw((byte) input);" or:
-                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                            mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
-                        }
-
-                        error_prior = error;
-                        ////////////////////////////////////////////////////////////////////////////////
-                        ////////////////////////////////////////////////////////////////////////////////
-                    }
-
-
+//                    if (enable_autonom_yaw) {
+//                        // Yaw Controller
+//                        // /!\ uncomment this part if you want the drone to automatically orient in a
+//                        // direction you want (cf. "yaw_target")
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                        ////////////////////////////////////////////////////////////////////////////////
+//
+//                        // Continuous computation of yaw_target
+//                        Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+//                        Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+//
+//                        double diff_y = lat_watch - lat_bebop;
+//                        double diff_x = long_watch - long_bebop;
+//                        yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+//                        Log.i(TAG, "test_yaw_target YAW TARGET: "+yaw_target);
+//                        Log.i(TAG, "test_yaw_target YAW BEBOP: "+yaw_bebop);
+//
+//                        error = yaw_target - yaw_bebop;
+//                        Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+//
+//
+//                        derivative = (error - error_prior)/iteration_time;
+//
+//                        // Controller input calculation
+//                        input = (int) (KP*error + KD*derivative + bias);
+//                        if (input > 100) {
+//                            input = 100;
+//                        }
+//                        if (input < -100) {
+//                            input = -100;
+//                        }
+//                        Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+//
+//                        // Adapting input
+//                        input = input*(-1);
+//
+//                        // Conversion from int to byte
+//                        input_byte = (byte) input;
+//
+//                        //"setYaw((byte) input);" or:
+//                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+//                            mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+//                        }
+//
+//                        error_prior = error;
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                    }
 
 
 
 
-                    if (enable_autonom_att_rep) {
-                        // Autonomous Attractive / Repulsive behaviour
-                        ////////////////////////////////////////////////////////////////////////////////
-                        ////////////////////////////////////////////////////////////////////////////////
-
-                        // Defining constant K
-                        //--------
-                        int K = 2;
-                        //--------
-
-                        // Defining mean_range (the approximate mean of the possible accelerometer values)
-                        //--------------------
-                        double mean_range = 8;
-                        //--------------------
-
-                        // Defining the number of iterations (over which we will take the mean of the acceleration values)
-                        //-------------
-                        int Niter = 10;
-                        //-------------
 
 
-                        // Taking the mean of acc_watch over some iterations
-
-                        sum_acc += acc_watch;
-
-                        iter += 1;
-
-                        if (iter == Niter) {
-
-                            double acc_average = sum_acc / Niter;
-
-                            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-                            double pitch_input = (acc_average - mean_range)*(-K);
-
-                            // Conversion from double to byte
-                            pitch_byte = (byte) pitch_input;
-
-
-                            iter = 1;
-                            sum_acc = 0;
-
-                        }
-
-                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-                        }
-
-                        ////////////////////////////////////////////////////////////////////////////////
-                        ////////////////////////////////////////////////////////////////////////////////
-                    }
+//                    if (enable_autonom_att_rep) {
+//                        // Autonomous Attractive / Repulsive behaviour
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                        ////////////////////////////////////////////////////////////////////////////////
+//
+//                        // Defining constant K
+//                        //--------
+//                        int K = 2;
+//                        //--------
+//
+//                        // Defining mean_range (the approximate mean of the possible accelerometer values)
+//                        //--------------------
+//                        double mean_range = 3;
+//                        //--------------------
+//
+//                        // Defining the number of iterations (over which we will take the mean of the acceleration values)
+//                        //-------------
+//                        int Niter = 10;
+//                        //-------------
+//
+//
+//                        // Taking the mean of acc_watch over some iterations
+//
+//                        sum_acc += acc_watch;
+//
+//                        iter += 1;
+//
+//                        if (iter == Niter) {
+//
+//                            double acc_average = sum_acc / Niter;
+//
+//                            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+//                            double pitch_input = (acc_average - mean_range)*(-K);
+//
+//                            // Conversion from double to byte
+//                            pitch_byte = (byte) pitch_input;
+//
+//
+//                            iter = 1;
+//                            sum_acc = 0;
+//
+//                        }
+//
+//                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+//                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+//                        }
+//
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                        ////////////////////////////////////////////////////////////////////////////////
+//                    }
 
 
 
 
                 }
             }
+
+
+            //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
+            //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
+//            yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
+            yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+            if (yaw_bebop > 180 && yaw_bebop < 270) {
+                yaw_bebop = (float) -180 + (yaw_bebop-180);
+            }
+
+            Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+            // For me: 0° = facing East; 90° = facing North
+
+
+            if (enable_autonom_yaw) {
+                // Yaw Controller
+                // /!\ uncomment this part if you want the drone to automatically orient in a
+                // direction you want (cf. "yaw_target")
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+
+                // Continuous computation of yaw_target
+                Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+                Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+
+                double diff_y = lat_watch - lat_bebop;
+                double diff_x = long_watch - long_bebop;
+                yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+                Log.i(TAG, "test_yaw_target YAW TARGET: "+yaw_target);
+                Log.i(TAG, "test_yaw_target YAW BEBOP: "+yaw_bebop);
+
+                error = yaw_target - yaw_bebop;
+                Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+
+
+                derivative = (error - error_prior)/iteration_time;
+
+                // Controller input calculation
+                input = (int) (KP*error + KD*derivative + bias);
+                if (input > 100) {
+                    input = 100;
+                }
+                if (input < -100) {
+                    input = -100;
+                }
+                Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+
+                // Adapting input
+                input = input*(-1);
+
+                // Conversion from int to byte
+                input_byte = (byte) input;
+
+                //"setYaw((byte) input);" or:
+                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                    mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+                }
+
+                error_prior = error;
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+            }
+
+
+
+
+
+
+            if (enable_autonom_att_rep) {
+                // Autonomous Attractive / Repulsive behaviour
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+
+                // Defining constant K
+                //--------
+                int K = 2;
+                //--------
+
+                // Defining mean_range (the approximate mean of the possible accelerometer values)
+                //--------------------
+                double mean_range = 3;
+                //--------------------
+
+                // Defining the number of iterations (over which we will take the mean of the acceleration values)
+                //-------------
+                int Niter = 10;
+                //-------------
+
+
+                // Taking the mean of acc_watch over some iterations
+
+                sum_acc += acc_watch;
+
+                iter += 1;
+
+                if (iter == Niter) {
+
+                    double acc_average = sum_acc / Niter;
+
+                    // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+                    double pitch_input = (acc_average - mean_range)*(-K);
+
+                    // Conversion from double to byte
+                    pitch_byte = (byte) pitch_input;
+
+
+                    iter = 1;
+                    sum_acc = 0;
+
+                }
+
+                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                    mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
+            }
+
+
+
+
+
 
 
         }

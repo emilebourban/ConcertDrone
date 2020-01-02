@@ -257,7 +257,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick_enable_autonom_att_rep"
-            android:text="autonom_yaw"
+            android:text="autonom_att_rep"
             app:layout_constraintBottom_toTopOf="@+id/button_autonom_yaw"
             app:layout_constraintStart_toStartOf="parent" />
 
