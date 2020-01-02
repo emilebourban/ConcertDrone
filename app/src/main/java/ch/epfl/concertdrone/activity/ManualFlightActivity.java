@@ -39,6 +39,7 @@ import ch.epfl.concertdrone.preprogrammed.BebopDroneRoutine;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
 public class ManualFlightActivity extends AppCompatActivity implements LocationListener {
+
     //Pour comunication avec la Montre
     //For GPS location
     public static final String MESSAGE = "MESSAGE";
@@ -61,10 +62,18 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private double acceleration =0;
     private boolean mouvement =false;
 
-    //For the send a message (string) to the wach (optional)
+    //For the send a message (string) to the watch (optional)
     public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
 
 
+    // Attractive/Repulsive Behaviour variables declaration
+    // Defining the number of iterations (over which we will take the mean of the acceleration values)
+    //-------------
+    int Niter = 10;
+    //-------------
+    private static int iter = 1;
+    private static double sum_acc = 0;
+    private static double acc_average = 0;
 
     //Fontion to send a string to the wacht via Wear Service and intent
     public void sendMessage(String mensaje) {//C'est moi qui l'ai faite
@@ -101,10 +110,24 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         public void onReceive(Context context, Intent intent) {
             //Show HR in a TextView
             acceleration = intent.getDoubleExtra(ACCELERATIONVAR, -1);//Get the value of the mAccel
-            mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
-            Log.i(TAG, (String.format("Recived Acceleration-->Accel: %s Mouve: %s", acceleration,mouvement)));
+            //----------------
+            // Taking the mean of the absolute value of the acceleration over some iterations Niter
+            sum_acc += Math.abs(acceleration);
 
-            mBebopDrone.set_acc_watch(acceleration);
+            iter += 1;
+
+            if (iter == Niter) {
+
+                acc_average = sum_acc / Niter;
+
+                iter = 1;
+                sum_acc = 0;
+            }
+            //----------------
+            mBebopDrone.set_acc_mean_watch(acc_average);
+
+            mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
+            Log.i(TAG, (String.format("Received Acceleration --> Accel: %s Mouve: %s", acceleration,mouvement)));
 
             TextView accelTextView = findViewById(R.id.textViewAcceleration);
             if(mouvement) accelTextView.setTextColor(Color.RED);
@@ -115,7 +138,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    //Buton To try the correct comunication between Wacht and Tablette
+    //Buton to try the correct communication between Watch and Tablet
     public void onClickTryComunication(View view) {
         Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();//Debug
         sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
@@ -128,7 +151,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     }
 
 
-    //Sensor Recived Location (NECESSARRY)
+    //Sensor Received Location (NECESSARRY)
     private class LocationBroadcastReceiver extends BroadcastReceiver {
 
         @Override
@@ -143,7 +166,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             mBebopDrone.set_long_watch(longitude);
             mBebopDrone.set_alt_watch(altitude);
 
-            //TODO mettre des texteView
+            //TODO mettre des textView
 
             //Update the text view for debugging
             TextView longitudeTextView = findViewById(R.id.textViewLongitude);

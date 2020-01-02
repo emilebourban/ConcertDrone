@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_COMMON_COMMONSTATE_SENSORSSTATESLISTCHANGED_SENSORNAME_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -138,7 +139,7 @@ public class BebopDrone {
     private static double lat_watch;
     private static double long_watch;
     private static double alt_watch;
-    private static double acc_watch;
+    private static double acc_mean_watch;
 
     public void set_lat_watch(double lat){
         lat_watch = lat;
@@ -152,8 +153,8 @@ public class BebopDrone {
         alt_watch = alt;
     }
 
-    public void set_acc_watch(double acc){
-        acc_watch = acc;
+    public void set_acc_mean_watch(double acc_mean){
+        acc_mean_watch = acc_mean;
     }
 
 
@@ -176,7 +177,7 @@ public class BebopDrone {
         cycles = cycles_button;
         endTime_left = System.currentTimeMillis() + duration;
         endTime_wait = endTime_left + 1000;
-        endTime_right = endTime_wait + duration;
+        endTime_right = endTime_wait + duration + duration/2;
         endTime_wait_2 = endTime_right + 1000;
     }
 
@@ -227,8 +228,6 @@ public class BebopDrone {
 
     ////// Declarations for autonomous attractive/repulsive behaviour
     private static byte pitch_byte;
-    private static int iter = 1;
-    private static double sum_acc = 0;
     private static double dist_drone_watch;
     private final int Radius = 6371000; // Earth radius [m]
 
@@ -460,7 +459,7 @@ public class BebopDrone {
 
                         // Defining constant K
                         //--------
-                        int K = 2;
+                        int K = 3;
                         //--------
 
                         // Defining mean_range (the approximate mean of the possible accelerometer values)
@@ -468,33 +467,11 @@ public class BebopDrone {
                         double mean_range = 3;
                         //--------------------
 
-                        // Defining the number of iterations (over which we will take the mean of the acceleration values)
-                        //-------------
-                        int Niter = 10;
-                        //-------------
+                        // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+                        double pitch_input = (acc_mean_watch - mean_range)*(-K);
 
-
-                        // Taking the mean of acc_watch over some iterations
-
-                        sum_acc += acc_watch;
-
-                        iter += 1;
-
-                        if (iter == Niter) {
-
-                            double acc_average = sum_acc / Niter;
-
-                            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-                            double pitch_input = (acc_average - mean_range)*(-K);
-
-                            // Conversion from double to byte
-                            pitch_byte = (byte) pitch_input;
-
-
-                            iter = 1;
-                            sum_acc = 0;
-
-                        }
+                        // Conversion from double to byte
+                        pitch_byte = (byte) pitch_input;
 
                         double diff_angle_y = lat_watch - lat_bebop;
                         double diff_angle_x = long_watch - long_bebop;
@@ -906,6 +883,9 @@ public class BebopDrone {
 
     public void takePicture() {
         Log.i(TAG, "entering takePicture of class BebopDrone");
+
+        // Setting the format of the pictures to "snapshot"
+        //mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM)type);
 
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
