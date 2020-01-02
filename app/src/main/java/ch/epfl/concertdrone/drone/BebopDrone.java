@@ -168,6 +168,25 @@ public class BebopDrone {
     }
 
 
+    // enable / disable path 1
+    private static boolean enable_path_1;
+    private static int cycles;
+    public void set_path_1(boolean enable_path_1_button, int cycles_button){
+        enable_path_1 = enable_path_1_button;
+        cycles = cycles_button;
+        endTime_left = System.currentTimeMillis() + duration;
+        endTime_wait = endTime_left + 1000;
+        endTime_right = endTime_wait + duration;
+        endTime_wait_2 = endTime_right + 1000;
+    }
+
+    // exit paths
+    private static boolean keepGoing;
+    public void set_exitPath(boolean keepGoing_button){
+        keepGoing = keepGoing_button;
+    }
+
+
 
     ////// Declarations for yaw controller
     // Declare yaw value of drone
@@ -210,6 +229,18 @@ public class BebopDrone {
     private static byte pitch_byte;
     private static int iter = 1;
     private static double sum_acc = 0;
+    private static double dist_drone_watch;
+    private final int Radius = 6371000; // Earth radius [m]
+
+
+    ////// Declarations for the paths
+    private final int duration = 3000; // [ms]
+    private final int power = 15;
+    private static long endTime_left;
+    private static long endTime_wait;
+    private static long endTime_right;
+    private static long endTime_wait_2;
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -474,16 +505,19 @@ public class BebopDrone {
             //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
             //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
 //            yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
-            yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
-            if (yaw_bebop > 180 && yaw_bebop < 270) {
-                yaw_bebop = (float) -180 + (yaw_bebop-180);
-            }
 
-            Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
-            // For me: 0° = facing East; 90° = facing North
 
 
             if (enable_autonom_yaw) {
+
+                yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+                if (yaw_bebop > 180 && yaw_bebop < 270) {
+                    yaw_bebop = (float) -180 + (yaw_bebop-180);
+                }
+
+                Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+                // For me: 0° = facing East; 90° = facing North
+
                 // Yaw Controller
                 // /!\ uncomment this part if you want the drone to automatically orient in a
                 // direction you want (cf. "yaw_target")
@@ -580,13 +614,63 @@ public class BebopDrone {
 
                 }
 
-                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                double diff_angle_y = lat_watch - lat_bebop;
+                double diff_angle_x = long_watch - long_bebop;
+
+                dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
+
+                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 5)) {
                     mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
                 }
 
                 ////////////////////////////////////////////////////////////////////////////////
                 ////////////////////////////////////////////////////////////////////////////////
             }
+
+
+
+            if (enable_path_1) {
+
+                // Going full path LEFT
+                if ((System.currentTimeMillis() < endTime_left) && (keepGoing)) {
+                    setRoll((byte) -power);
+                    setFlag((byte) 1);
+                }
+
+                // Wait a bit...
+                if ((System.currentTimeMillis() > endTime_left) && (System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
+                    setRoll((byte) 0);
+                    setFlag((byte) 0);
+                }
+
+
+                // Going full path RIGHT
+                if ((System.currentTimeMillis() > endTime_wait) && (System.currentTimeMillis() < endTime_right) && (keepGoing)) {
+                    setRoll((byte) power);
+                    setFlag((byte) 1);
+
+                }
+
+                // Wait a bit...
+                if ((System.currentTimeMillis() > endTime_right) && (System.currentTimeMillis() < endTime_wait_2) && (keepGoing)) {
+                    setRoll((byte) 0);
+                    setFlag((byte) 0);
+                }
+
+                if (System.currentTimeMillis() > endTime_wait_2) {
+                    if (cycles > 1) {
+                        set_path_1(true, cycles-1);
+                    } else {
+                        enable_path_1 = false;
+                    }
+                }
+
+
+
+
+            }
+
+
 
 
 
