@@ -450,13 +450,14 @@ public class BebopDrone {
                             // Conversion from double to byte
                             pitch_byte = (byte) pitch_input;
 
-                            if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                                mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-                            }
 
                             iter = 1;
                             sum_acc = 0;
 
+                        }
+
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
                         }
 
                         ////////////////////////////////////////////////////////////////////////////////
