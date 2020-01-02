@@ -166,7 +166,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     //private final int duration = 4000; // [ms]
     private final int cycles_button = 1;
     // Boolean to eventually exit paths
-    boolean keepGoing = false;
+    boolean keepGoing = true;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final String TAG = "ManualFlightActivity";
