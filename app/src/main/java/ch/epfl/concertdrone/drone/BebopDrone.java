@@ -4,18 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 //import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM;
+import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_COMMON_COMMONSTATE_SENSORSSTATESLISTCHANGED_SENSORNAME_ENUM;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -47,9 +47,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import ch.epfl.concertdrone.BuildConfig;
-import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.WearService;
-import ch.epfl.concertdrone.activity.DebugAutonomousFlightActivity;
+import ch.epfl.concertdrone.activity.ManualFlightActivity;
 
 public class BebopDrone {
     private static final String TAG = "BebopDrone";
@@ -125,21 +124,118 @@ public class BebopDrone {
 
 
 
+    ////// Declarations for taking pictures and videos
+    //private final enum snapshot;
+    private static byte timelapse_enabled = 0;   // 0 = disabled, 1 = enabled
+    private static float timelapse_interval = 5; // in [s]
+
+
+
+
+    public enum type {raw, jpeg, snapshot, jpeg_fisheye};
+    public enum record {stop, start};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    ////// Declarations of the received measurements
     // Declare drone GPS coordinates
     private static double lat_bebop;
     private static double long_bebop;
     private static double alt_bebop;
 
+    // Declare watch GPS coordinates
+    private static double lat_watch;
+    private static double long_watch;
+    private static double alt_watch;
+    private static double acc_mean_watch;
+
+    public void set_lat_watch(double lat){
+        lat_watch = lat;
+    }
+
+    public void set_long_watch(double longitude){
+        long_watch = longitude;
+    }
+
+    public void set_alt_watch(double alt){
+        alt_watch = alt;
+    }
+
+    public void set_acc_mean_watch(double acc_mean){
+        acc_mean_watch = acc_mean;
+    }
+
+
+    // In order to enable or disable the autonomous modes
+    private static boolean enable_autonom_yaw;
+    public void set_autonom_yaw(boolean enable_autonom_yaw_button){
+        enable_autonom_yaw = enable_autonom_yaw_button;
+    }
+    private static boolean enable_autonom_att_rep;
+    public void set_autonom_att_rep(boolean enable_autonom_att_rep_button){
+        enable_autonom_att_rep = enable_autonom_att_rep_button;
+    }
+
+
+
+    // enable path 1
+    private static boolean enable_path_1;
+    public void set_path_1(boolean enable_path_1_button, int cycles_button){
+        keepGoing = true;
+        enable_path_1 = enable_path_1_button;
+        cycles = cycles_button;
+        endTime_left = System.currentTimeMillis() + duration;
+        endTime_wait = endTime_left + pause;
+        endTime_right = endTime_wait + duration;
+        endTime_wait_2 = endTime_right + pause;
+    }
+
+    // enable path 2
+    private static boolean enable_path_2;
+    public void set_path_2(boolean enable_path_2_button, int cycles_button) {
+        keepGoing = true;
+        enable_path_2 = enable_path_2_button;
+        cycles = cycles_button;
+        endTime_up = System.currentTimeMillis() + duration;
+        endTime_wait = endTime_up + pause;
+        endTime_down = endTime_wait + duration;
+        endTime_wait_2 = endTime_down + pause;
+    }
+
+
+    // enable path 3
+    private static boolean enable_path_3;
+    public void set_path_3(boolean enable_path_3_button, int cycles_button) {
+        keepGoing = true;
+        enable_path_3 = enable_path_3_button;
+        cycles = cycles_button;
+        endTime_left_square = System.currentTimeMillis() + duration;
+        endTime_wait_square = endTime_left_square + pause;
+        endTime_up_square = endTime_wait_square + duration;
+        endTime_wait_2_square = endTime_up_square + pause;
+        endTime_right_square = endTime_wait_2_square + duration;
+        endTime_wait_3_square = endTime_right_square + pause;
+        endTime_down_square = endTime_wait_3_square + duration;
+        endTime_wait_4_square = endTime_down_square + pause;
+    }
+
+    // exit paths
+    private static boolean keepGoing;
+    public void set_exitPath(boolean keepGoing_button){
+        keepGoing = keepGoing_button;
+    }
+
+
+
+    ////// Declarations for yaw controller
     // Declare yaw value of drone
     private static float yaw_bebop;
 
     // Other declarations
-    private static float yaw_target = 90;
+    private static float yaw_target;
 
     // PD controller constants
     /////////////////////////////
@@ -160,13 +256,46 @@ public class BebopDrone {
     private static float bias = 0;
     /////////////////////////////
 
-    private static float error;
-    private static float error_prior;
+    private static double error;
+    private static double error_prior;
     private static double derivative;
     private static int input;
     private static byte input_byte;
 
     private final int iteration_time = 250; // we get yaw values from the bebop every 250[ms]
+
+
+
+
+    ////// Declarations for autonomous attractive/repulsive behaviour
+    private static byte pitch_byte;
+    private static double dist_drone_watch;
+    private final int Radius = 6371000; // Earth radius [m]
+
+
+    ////// Declarations for the paths
+    private static int cycles;
+    private final int duration = 3000; // [ms]
+    private final int pause = 750;     // [ms]
+    private final int power = 10;
+    private final int drift_correction = 1;
+    private static long endTime_left;
+    private static long endTime_wait;
+    private static long endTime_right;
+    private static long endTime_wait_2;
+    private static long endTime_up;
+    private static long endTime_down;
+
+    private static long endTime_left_square;
+    private static long endTime_wait_square;
+    private static long endTime_up_square;
+    private static long endTime_wait_2_square;
+    private static long endTime_right_square ;
+    private static long endTime_wait_3_square;
+    private static long endTime_down_square;
+    private static long endTime_wait_4_square;
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -306,61 +435,511 @@ public class BebopDrone {
                     //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
                     //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
                     yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
-                    yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
-                    if (yaw_bebop > 180 && yaw_bebop < 270) {
-                        yaw_bebop = (float) -180 + (yaw_bebop-180);
-                    }
 
-                    Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+
+                    Log.i(TAG, "Yaw yaw_degree_1 Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
                                                                   // For me: 0° = facing East; 90° = facing North
 
+                    if (enable_autonom_yaw) {
+
+                        yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+                        if (yaw_bebop > 180 && yaw_bebop < 270) {
+                            yaw_bebop = (float) -180 + (yaw_bebop-180);
+                        }
+
+                        Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+                        // For me: 0° = facing East; 90° = facing North
+
+                        // Yaw Controller
+                        // The drone will orient in the direction you want (cf. "yaw_target")
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
+
+                        // Continuous computation of yaw_target
+                        Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+                        Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+
+                        double diff_y = lat_watch - lat_bebop;
+                        double diff_x = long_watch - long_bebop;
+                        yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+                        Log.i(TAG, "test_yaw_target YAW TARGET: "+yaw_target);
+                        Log.i(TAG, "test_yaw_target YAW BEBOP: "+yaw_bebop);
+
+                        error = yaw_target - yaw_bebop;
+                        Log.i(TAG, "Yaw yaw_error error yawController: " + error);
 
 
-                    // Yaw Controller
-                    // /!\ uncomment this part if you want the drone to automatically orient in a
-                    // direction you want (cf. "yaw_target")
-                    ////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////
+                        derivative = (error - error_prior)/iteration_time;
 
-                    // Continuous computation of yaw_target
-                    /*
-                    diff_y = lat_watch - lat_bebop;
-                    diff_x = long_watch - long_bebop;
-                    yaw_target k= Math.atan2(diff_y/diff_x);
-                    */
+                        // Controller input calculation
+                        input = (int) (KP*error + KD*derivative + bias);
+                        //input = (int) (KP*error);
+                        if (input > 100) {
+                            input = 100;
+                        }
+                        if (input < -100) {
+                            input = -100;
+                        }
+                        Log.i(TAG, "Yaw yaw_input input yawController: " + input);
 
-                    error = yaw_target - yaw_bebop;
-                    Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+                        // Adapting input
+                        input = input*(-1);
 
+                        // Conversion from int to byte
+                        input_byte = (byte) input;
 
-                    derivative = (error - error_prior)/iteration_time;
+                        //"setYaw((byte) input);" or:
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                            mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+                        }
 
-                    // Controller input calculation
-                    input = (int) (KP*error + KD*derivative + bias);
-                    if (input > 100) {
-                        input = 100;
+                        error_prior = error;
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
                     }
-                    if (input < -100) {
-                        input = -100;
+
+
+
+
+
+
+                    if (enable_autonom_att_rep) {
+                        // Autonomous Attractive / Repulsive behaviour
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
+
+                        // Defining constant K
+                        //--------
+                        int K = 5;
+                        //--------
+
+                        // Defining mean_range (the approximate mean of the possible accelerometer values)
+                        //--------------------
+                        double mean_range = 3;
+                        //--------------------
+
+                        // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+                        double pitch_input = (acc_mean_watch - mean_range)*(-K);
+
+                        // Conversion from double to byte
+                        pitch_byte = (byte) pitch_input;
+
+                        double diff_angle_y = lat_watch - lat_bebop;
+                        double diff_angle_x = long_watch - long_bebop;
+
+                        dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
+                        Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
+
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 5)) { // setting distance limits between the drone and the watch in [m]
+                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+                        }
+
+                        ////////////////////////////////////////////////////////////////////////////////
+                        ////////////////////////////////////////////////////////////////////////////////
                     }
-                    Log.i(TAG, "Yaw yaw_input input yawController: " + input);
 
-                    // Adapting input
-                    input = input*(-1);
 
-                    // Conversion from int to byte
-                    input_byte = (byte) input;
 
-                    //"setYaw((byte) input);" or:
-                    if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                        mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+                    // Enabling path 1
+                    if (enable_path_1) {
+                        Log.i(TAG, "entered enable_path_1: "+keepGoing);
+
+                        // Going full path LEFT
+                        Log.i(TAG, "CurrentTime: "+System.currentTimeMillis()+ "    EndTimeLeft: "+endTime_left);
+                        if ((System.currentTimeMillis() < endTime_left) && (keepGoing)) {
+                            Log.i(TAG, "entered going left");
+
+                            setRoll((byte) -power);
+                            // Correction so that the drone doesn't go too forward
+                            setPitch((byte) -drift_correction);
+                            setFlag((byte) 1);
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_left) && (System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
+                            Log.i(TAG, "entered wait1");
+
+                            setRoll((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        // Going full path RIGHT
+                        if ((System.currentTimeMillis() > endTime_wait) && (System.currentTimeMillis() < endTime_right) && (keepGoing)) {
+                            Log.i(TAG, "entered going right");
+                            setRoll((byte) power);
+                            // Correction so that the drone doesn't go too forward
+                            setPitch((byte) -drift_correction);
+                            setFlag((byte) 1);
+
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_right) && (System.currentTimeMillis() < endTime_wait_2) && (keepGoing)) {
+                            Log.i(TAG, "entered wait2");
+
+                            setRoll((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        if (System.currentTimeMillis() > endTime_wait_2) {
+                            Log.i(TAG, "cycle over");
+
+                            if (cycles > 1) {
+                                set_path_1(true, cycles-1);
+                            } else {
+                                enable_path_1 = false;
+                                keepGoing = false;
+                            }
+                        }
+
                     }
 
-                    error_prior = error;
-                    ////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////
+
+
+                    // Enabling path 2
+                    if (enable_path_2) {
+                        Log.i(TAG, "entered enable_path_2: "+keepGoing);
+
+                        // Going full path UP
+                        Log.i(TAG, "CurrentTime: "+System.currentTimeMillis()+ "    EndTimeUp: "+endTime_up);
+                        if ((System.currentTimeMillis() < endTime_up) && (keepGoing)) {
+                            Log.i(TAG, "entered going up");
+
+                            setGaz((byte) power);
+                            setFlag((byte) 1);
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_up) && (System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
+                            Log.i(TAG, "entered wait1");
+
+                            setGaz((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        // Going full path DOWN
+                        if ((System.currentTimeMillis() > endTime_wait) && (System.currentTimeMillis() < endTime_down) && (keepGoing)) {
+                            Log.i(TAG, "entered going down");
+                            setGaz((byte) -power);
+                            setFlag((byte) 1);
+
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_down) && (System.currentTimeMillis() < endTime_wait_2) && (keepGoing)) {
+                            Log.i(TAG, "entered wait2");
+
+                            setGaz((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        if (System.currentTimeMillis() > endTime_wait_2) {
+                            Log.i(TAG, "cycle over");
+
+                            if (cycles > 1) {
+                                set_path_2(true, cycles-1);
+                            } else {
+                                enable_path_2 = false;
+                                keepGoing = false;
+                            }
+                        }
+
+                    }
+
+
+
+                    // Enabling path 3
+                    if (enable_path_3) {
+                        Log.i(TAG, "entered enable_path_3: "+keepGoing);
+
+                        // Going full path LEFT
+                        Log.i(TAG, "CurrentTime: "+System.currentTimeMillis()+ "    EndTimeLeft: "+endTime_left);
+                        if ((System.currentTimeMillis() < endTime_left_square) && (keepGoing)) {
+                            Log.i(TAG, "entered going left");
+
+                            setRoll((byte) -power);
+                            // Correction so that the drone doesn't go too forward
+                            setPitch((byte) -drift_correction);
+                            setFlag((byte) 1);
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_left_square) && (System.currentTimeMillis() < endTime_wait_square) && (keepGoing)) {
+                            Log.i(TAG, "entered wait1");
+
+                            setRoll((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        // Going full path UP
+                        Log.i(TAG, "CurrentTime: "+System.currentTimeMillis()+ "    EndTimeUp: "+endTime_up);
+                        if ((System.currentTimeMillis() > endTime_wait_square) && (System.currentTimeMillis() < endTime_up_square) && (keepGoing)) {
+                            Log.i(TAG, "entered going up");
+
+                            setGaz((byte) power);
+                            setFlag((byte) 1);
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_up_square) && (System.currentTimeMillis() < endTime_wait_2_square) && (keepGoing)) {
+                            Log.i(TAG, "entered wait1");
+
+                            setGaz((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        // Going full path RIGHT
+                        if ((System.currentTimeMillis() > endTime_wait_2_square) && (System.currentTimeMillis() < endTime_right_square) && (keepGoing)) {
+                            Log.i(TAG, "entered going right");
+                            setRoll((byte) power);
+                            // Correction so that the drone doesn't go too forward
+                            setPitch((byte) -drift_correction);
+                            setFlag((byte) 1);
+
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_right_square) && (System.currentTimeMillis() < endTime_wait_3_square) && (keepGoing)) {
+                            Log.i(TAG, "entered wait2");
+
+                            setRoll((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        // Going full path DOWN
+                        if ((System.currentTimeMillis() > endTime_wait_3_square) && (System.currentTimeMillis() < endTime_down_square) && (keepGoing)) {
+                            Log.i(TAG, "entered going down");
+                            setGaz((byte) -power);
+                            setFlag((byte) 1);
+
+                        }
+
+                        // Wait a bit...
+                        if ((System.currentTimeMillis() > endTime_down_square) && (System.currentTimeMillis() < endTime_wait_4_square) && (keepGoing)) {
+                            Log.i(TAG, "entered wait2");
+
+                            setGaz((byte) 0);
+                            setFlag((byte) 0);
+                        }
+
+
+                        if (System.currentTimeMillis() > endTime_wait_4_square) {
+                            Log.i(TAG, "cycle over");
+
+                            if (cycles > 1) {
+                                set_path_3(true, cycles-1);
+                            } else {
+                                enable_path_3 = false;
+                                keepGoing = false;
+                            }
+                        }
+
+                    }
+
+
+
+                    // Making the drone exit the path and stop in case keepGoing is false
+                    if (!keepGoing) { // = if keepGoing is false
+                        enable_path_1 = false;
+                        enable_path_2 = false;
+                        enable_path_3 = false;
+                        setGaz((byte) 0);
+                        setPitch((byte) 0);
+                        setRoll((byte) 0);
+                        setFlag((byte) 0);
+                        keepGoing = true;
+
+                    }
+
+
+
                 }
             }
+
+
+            //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
+            //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
+//            yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
+
+
+
+//            if (enable_autonom_yaw) {
+//
+//                yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
+//                if (yaw_bebop > 180 && yaw_bebop < 270) {
+//                    yaw_bebop = (float) -180 + (yaw_bebop-180);
+//                }
+//
+//                Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
+//                // For me: 0° = facing East; 90° = facing North
+//
+//                // Yaw Controller
+//                // /!\ uncomment this part if you want the drone to automatically orient in a
+//                // direction you want (cf. "yaw_target")
+//                ////////////////////////////////////////////////////////////////////////////////
+//                ////////////////////////////////////////////////////////////////////////////////
+//
+//                // Continuous computation of yaw_target
+//                Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
+//                Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
+//
+//                double diff_y = lat_watch - lat_bebop;
+//                double diff_x = long_watch - long_bebop;
+//                yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
+//                Log.i(TAG, "test_yaw_target YAW TARGET: "+yaw_target);
+//                Log.i(TAG, "test_yaw_target YAW BEBOP: "+yaw_bebop);
+//
+//                error = yaw_target - yaw_bebop;
+//                Log.i(TAG, "Yaw yaw_error error yawController: " + error);
+//
+//
+//                derivative = (error - error_prior)/iteration_time;
+//
+//                // Controller input calculation
+//                input = (int) (KP*error + KD*derivative + bias);
+//                //input = (int) (KP*error);
+//                if (input > 100) {
+//                    input = 100;
+//                }
+//                if (input < -100) {
+//                    input = -100;
+//                }
+//                Log.i(TAG, "Yaw yaw_input input yawController: " + input);
+//
+//                // Adapting input
+//                input = input*(-1);
+//
+//                // Conversion from int to byte
+//                input_byte = (byte) input;
+//
+//                //"setYaw((byte) input);" or:
+//                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+//                    mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
+//                }
+//
+//                error_prior = error;
+//                ////////////////////////////////////////////////////////////////////////////////
+//                ////////////////////////////////////////////////////////////////////////////////
+//            }
+//
+//
+//
+//
+//
+//
+//            if (enable_autonom_att_rep) {
+//                // Autonomous Attractive / Repulsive behaviour
+//                ////////////////////////////////////////////////////////////////////////////////
+//                ////////////////////////////////////////////////////////////////////////////////
+//
+//                // Defining constant K
+//                //--------
+//                int K = 2;
+//                //--------
+//
+//                // Defining mean_range (the approximate mean of the possible accelerometer values)
+//                //--------------------
+//                double mean_range = 3;
+//                //--------------------
+//
+//                // Defining the number of iterations (over which we will take the mean of the acceleration values)
+//                //-------------
+//                int Niter = 10;
+//                //-------------
+//
+//
+//                // Taking the mean of acc_watch over some iterations
+//
+//                sum_acc += acc_watch;
+//
+//                iter += 1;
+//
+//                if (iter == Niter) {
+//
+//                    double acc_average = sum_acc / Niter;
+//
+//                    // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+//                    double pitch_input = (acc_average - mean_range)*(-K);
+//
+//                    // Conversion from double to byte
+//                    pitch_byte = (byte) pitch_input;
+//
+//
+//                    iter = 1;
+//                    sum_acc = 0;
+//
+//                }
+//
+//                double diff_angle_y = lat_watch - lat_bebop;
+//                double diff_angle_x = long_watch - long_bebop;
+//
+//                dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
+//                Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
+//
+//                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 5)) {
+//                    mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+//                }
+//
+//                ////////////////////////////////////////////////////////////////////////////////
+//                ////////////////////////////////////////////////////////////////////////////////
+//            }
+//
+//
+//
+//            if (enable_path_1) {
+//
+//                // Going full path LEFT
+//                if ((System.currentTimeMillis() < endTime_left) && (keepGoing)) {
+//                    setRoll((byte) -power);
+//                    setFlag((byte) 1);
+//                }
+//
+//                // Wait a bit...
+//                if ((System.currentTimeMillis() > endTime_left) && (System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
+//                    setRoll((byte) 0);
+//                    setFlag((byte) 0);
+//                }
+//
+//
+//                // Going full path RIGHT
+//                if ((System.currentTimeMillis() > endTime_wait) && (System.currentTimeMillis() < endTime_right) && (keepGoing)) {
+//                    setRoll((byte) power);
+//                    setFlag((byte) 1);
+//
+//                }
+//
+//                // Wait a bit...
+//                if ((System.currentTimeMillis() > endTime_right) && (System.currentTimeMillis() < endTime_wait_2) && (keepGoing)) {
+//                    setRoll((byte) 0);
+//                    setFlag((byte) 0);
+//                }
+//
+//                if (System.currentTimeMillis() > endTime_wait_2) {
+//                    if (cycles > 1) {
+//                        set_path_1(true, cycles-1);
+//                    } else {
+//                        enable_path_1 = false;
+//                    }
+//                }
+//
+//
+//
+//
+//            }
+
+
+
+
+
+
+
 
 
         }
@@ -524,10 +1103,37 @@ public class BebopDrone {
     public void takePicture() {
         Log.i(TAG, "entering takePicture of class BebopDrone");
 
+        // Setting the format of the pictures to "snapshot"
+        // type (enum): The type of photo format
+        // - raw: Take raw image
+        // - jpeg: Take a 4:3 jpeg photo
+        // - snapshot: Take a 16:9 snapshot from camera
+        // - jpeg_fisheye: Take jpeg fisheye image only
+        //mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM)type);
+
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
         }
     }
+
+
+    public void takeVideo() {
+        Log.i(TAG, "entering takeVideo of class BebopDrone");
+
+        // Configure timelapse mode
+        // - enabled (u8): 1 if timelapse is enabled, 0 otherwise
+        // - interval (float): interval in seconds for taking pictures
+        //
+        mDeviceController.getFeatureARDrone3().sendPictureSettingsTimelapseSelection(timelapse_enabled, timelapse_interval);
+
+        // Video (or timelapse if enabled) record
+        // record (enum): Command to record video (or timelapse)
+        // - stop: Stop the video recording
+        // - start: Start the video recording
+        //mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2((ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM)record);
+
+    }
+
 
     /**
      * Set the forward/backward angle of the drone
