@@ -50,6 +50,10 @@ import ch.epfl.concertdrone.BuildConfig;
 import ch.epfl.concertdrone.WearService;
 import ch.epfl.concertdrone.activity.ManualFlightActivity;
 
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_START;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM.ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_STOP;
+import static com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM.ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_SNAPSHOT;
+
 public class BebopDrone {
     private static final String TAG = "BebopDrone";
     private final List<Listener> mListeners;
@@ -124,16 +128,8 @@ public class BebopDrone {
 
 
 
-    ////// Declarations for taking pictures and videos
-    //private final enum snapshot;
-    private static byte timelapse_enabled = 0;   // 0 = disabled, 1 = enabled
-    private static float timelapse_interval = 5; // in [s]
 
 
-
-
-    public enum type {raw, jpeg, snapshot, jpeg_fisheye};
-    public enum record {stop, start};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,6 +291,12 @@ public class BebopDrone {
     private static long endTime_down_square;
     private static long endTime_wait_4_square;
 
+
+
+    // Declarations for taking the pictures and videos
+    private static boolean takeVideoButton_pressed = true;
+    private static byte timelapse_enabled = 0;   // 0 = disabled, 1 = enabled
+    private static float timelapse_interval = 5; // in [s]
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -540,6 +542,13 @@ public class BebopDrone {
 
 
 
+
+
+
+
+                    // Paths
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
                     // Enabling path 1
                     if (enable_path_1) {
                         Log.i(TAG, "entered enable_path_1: "+keepGoing);
@@ -757,185 +766,13 @@ public class BebopDrone {
                         keepGoing = true;
 
                     }
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
 
 
 
                 }
             }
-
-
-            //float roll_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_ROLL)).doubleValue();
-            //float pitch_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_PITCH)).doubleValue();
-//            yaw_bebop = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_ATTITUDECHANGED_YAW)).doubleValue();
-
-
-
-//            if (enable_autonom_yaw) {
-//
-//                yaw_bebop = (float) (yaw_bebop*180/Math.PI - 90)*(-1);
-//                if (yaw_bebop > 180 && yaw_bebop < 270) {
-//                    yaw_bebop = (float) -180 + (yaw_bebop-180);
-//                }
-//
-//                Log.i(TAG, "Yaw yaw_degree Yaw [degree]: "+yaw_bebop); // Originally: 0° = facing North; 90° = facing East; +180° or -180° = facing South; -90° = facing West
-//                // For me: 0° = facing East; 90° = facing North
-//
-//                // Yaw Controller
-//                // /!\ uncomment this part if you want the drone to automatically orient in a
-//                // direction you want (cf. "yaw_target")
-//                ////////////////////////////////////////////////////////////////////////////////
-//                ////////////////////////////////////////////////////////////////////////////////
-//
-//                // Continuous computation of yaw_target
-//                Log.i(TAG, "GPS DRONE: "+lat_bebop+" "+long_bebop);
-//                Log.i(TAG, "GPS WATCH: "+lat_watch+" "+long_watch);
-//
-//                double diff_y = lat_watch - lat_bebop;
-//                double diff_x = long_watch - long_bebop;
-//                yaw_target = (float) ((float) Math.atan2(diff_y,diff_x)*180.0/Math.PI);
-//                Log.i(TAG, "test_yaw_target YAW TARGET: "+yaw_target);
-//                Log.i(TAG, "test_yaw_target YAW BEBOP: "+yaw_bebop);
-//
-//                error = yaw_target - yaw_bebop;
-//                Log.i(TAG, "Yaw yaw_error error yawController: " + error);
-//
-//
-//                derivative = (error - error_prior)/iteration_time;
-//
-//                // Controller input calculation
-//                input = (int) (KP*error + KD*derivative + bias);
-//                //input = (int) (KP*error);
-//                if (input > 100) {
-//                    input = 100;
-//                }
-//                if (input < -100) {
-//                    input = -100;
-//                }
-//                Log.i(TAG, "Yaw yaw_input input yawController: " + input);
-//
-//                // Adapting input
-//                input = input*(-1);
-//
-//                // Conversion from int to byte
-//                input_byte = (byte) input;
-//
-//                //"setYaw((byte) input);" or:
-//                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-//                    mDeviceController.getFeatureARDrone3().setPilotingPCMDYaw(input_byte);
-//                }
-//
-//                error_prior = error;
-//                ////////////////////////////////////////////////////////////////////////////////
-//                ////////////////////////////////////////////////////////////////////////////////
-//            }
-//
-//
-//
-//
-//
-//
-//            if (enable_autonom_att_rep) {
-//                // Autonomous Attractive / Repulsive behaviour
-//                ////////////////////////////////////////////////////////////////////////////////
-//                ////////////////////////////////////////////////////////////////////////////////
-//
-//                // Defining constant K
-//                //--------
-//                int K = 2;
-//                //--------
-//
-//                // Defining mean_range (the approximate mean of the possible accelerometer values)
-//                //--------------------
-//                double mean_range = 3;
-//                //--------------------
-//
-//                // Defining the number of iterations (over which we will take the mean of the acceleration values)
-//                //-------------
-//                int Niter = 10;
-//                //-------------
-//
-//
-//                // Taking the mean of acc_watch over some iterations
-//
-//                sum_acc += acc_watch;
-//
-//                iter += 1;
-//
-//                if (iter == Niter) {
-//
-//                    double acc_average = sum_acc / Niter;
-//
-//                    // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-//                    double pitch_input = (acc_average - mean_range)*(-K);
-//
-//                    // Conversion from double to byte
-//                    pitch_byte = (byte) pitch_input;
-//
-//
-//                    iter = 1;
-//                    sum_acc = 0;
-//
-//                }
-//
-//                double diff_angle_y = lat_watch - lat_bebop;
-//                double diff_angle_x = long_watch - long_bebop;
-//
-//                dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
-//                Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
-//
-//                if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 5)) {
-//                    mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-//                }
-//
-//                ////////////////////////////////////////////////////////////////////////////////
-//                ////////////////////////////////////////////////////////////////////////////////
-//            }
-//
-//
-//
-//            if (enable_path_1) {
-//
-//                // Going full path LEFT
-//                if ((System.currentTimeMillis() < endTime_left) && (keepGoing)) {
-//                    setRoll((byte) -power);
-//                    setFlag((byte) 1);
-//                }
-//
-//                // Wait a bit...
-//                if ((System.currentTimeMillis() > endTime_left) && (System.currentTimeMillis() < endTime_wait) && (keepGoing)) {
-//                    setRoll((byte) 0);
-//                    setFlag((byte) 0);
-//                }
-//
-//
-//                // Going full path RIGHT
-//                if ((System.currentTimeMillis() > endTime_wait) && (System.currentTimeMillis() < endTime_right) && (keepGoing)) {
-//                    setRoll((byte) power);
-//                    setFlag((byte) 1);
-//
-//                }
-//
-//                // Wait a bit...
-//                if ((System.currentTimeMillis() > endTime_right) && (System.currentTimeMillis() < endTime_wait_2) && (keepGoing)) {
-//                    setRoll((byte) 0);
-//                    setFlag((byte) 0);
-//                }
-//
-//                if (System.currentTimeMillis() > endTime_wait_2) {
-//                    if (cycles > 1) {
-//                        set_path_1(true, cycles-1);
-//                    } else {
-//                        enable_path_1 = false;
-//                    }
-//                }
-//
-//
-//
-//
-//            }
-
-
-
 
 
 
@@ -1110,9 +947,21 @@ public class BebopDrone {
         // - snapshot: Take a 16:9 snapshot from camera
         // - jpeg_fisheye: Take jpeg fisheye image only
         //mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_ENUM)type);
+        mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_SNAPSHOT));
+
+
+
 
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
+            Log.i(TAG,"entering takePicture - mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2()");
+
+
+            // Test to take picture
+            mDeviceController.getFeatureARDrone3().sendMediaRecordPicture((byte)0);
+
+
+
         }
     }
 
@@ -1120,17 +969,36 @@ public class BebopDrone {
     public void takeVideo() {
         Log.i(TAG, "entering takeVideo of class BebopDrone");
 
+
         // Configure timelapse mode
         // - enabled (u8): 1 if timelapse is enabled, 0 otherwise
         // - interval (float): interval in seconds for taking pictures
         //
         mDeviceController.getFeatureARDrone3().sendPictureSettingsTimelapseSelection(timelapse_enabled, timelapse_interval);
 
-        // Video (or timelapse if enabled) record
-        // record (enum): Command to record video (or timelapse)
-        // - stop: Stop the video recording
-        // - start: Start the video recording
-        //mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2((ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM)record);
+
+        if (takeVideoButton_pressed == true) {
+            // Start recording
+
+            // Video (or timelapse if enabled) record
+            // record (enum): Command to record video (or timelapse)
+            // - stop: Stop the video recording
+            // - start: Start the video recording
+            //mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2((ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_ENUM)record);
+            mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2(ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_START);
+            Log.i(TAG,"start recording video");
+
+            takeVideoButton_pressed = false;
+
+        } else { // takeVideoButton_pressed == false
+            // Stop recording
+
+            mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2(ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_STOP);
+            Log.i(TAG,"stop recording video");
+
+
+            takeVideoButton_pressed = true;
+        }
 
     }
 
