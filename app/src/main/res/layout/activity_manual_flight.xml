@@ -190,6 +190,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="314dp"
         android:layout_marginBottom="217dp"
+        android:onClick="onClick_enable_path_2"
         android:text="test path 2" />
 
     <Button
@@ -200,6 +201,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="314dp"
         android:layout_marginBottom="158dp"
+        android:onClick="onClick_enable_path_3"
         android:text="test path 3" />
 
     <Button

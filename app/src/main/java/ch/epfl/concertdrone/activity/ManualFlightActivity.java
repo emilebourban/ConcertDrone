@@ -187,9 +187,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //private final int power = 15;
     //private final int duration = 4000; // [ms]
-    private final int cycles_button = 1;
+    private final int cycles_button = 2;
     // Boolean to eventually exit paths
-    boolean keepGoing = true;
+    boolean keepGoing = false;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final String TAG = "ManualFlightActivity";
@@ -1001,14 +1001,35 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
     private boolean enable_path_1_button = false;
     public void onClick_enable_path_1(View view) {
-        // Toggling the button
+        // Enabling path 1 in any case
         if (enable_path_1_button == false) {
             enable_path_1_button = true;
-        } else {
-            enable_path_1_button = false;
         }
         mBebopDrone.set_path_1(enable_path_1_button, cycles_button);
 
+    }
+
+
+
+    private boolean enable_path_2_button = false;
+    public void onClick_enable_path_2(View view) {
+        // Enabling path 2 in any case
+        if (enable_path_2_button == false) {
+            enable_path_2_button = true;
+        }
+        mBebopDrone.set_path_2(enable_path_2_button, cycles_button);
+
+    }
+
+
+
+    private boolean enable_path_3_button = false;
+    public void onClick_enable_path_3(View view) {
+        // Enabling path 3 in any case
+        if (enable_path_3_button == false) {
+            enable_path_3_button = true;
+        }
+        mBebopDrone.set_path_3(enable_path_3_button, cycles_button);
     }
 
 
@@ -1019,12 +1040,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
     public void exitPath(View view) {
-        // Toggling the Boolean "keepGoing"
-        if (keepGoing == false) {
-            keepGoing = true;
-        } else {
+        // Setting the Boolean "keepGoing" to false
+        if (keepGoing == true) {
             keepGoing = false;
         }
+
         mBebopDrone.set_exitPath(keepGoing);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
