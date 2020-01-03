@@ -52,6 +52,7 @@ public class InitialActivity extends AppCompatActivity {
 
     public void OpenWifiSettings(View view) {
         // Leads to wifi settings in order to eventually connect to the drone if it doesn't do it automatically
+        // --> cf.: http://www.coderzheaven.com/2011/09/18/how-to-open-wifi-settings-in-android/
         final Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings");
