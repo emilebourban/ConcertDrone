@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +22,7 @@ public class InitialActivity extends AppCompatActivity {
     private static final int START_DEVICE_LIST = 1;
 
     public static final int RESULT_GALLERY = 0;
-
+    Button ButtonDebug;
 
 
     @Override
@@ -28,9 +31,37 @@ public class InitialActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+        ButtonDebug = findViewById(R.id.buttonAutonomus);
+        ButtonDebug.setVisibility(View.INVISIBLE);
     }
 
+    //Pour le menu
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.layout, menu);
+        return true;
+    }
+    //Pour les dialog https://developer.android.com/guide/topics/ui/dialogs
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                openDialog();
 
+                ButtonDebug.setVisibility(View.VISIBLE);
+                return true;
+            case R.id.action_gallery:
+                Intent galleryIntent = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent , RESULT_GALLERY );
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void openDialog() {
+        BlancDialog exampleDialog = new BlancDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+    }
     // XML callback of the button of MainActivity
     // (leading from MainActivity to PlayActivity)
     public void StartDeviceListActivity(View view) {
