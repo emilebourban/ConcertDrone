@@ -78,6 +78,11 @@ public class AutonomousFlightActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onCyclesChanged(int cyclesNumber) {
+
+        }
+
+        @Override
         public void onPilotingStateChanged(ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_ENUM state) {
             Log.i(TAG, "entering onPilotingStateChanged ManualFlightActivity");
 

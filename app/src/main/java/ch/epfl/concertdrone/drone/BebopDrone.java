@@ -313,8 +313,10 @@ public class BebopDrone {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
+    //getter of nomber of cycles (Yann)
+    public int getCycles(){
+        return cycles;
+    }
 
 
 
@@ -773,6 +775,13 @@ public class BebopDrone {
                                 enable_path_3 = false;
                                 keepGoing = false;
                             }
+
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {//Yann a effacer
+                                    notifyCyclesChanged(cycles);
+                                }
+                            });
                         }
 
                     }
@@ -1176,6 +1185,14 @@ public class BebopDrone {
         }
     }
 
+    private void notifyCyclesChanged(int cycles) {
+        Log.i(TAG, "entering notifyBatteryChanged of class BebopDrone");
+
+        List<Listener> listenersCpy = new ArrayList<>(mListeners);
+        for (Listener listener : listenersCpy) {
+            listener.onCyclesChanged(cycles);
+        }
+    }
     private void notifyBatteryChanged(int battery) {
         Log.i(TAG, "entering notifyBatteryChanged of class BebopDrone");
 
@@ -1268,6 +1285,14 @@ public class BebopDrone {
          * @param batteryPercentage the battery remaining (in percent)
          */
         void onBatteryChargeChanged(int batteryPercentage);
+
+        /**
+         * Called when the cicles change
+         * Called in the main thread
+         *
+         * @param cyclesNumber are the cycle of the path selected remaining
+         */
+        void onCyclesChanged(int cyclesNumber);
 
         /**
          * Called when the piloting state changes

@@ -1,5 +1,7 @@
 package ch.epfl.concertdrone.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -66,7 +69,20 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     //For the send a message (string) to the watch (optional)
     public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
 
+    //Pour les notifications (YANN)
+    private NotificationCompat.Builder mNotifyBuilder;
+    private NotificationManager mNotificationManager;
+    private static final int NOTIFICATION_ID=0;
 
+    public void callNotificationCycleLeft(){//called in fonction line numeber 278
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("Only 1 path cycle left");
+        mNotifyBuilder.setContentText("The drone will leave the autonomus path after next path.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotificationManager.notify(NOTIFICATION_ID,myNotification);
+    }
 
 
     // Declarations Antho for paths
@@ -253,6 +269,15 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
         }
 
+        //Cycles //Yann
+        @Override
+        public void onCyclesChanged(int cycles) {
+            Log.i(TAG, "entering onBatteryChargeChanged ManualFlightActivity");
+            if(cycles==2){
+                callNotificationCycleLeft();
+            }
+        }
+
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
             Log.i(TAG, "entering onBatteryChargeChanged ManualFlightActivity");
@@ -367,8 +392,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         mBebopDrone = new BebopDrone(this, service);
         mBebopDrone.addListener(mBebopListener);
 
-
-
+        //Notification YANN
+        mNotificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
