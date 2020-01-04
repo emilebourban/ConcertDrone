@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,7 +71,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
     // Declarations Antho for paths
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private final int cycles_button = 2;
+    //private final int cycles_button = 2;
     // Boolean to eventually exit paths
     boolean keepGoing = false;
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,12 +84,23 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Defining the number of iterations (over which we will take the mean of the acceleration values)
     //-------------
-    int Niter = 100;
+    int Niter = 5;
     //-------------
     private static int iter = 1;
     private static double sum_acc = 0;
     private static double acc_average = 0;
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    // Declaration Antho Picture - Timelapse - Video
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private static int numberOfPicturesTaken = 0;
+    private static int numberOfVideosTaken = 0;
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 
@@ -486,13 +498,24 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         findViewById(R.id.takePictureBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                numberOfPicturesTaken += 1;
+                TextView numberOfPicturesTakenTextView = findViewById(R.id.number_of_pictures_taken);
+                numberOfPicturesTakenTextView.setText(numberOfPicturesTaken);
+
                 mBebopDrone.takePicture();
             }
         });
 
         findViewById(R.id.takeVideoBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mBebopDrone.takeVideo();
+                numberOfVideosTaken += 1;
+                TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);
+                numberOfVideosTakenTextView.setText(numberOfVideosTaken);
+
+                EditText EditTextTimeInterval  = findViewById(R.id.editTimeInterval);
+                int timeInterval = Integer.valueOf(EditTextTimeInterval.getText().toString());
+
+                mBebopDrone.takeVideo(timeInterval);
             }
         });
 
@@ -733,15 +756,15 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
         });
 
-        findViewById(R.id.startAutonomousBt).setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                mVideoView.deInit();
-                Intent intentStartActivity = new Intent(ManualFlightActivity.this, AutonomousFlightActivity.class);
-                startActivityForResult(intentStartActivity, START_DEVICE_LIST);
-            }
-        });
+//        findViewById(R.id.startAutonomousBt).setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                mVideoView.deInit();
+//                Intent intentStartActivity = new Intent(ManualFlightActivity.this, AutonomousFlightActivity.class);
+//                startActivityForResult(intentStartActivity, START_DEVICE_LIST);
+//            }
+//        });
 
         mBatteryLabel = (TextView) findViewById(R.id.batteryLabel);
     }
@@ -765,7 +788,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         if (enable_path_1_button == false) {
             enable_path_1_button = true;
         }
-        mBebopDrone.set_path_1(enable_path_1_button, cycles_button);
+
+        EditText editNumberOfCycles = findViewById(R.id.editCycles);
+        int numberOfCycles = Integer.valueOf(editNumberOfCycles.getText().toString());
+
+        mBebopDrone.set_path_1(enable_path_1_button, numberOfCycles);
 
     }
 
@@ -777,7 +804,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         if (enable_path_2_button == false) {
             enable_path_2_button = true;
         }
-        mBebopDrone.set_path_2(enable_path_2_button, cycles_button);
+
+        EditText editNumberOfCycles = findViewById(R.id.editCycles);
+        int numberOfCycles = Integer.valueOf(editNumberOfCycles.getText().toString());
+
+        mBebopDrone.set_path_2(enable_path_2_button, numberOfCycles);
 
     }
 
@@ -789,7 +820,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         if (enable_path_3_button == false) {
             enable_path_3_button = true;
         }
-        mBebopDrone.set_path_3(enable_path_3_button, cycles_button);
+
+        EditText editNumberOfCycles = findViewById(R.id.editCycles);
+        int numberOfCycles = Integer.valueOf(editNumberOfCycles.getText().toString());
+
+        mBebopDrone.set_path_3(enable_path_3_button, numberOfCycles);
     }
 
 
@@ -820,11 +855,17 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     // Enable autonomous yaw tracking
     private boolean enable_autonom_yaw = false;
     public void onClick_enable_autonom_yaw(View view) {
+        Button buttonAutonomYaw = findViewById(R.id.button_autonom_yaw);
+
         // Toggling the button
         if (enable_autonom_yaw == false) {
             enable_autonom_yaw = true;
+            buttonAutonomYaw.setTextColor(Color.GREEN);
+
         } else {
             enable_autonom_yaw = false;
+            buttonAutonomYaw.setTextColor(Color.RED);
+
         }
         mBebopDrone.set_autonom_yaw(enable_autonom_yaw);
     }
@@ -832,11 +873,15 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     // Enable autonomous attractive / repulsive behaviour
     private boolean enable_autonom_att_rep = false;
     public void onClick_enable_autonom_att_rep(View view) {
+        Button buttonAutonomAttRep = findViewById(R.id.button_autonom_att_rep);
+
         // Toggling the button
         if (enable_autonom_att_rep == false) {
             enable_autonom_att_rep = true;
+            buttonAutonomAttRep.setTextColor(Color.GREEN);
         } else {
             enable_autonom_att_rep = false;
+            buttonAutonomAttRep.setTextColor(Color.RED);
         }
         mBebopDrone.set_autonom_att_rep(enable_autonom_att_rep);
     }

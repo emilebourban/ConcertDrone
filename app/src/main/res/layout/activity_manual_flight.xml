@@ -28,6 +28,47 @@
         android:layout_alignParentRight="true"
         android:width="150dp"/>
 
+    <TextView
+        android:id="@+id/number_of_pictures_taken_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="800dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Number of pic:" />
+
+
+    <TextView
+        android:id="@+id/number_of_pictures_taken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="910dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/number_of_videos_taken_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="800dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Number of vid:" />
+
+
+    <TextView
+        android:id="@+id/number_of_videos_taken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="910dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="" />
+
+
+
 
     <Button
         android:id="@+id/takeVideoBt"
@@ -239,6 +280,18 @@
         android:text="exit_path" />
 
 
+    <EditText
+        android:id="@+id/editCycles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="314dp"
+        android:layout_marginBottom="60dp"
+        android:text="Number of cycles" />
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -267,16 +320,11 @@
             android:layout_height="wrap_content"
             android:onClick="onClick_enable_autonom_yaw"
             android:text="autonom_yaw"
+            android:background="@drawable/bg_button"
             app:layout_constraintBottom_toTopOf="@+id/buttonHP"
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <Button
-            android:id="@+id/startAutonomousBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/button_autonom_yaw"
-            android:text="Autonomous mode" />
 
 
         <Button
@@ -285,6 +333,7 @@
             android:layout_height="wrap_content"
             android:onClick="onClick_enable_autonom_att_rep"
             android:text="autonom_att_rep"
+            android:background="@drawable/bg_button"
             app:layout_constraintLeft_toRightOf="@+id/button_autonom_yaw"
             app:layout_constraintBottom_toTopOf="@+id/buttonHP"/>
 
@@ -297,6 +346,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
 
             <LinearLayout
                 android:layout_width="match_parent"

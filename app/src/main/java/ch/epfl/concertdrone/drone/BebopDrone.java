@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 //import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -47,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ch.epfl.concertdrone.BuildConfig;
+import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.WearService;
 import ch.epfl.concertdrone.activity.ManualFlightActivity;
 
@@ -293,10 +295,15 @@ public class BebopDrone {
 
 
 
-    // Declarations for taking the pictures and videos
+
+    // Declaration Antho Picture - Timelapse - Video
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static boolean takeVideoButton_pressed = true;
-    private static byte timelapse_enabled = 0;   // 0 = disabled, 1 = enabled
-    private static float timelapse_interval = 5; // in [s]
+    private static byte timelapse_enabled;   // 0 = disabled, 1 = enabled
+    private static float timelapse_interval; // in [s]
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -512,12 +519,12 @@ public class BebopDrone {
 
                         // Defining constant K
                         //--------
-                        int K = 20;
+                        int K = 5;
                         //--------
 
                         // Defining mean_range (the approximate mean of the possible accelerometer values)
                         //--------------------
-                        double mean_range = 1;
+                        double mean_range = 2;
                         //--------------------
 
                         // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
@@ -532,9 +539,11 @@ public class BebopDrone {
                         dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
                         Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
 
-                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 15)) { // setting distance limits between the drone and the watch in [m]
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                             // && (dist_drone_watch > 2) && (dist_drone_watch < 15)
+                            // setting distance limits between the drone and the watch in [m]
                             mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-                            Log.i(TAG, "pitch input: "+ pitch_byte);
+                            Log.i(TAG, "pitch_byte: "+ pitch_byte);
                         }
 
                         ////////////////////////////////////////////////////////////////////////////////
@@ -957,9 +966,8 @@ public class BebopDrone {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
             Log.i(TAG,"entering takePicture - mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2()");
 
-
             // Test to take picture
-            mDeviceController.getFeatureARDrone3().sendMediaRecordPicture((byte)0);
+            //mDeviceController.getFeatureARDrone3().sendMediaRecordPicture((byte)0);
 
 
 
@@ -967,14 +975,18 @@ public class BebopDrone {
     }
 
 
-    public void takeVideo() {
+    public void takeVideo(int timelapse_interval) {
         Log.i(TAG, "entering takeVideo of class BebopDrone");
-
 
         // Configure timelapse mode
         // - enabled (u8): 1 if timelapse is enabled, 0 otherwise
         // - interval (float): interval in seconds for taking pictures
         //
+        if (timelapse_interval == 0){ // activating video mode
+            timelapse_enabled = 0;
+        } else {                      // activating timelapse mode
+            timelapse_enabled = 1;
+        }
         mDeviceController.getFeatureARDrone3().sendPictureSettingsTimelapseSelection(timelapse_enabled, timelapse_interval);
 
 
