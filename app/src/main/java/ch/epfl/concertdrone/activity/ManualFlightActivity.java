@@ -13,10 +13,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,6 +95,10 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         Notification myNotification=mNotifyBuilder.build();
         mNotificationManager.notify(NOTIFICATION_ID,myNotification);
     }
+
+    //Cronometer
+    Chronometer simpleChronometer;
+
 
 
     // Declarations Antho for paths
@@ -195,17 +201,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    //Buton to try the correct communication between Watch and Tablet
-    public void onClickTryComunication(View view) {
-        Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();//Debug
-        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
-        //For debugging, it stop the Sensors comunication
-        stopRecordingOnWear();
-    }
-    //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
-    public void onClickStartSensors(View view) {
-        startRecordingOnWear();
-    }
 
 
     //Sensor Received Location (NECESSARRY)
@@ -399,6 +394,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         initIHM();
 
+        //For the comunication with the watch
+        Toast.makeText(getApplicationContext(), "Conecxion with the watch", Toast.LENGTH_SHORT).show();//Debug
+        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
         startRecordingOnWear();//initialization of the sensor of the watch YANN
 
         Intent intent = getIntent();
@@ -408,6 +406,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         //Notification YANN
         mNotificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        simpleChronometer = findViewById(R.id.simpleChronometer);//pour le cronometre
     }
 
     @Override
@@ -552,7 +551,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                 Button takeVideoButton = findViewById(R.id.takeVideoBt);
 
 
+
+
+
                 if (takeVideoBtClicked == true) { // recording
+                    simpleChronometer.start();//start le cronometre
                     numberOfVideosTaken += 1;
                     takeVideoBtClicked = false;
                     takeVideoButton.setText("Recording...");
@@ -561,6 +564,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                     takeVideoBtClicked = true;
                     takeVideoButton.setText("Record");
                     takeVideoButton.setTextColor(Color.BLACK);
+
+                    simpleChronometer.stop();//Stop le cronometre
+                    simpleChronometer.setBase(SystemClock.elapsedRealtime());//reset le cronometre
                 }
 
                 TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);

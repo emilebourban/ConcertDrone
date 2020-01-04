@@ -56,6 +56,16 @@ public class InitialActivity extends AppCompatActivity {
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent , RESULT_GALLERY );
                 return true;
+
+            case R.id.action_wifi:
+                // Leads to wifi settings in order to eventually connect to the drone if it doesn't do it automatically
+                // --> cf.: http://www.coderzheaven.com/2011/09/18/how-to-open-wifi-settings-in-android/
+                final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings");
+                intent.setComponent(cn);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity( intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -75,7 +85,7 @@ public class InitialActivity extends AppCompatActivity {
 
 
 
-
+/*
     public void OpenWifiSettings(View view) {
         // Leads to wifi settings in order to eventually connect to the drone if it doesn't do it automatically
         // --> cf.: http://www.coderzheaven.com/2011/09/18/how-to-open-wifi-settings-in-android/
@@ -86,7 +96,7 @@ public class InitialActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity( intent);
     }
-
+*/
 
 
     //For debugging, acces to AutonomousFlightActivity without pass to Device ListaActivty

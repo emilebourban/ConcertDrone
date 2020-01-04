@@ -14,8 +14,10 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +63,9 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     private NotificationManager mNotifyManager;
     private static final int NOTIFICATION_ID=0;
 
+    //Cronometer
+    Chronometer simpleChronometer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +73,12 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_debug_autonomous_flight);//Is a copy of the true activity
 
         mNotifyManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        simpleChronometer = findViewById(R.id.simpleChronometer);
     }
 
 
     public void callNotification1(){
+        simpleChronometer.start();
         mNotifyBuilder = new NotificationCompat.Builder(this);
         mNotifyBuilder.setContentTitle("That Notifcation");
         mNotifyBuilder.setContentText("That message");
@@ -107,6 +114,8 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
 
     //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
     public void onClickStartSensors(View view) {
+        simpleChronometer.stop();
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
         startRecordingOnWear();
     }
 

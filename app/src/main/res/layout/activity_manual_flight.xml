@@ -98,6 +98,24 @@
         android:text="0"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Chronometer
+        android:id="@+id/simpleChronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gazUpBt"
+        android:layout_below="@+id/takePictureBt"
+        android:layout_marginStart="-109dp"
+        android:layout_marginTop="-28dp"
+        android:layout_marginEnd="116dp"
+        android:layout_marginBottom="350dp"
+        android:layout_toStartOf="@+id/takePictureBt"
+        android:layout_toEndOf="@+id/emergencyBt"
+        android:background="#FFF"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#0A0EFF"
+        android:textStyle="bold" />
+
 
 
     <Button
@@ -315,45 +333,25 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/buttonComunication"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickTryComunication"
-            android:text="Try"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/buttonHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickStartSensors"
-            android:text="HP"
-            app:layout_constraintBottom_toTopOf="@+id/buttonComunication"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
             android:id="@+id/button_autonom_yaw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_button"
             android:onClick="onClick_enable_autonom_yaw"
             android:text="autonom_yaw"
-            android:background="@drawable/bg_button"
-            app:layout_constraintBottom_toTopOf="@+id/buttonHP"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="817dp" />
 
 
         <Button
             android:id="@+id/button_autonom_att_rep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_button"
             android:onClick="onClick_enable_autonom_att_rep"
             android:text="autonom_att_rep"
-            android:background="@drawable/bg_button"
             app:layout_constraintLeft_toRightOf="@+id/button_autonom_yaw"
-            app:layout_constraintBottom_toTopOf="@+id/buttonHP"/>
+            tools:layout_editor_absoluteY="817dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
