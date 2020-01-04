@@ -273,6 +273,18 @@
                     android:layout_height="wrap_content"
                     android:text="Acceleration"
                     android:textColor="#0A0EFF" />
+                <Chronometer
+                    android:id="@+id/simpleChronometer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/clearFormat"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="#FFF"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="#0A0EFF"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

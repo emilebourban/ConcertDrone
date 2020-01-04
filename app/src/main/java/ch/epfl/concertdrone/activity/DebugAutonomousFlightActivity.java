@@ -1,8 +1,11 @@
 package ch.epfl.concertdrone.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
+import ch.epfl.concertdrone.drone.BebopDrone;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +14,10 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,12 +57,40 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
     private static final String TAG = "DebugAutonomousFlight" ;
 
+    //Pour les notifications
+    //Notifcation
+    private NotificationCompat.Builder mNotifyBuilder;
+    private NotificationManager mNotifyManager;
+    private static final int NOTIFICATION_ID=0;
+
+    //Cronometer
+    Chronometer simpleChronometer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_autonomous_flight);
         setContentView(R.layout.activity_debug_autonomous_flight);//Is a copy of the true activity
+
+        mNotifyManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        simpleChronometer = findViewById(R.id.simpleChronometer);
     }
+
+
+    public void callNotification1(){
+        simpleChronometer.start();
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("That Notifcation");
+        mNotifyBuilder.setContentText("That message");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_delete);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+    }
+
+
+
+
 
     //Buton To try the correct comunication between Wacht and Tablette
     public void onClickTryComunication(View view) {
@@ -65,6 +98,8 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
         //For debugging, it stop the Sensors comunication
         stopRecordingOnWear();
+
+        callNotification1();
     }
 
 
@@ -79,6 +114,8 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
 
     //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
     public void onClickStartSensors(View view) {
+        simpleChronometer.stop();
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
         startRecordingOnWear();
     }
 

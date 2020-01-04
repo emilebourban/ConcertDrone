@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@mipmap/ic_launcher_round"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
@@ -17,25 +17,39 @@
             android:id="@+id/textCom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="En attente de la Tablete"
+            android:text="@string/WaitingString"
+            android:textSize="15dp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+            app:layout_constraintTop_toBottomOf="@+id/text"
+            app:layout_constraintVertical_bias="0.17000002" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:textColor="@color/black"
+            android:text="@string/hello_message"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.32999998" />
 
-    </FrameLayout>
+        <Space
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.wear.widget.BoxInsetLayout>

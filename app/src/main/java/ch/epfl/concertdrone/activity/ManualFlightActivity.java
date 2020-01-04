@@ -1,5 +1,7 @@
 package ch.epfl.concertdrone.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,15 +13,18 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.parrot.arsdk.arcommands.ARCOMMANDS_ARDRONE3_MEDIARECORDEVENT_PICTUREEVENTCHANGED_ERROR_ENUM;
@@ -66,6 +71,33 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     //For the send a message (string) to the watch (optional)
     public static final String DEBUG_ACTIVTY_SEND = "DEBUG_ACTIVTY_SEND";
 
+    //Pour les notifications (YANN)
+    private NotificationCompat.Builder mNotifyBuilder;
+    private NotificationManager mNotificationManager;
+    private static final int NOTIFICATION_ID=0;
+
+    public void callNotificationCycleLeft(){//called in fonction line numeber 278
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("Only 1 path cycle left");
+        mNotifyBuilder.setContentText("The drone will leave the autonomus path after next path.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotificationManager.notify(NOTIFICATION_ID,myNotification);
+    }
+
+    private void callNotificationLowBatery() {
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("Drone Low Batery");
+        mNotifyBuilder.setContentText("Is recomended to land the drone.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_lock_idle_low_battery);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotificationManager.notify(NOTIFICATION_ID,myNotification);
+    }
+
+    //Cronometer
+    Chronometer simpleChronometer;
 
 
 
@@ -192,17 +224,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    //Buton to try the correct communication between Watch and Tablet
-    public void onClickTryComunication(View view) {
-        Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();//Debug
-        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
-        //For debugging, it stop the Sensors comunication
-        stopRecordingOnWear();
-    }
-    //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
-    public void onClickStartSensors(View view) {
-        startRecordingOnWear();
-    }
 
 
     //Sensor Received Location (NECESSARRY)
@@ -276,11 +297,24 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
         }
 
+        //Cycles //Yann
+        @Override
+        public void onCyclesChanged(int cycles) {
+            Log.i(TAG, "entering onCyclesChanged ManualFlightActivity");
+            Toast.makeText(getApplicationContext(), String.format("Cycles Left: %d",cycles), Toast.LENGTH_SHORT).show();//Debug
+            if(cycles==2){
+                callNotificationCycleLeft();
+            }
+        }
+
         @Override
         public void onBatteryChargeChanged(int batteryPercentage) {
             Log.i(TAG, "entering onBatteryChargeChanged ManualFlightActivity");
 
             mBatteryLabel.setText(String.format("%d%%", batteryPercentage));
+            if(batteryPercentage>10){
+                callNotificationLowBatery();
+            }
         }
 
         @Override
@@ -383,6 +417,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         initIHM();
 
+        //For the comunication with the watch
+        Toast.makeText(getApplicationContext(), "Conecxion with the watch", Toast.LENGTH_SHORT).show();//Debug
+        sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
         startRecordingOnWear();//initialization of the sensor of the watch YANN
 
         Intent intent = getIntent();
@@ -390,8 +427,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         mBebopDrone = new BebopDrone(this, service);
         mBebopDrone.addListener(mBebopListener);
 
-
-
+        //Notification YANN
+        mNotificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        simpleChronometer = findViewById(R.id.simpleChronometer);//pour le cronometre
     }
 
     @Override
@@ -536,7 +574,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                 Button takeVideoButton = findViewById(R.id.takeVideoBt);
 
 
+
+
+
                 if (takeVideoBtClicked == true) { // recording
+                    simpleChronometer.start();//start le cronometre
                     numberOfVideosTaken += 1;
                     takeVideoBtClicked = false;
                     takeVideoButton.setText("Recording...");
@@ -545,6 +587,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                     takeVideoBtClicked = true;
                     takeVideoButton.setText("Record");
                     takeVideoButton.setTextColor(Color.BLACK);
+
+                    simpleChronometer.stop();//Stop le cronometre
+                    simpleChronometer.setBase(SystemClock.elapsedRealtime());//reset le cronometre
                 }
 
                 TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);
