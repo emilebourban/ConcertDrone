@@ -84,6 +84,16 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         mNotificationManager.notify(NOTIFICATION_ID,myNotification);
     }
 
+    private void callNotificationLowBatery() {
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("Drone Low Batery");
+        mNotifyBuilder.setContentText("Is recomended to land the drone.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_lock_idle_low_battery);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotificationManager.notify(NOTIFICATION_ID,myNotification);
+    }
+
 
     // Declarations Antho for paths
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -272,7 +282,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         //Cycles //Yann
         @Override
         public void onCyclesChanged(int cycles) {
-            Log.i(TAG, "entering onBatteryChargeChanged ManualFlightActivity");
+            Log.i(TAG, "entering onCyclesChanged ManualFlightActivity");
+            Toast.makeText(getApplicationContext(), String.format("Cycles Left: %d",cycles), Toast.LENGTH_SHORT).show();//Debug
             if(cycles==2){
                 callNotificationCycleLeft();
             }
@@ -283,6 +294,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             Log.i(TAG, "entering onBatteryChargeChanged ManualFlightActivity");
 
             mBatteryLabel.setText(String.format("%d%%", batteryPercentage));
+            if(batteryPercentage>10){
+                callNotificationLowBatery();
+            }
         }
 
         @Override
