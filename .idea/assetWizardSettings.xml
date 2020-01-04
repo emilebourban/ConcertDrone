@@ -52,6 +52,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="scalingPercent" value="102" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -61,7 +62,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$USER_HOME$/GoogleDrive/EPFL/MA1_LOADFTS&amp;S_Project/AppIcon/concert_6.png" />
+                                      <entry key="foregroundImage" value="D:\Descargas\DroneConcertIcon.png" />
                                       <entry key="outputName" value="ic_launcher_drone" />
                                     </map>
                                   </option>
