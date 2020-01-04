@@ -269,11 +269,13 @@ public class BebopDrone {
     private static byte pitch_byte;
     private static double dist_drone_watch;
     private final int Radius = 6371000; // Earth radius [m]
+    private final double minDist = 2; // min distance drone-watch of 2[m]
+    private final double maxDist = 15; // max distance drone-watch of 15[m]
 
 
     ////// Declarations for the paths
     private static int cycles;
-    private final int duration = 3000; // [ms]
+    private final int duration = 4500; // [ms]
     private final int pause = 750;     // [ms]
     private final int power = 10;
     private final int drift_correction = 1;
@@ -531,15 +533,18 @@ public class BebopDrone {
                         // Autonomous Attractive / Repulsive behaviour
                         ////////////////////////////////////////////////////////////////////////////////
                         ////////////////////////////////////////////////////////////////////////////////
+                        Log.i(TAG,"entering enable_autonom_att_rep");
 
+
+                        //-------------------------------------
                         // Defining constant K
                         //--------
-                        int K = 5;
+                        double K = 8; // 7.5
                         //--------
 
                         // Defining mean_range (the approximate mean of the possible accelerometer values)
                         //--------------------
-                        double mean_range = 2;
+                        double mean_range = 4.5; // 2.75, 3.25
                         //--------------------
 
                         // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
@@ -547,6 +552,7 @@ public class BebopDrone {
 
                         // Conversion from double to byte
                         pitch_byte = (byte) pitch_input;
+                        //-------------------------------------
 
                         double diff_angle_y = lat_watch - lat_bebop;
                         double diff_angle_x = long_watch - long_bebop;
@@ -554,12 +560,19 @@ public class BebopDrone {
                         dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
                         Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
 
-                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-                             // && (dist_drone_watch > 2) && (dist_drone_watch < 15)
-                            // setting distance limits between the drone and the watch in [m]
-                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-                            Log.i(TAG, "pitch_byte: "+ pitch_byte);
-                        }
+
+                        // setting distance limits between the drone and the watch in [m]
+                        // if (dist_drone_watch > minDist) && (dist_drone_watch < maxDist)) {...}
+                        setPitch((byte) pitch_byte);
+                        setFlag((byte) 1);
+
+                        Log.i(TAG, "    acc_mean_watch: "+ acc_mean_watch+"    pitch_byte: "+ pitch_byte);
+
+
+//                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+//                             // && (dist_drone_watch > 2) && (dist_drone_watch < 15)
+//                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+//                        }
 
                         ////////////////////////////////////////////////////////////////////////////////
                         ////////////////////////////////////////////////////////////////////////////////

@@ -89,6 +89,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private static int iter = 1;
     private static double sum_acc = 0;
     private static double acc_average = 0;
+    private static byte pitch_byte;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -156,6 +157,28 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
             //----------------
             mBebopDrone.set_acc_mean_watch(acc_average);
+
+            // Calculating pitch_byte
+            //-------------------------------------
+            // Defining constant K
+            //--------
+            double K = 8;
+            //--------
+
+            // Defining mean_range (the approximate mean of the possible accelerometer values)
+            //--------------------
+            double mean_range = 4.5;
+            //--------------------
+
+            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
+            double pitch_input = (acc_average - mean_range)*(-K);
+
+            // Conversion from double to byte
+            pitch_byte = (byte) pitch_input;
+            //-------------------------------------
+            TextView pitchByteTextView = findViewById(R.id.textViewPitchByte);
+            pitchByteTextView.setText(String.valueOf(pitch_byte));
+
 
             mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
             Log.i(TAG, (String.format("Received Acceleration --> Accel: %s Mouve: %s Acc_av: %s", acceleration,mouvement, acc_average)));
