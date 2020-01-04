@@ -35,7 +35,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginLeft="800dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Number of pic:" />
+        android:text="Pictures:" />
 
 
     <TextView
@@ -43,9 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="910dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="" />
+        android:layout_marginLeft="915dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <TextView
@@ -55,7 +54,7 @@
         android:layout_marginTop="75dp"
         android:layout_marginLeft="800dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Number of vid:" />
+        android:text="Vid and timelpse:" />
 
 
     <TextView
@@ -63,9 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:layout_marginLeft="910dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="" />
+        android:layout_marginLeft="915dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 
@@ -80,14 +78,24 @@
         android:text="Record" />
 
 
-    <EditText
-        android:id="@+id/editTimeInterval"
-        android:layout_width="130dp"
+    <TextView
+        android:id="@+id/editTimeInterval_title"
+        android:text="Time interval:"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="655dp"
-        android:text="Time interval"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <EditText
+        android:id="@+id/editTimeInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="745dp"
+        android:text="0"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
@@ -279,6 +287,16 @@
         android:onClick="exitPath"
         android:text="exit_path" />
 
+    <TextView
+        android:id="@+id/editCycles_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="320dp"
+        android:layout_marginBottom="75dp"
+        android:text="Cycles:" />
 
     <EditText
         android:id="@+id/editCycles"
@@ -287,9 +305,9 @@
         android:inputType="number"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="314dp"
+        android:layout_marginStart="370dp"
         android:layout_marginBottom="60dp"
-        android:text="Number of cycles" />
+        android:text="2" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

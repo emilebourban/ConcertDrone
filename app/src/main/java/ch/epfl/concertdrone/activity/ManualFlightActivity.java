@@ -98,6 +98,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private static int numberOfPicturesTaken = 0;
     private static int numberOfVideosTaken = 0;
+    private static boolean takeVideoBtClicked = true;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -500,7 +501,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             public void onClick(View v) {
                 numberOfPicturesTaken += 1;
                 TextView numberOfPicturesTakenTextView = findViewById(R.id.number_of_pictures_taken);
-                numberOfPicturesTakenTextView.setText(numberOfPicturesTaken);
+                numberOfPicturesTakenTextView.setText("" + numberOfPicturesTaken);
 
                 mBebopDrone.takePicture();
             }
@@ -508,12 +509,28 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
         findViewById(R.id.takeVideoBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                numberOfVideosTaken += 1;
-                TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);
-                numberOfVideosTakenTextView.setText(numberOfVideosTaken);
 
-                EditText EditTextTimeInterval  = findViewById(R.id.editTimeInterval);
+                Button takeVideoButton = findViewById(R.id.takeVideoBt);
+
+
+                if (takeVideoBtClicked == true) { // recording
+                    numberOfVideosTaken += 1;
+                    takeVideoBtClicked = false;
+                    takeVideoButton.setText("Recording...");
+                    takeVideoButton.setTextColor(Color.RED);
+                } else {                          // stop recording
+                    takeVideoBtClicked = true;
+                    takeVideoButton.setText("Record");
+                    takeVideoButton.setTextColor(Color.BLACK);
+                }
+
+                TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);
+                numberOfVideosTakenTextView.setText("" + numberOfVideosTaken);
+
+
+                EditText EditTextTimeInterval = findViewById(R.id.editTimeInterval);            // timelapse interval in [s]
                 int timeInterval = Integer.valueOf(EditTextTimeInterval.getText().toString());
+
 
                 mBebopDrone.takeVideo(timeInterval);
             }

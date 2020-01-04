@@ -300,7 +300,10 @@ public class BebopDrone {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private static boolean takeVideoButton_pressed = true;
     private static byte timelapse_enabled;   // 0 = disabled, 1 = enabled
-    private static float timelapse_interval; // in [s]
+    private static long startingTime;        // starting time of the timelapse
+    private static long timelapseLaunchTime;
+    private static int timelapse_interval;
+    private static boolean pictureNotTakenYet = true;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -400,6 +403,18 @@ public class BebopDrone {
                     });
                 }
             }
+
+            else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_TIMELAPSECHANGED) && (elementDictionary != null)){
+                ARControllerArgumentDictionary<Object> args = elementDictionary.get(ARControllerDictionary.ARCONTROLLER_DICTIONARY_SINGLE_KEY);
+                if (args != null) {
+                    byte timelapse_enabled = (byte)((Integer)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_TIMELAPSECHANGED_ENABLED)).intValue();
+                    float interval = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_TIMELAPSECHANGED_INTERVAL)).doubleValue();
+                    float minInterval = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_TIMELAPSECHANGED_MININTERVAL)).doubleValue();
+                    float maxInterval = (float)((Double)args.get(ARFeatureARDrone3.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PICTURESETTINGSSTATE_TIMELAPSECHANGED_MAXINTERVAL)).doubleValue();
+                    Log.i(TAG,"timelapse enabled? "+timelapse_enabled); // 1 if timelapse is enabled, 0 otherwise
+                }
+            }
+
 
             // Retrieving GPS coordinates
             else if ((commandKey == ARCONTROLLER_DICTIONARY_KEY_ENUM.ARCONTROLLER_DICTIONARY_KEY_ARDRONE3_PILOTINGSTATE_POSITIONCHANGED) && (elementDictionary != null)){
@@ -781,6 +796,27 @@ public class BebopDrone {
 
 
 
+
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
+                    // Alternative method to take timelapses
+                    // If the timelapse mode is activated, then take picture every "timelapse_interval" [s]
+                    if (System.currentTimeMillis()>timelapseLaunchTime) {
+                        pictureNotTakenYet = true;
+                    }
+                    if ( (timelapse_enabled == 1) && ((System.currentTimeMillis()>timelapseLaunchTime)) && (pictureNotTakenYet)) {
+                        Log.i(TAG,"entering fashion way to make timelapse,   timelapse_interval: "+timelapse_interval+" [s]");
+                        // take picture
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
+                            mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
+                        }
+                        // Computing the next timelapse launch time
+                        timelapseLaunchTime += timelapse_interval*1000;
+                        pictureNotTakenYet = false;
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////
+
                 }
             }
 
@@ -960,23 +996,18 @@ public class BebopDrone {
         mDeviceController.getFeatureARDrone3().sendPictureSettingsPictureFormatSelection((ARCOMMANDS_ARDRONE3_PICTURESETTINGS_PICTUREFORMATSELECTION_TYPE_SNAPSHOT));
 
 
-
-
         if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
             mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2();
             Log.i(TAG,"entering takePicture - mDeviceController.getFeatureARDrone3().sendMediaRecordPictureV2()");
-
-            // Test to take picture
-            //mDeviceController.getFeatureARDrone3().sendMediaRecordPicture((byte)0);
-
-
-
         }
+
     }
 
 
-    public void takeVideo(int timelapse_interval) {
+    public void takeVideo(int timelapse_interv) {
         Log.i(TAG, "entering takeVideo of class BebopDrone");
+
+        timelapse_interval = timelapse_interv;
 
         // Configure timelapse mode
         // - enabled (u8): 1 if timelapse is enabled, 0 otherwise
@@ -986,8 +1017,12 @@ public class BebopDrone {
             timelapse_enabled = 0;
         } else {                      // activating timelapse mode
             timelapse_enabled = 1;
+            timelapseLaunchTime = System.currentTimeMillis() + timelapse_interval*1000; // timelapse launchtime in [ms]
+
         }
+        Log.i(TAG,"      timelapse_interval: "+timelapse_interval+"    timelapse_enabled: "+timelapse_enabled);
         mDeviceController.getFeatureARDrone3().sendPictureSettingsTimelapseSelection(timelapse_enabled, timelapse_interval);
+
 
 
         if (takeVideoButton_pressed == true) {
@@ -1009,8 +1044,10 @@ public class BebopDrone {
             mDeviceController.getFeatureARDrone3().sendMediaRecordVideoV2(ARCOMMANDS_ARDRONE3_MEDIARECORD_VIDEOV2_RECORD_STOP);
             Log.i(TAG,"stop recording video");
 
+            timelapse_enabled = 0;
 
             takeVideoButton_pressed = true;
+
         }
 
     }
