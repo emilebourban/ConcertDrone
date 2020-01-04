@@ -83,7 +83,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Defining the number of iterations (over which we will take the mean of the acceleration values)
     //-------------
-    int Niter = 10;
+    int Niter = 100;
     //-------------
     private static int iter = 1;
     private static double sum_acc = 0;
@@ -145,7 +145,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             mBebopDrone.set_acc_mean_watch(acc_average);
 
             mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
-            Log.i(TAG, (String.format("Received Acceleration --> Accel: %s Mouve: %s", acceleration,mouvement)));
+            Log.i(TAG, (String.format("Received Acceleration --> Accel: %s Mouve: %s Acc_av: %s", acceleration,mouvement, acc_average)));
 
             TextView accelTextView = findViewById(R.id.textViewAcceleration);
             if(mouvement) accelTextView.setTextColor(Color.RED);
