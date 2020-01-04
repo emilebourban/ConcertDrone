@@ -512,12 +512,12 @@ public class BebopDrone {
 
                         // Defining constant K
                         //--------
-                        int K = 5;
+                        int K = 20;
                         //--------
 
                         // Defining mean_range (the approximate mean of the possible accelerometer values)
                         //--------------------
-                        double mean_range = 3;
+                        double mean_range = 1;
                         //--------------------
 
                         // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
@@ -532,8 +532,9 @@ public class BebopDrone {
                         dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
                         Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
 
-                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 5)) { // setting distance limits between the drone and the watch in [m]
+                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING)) && (dist_drone_watch > 2) && (dist_drone_watch < 15)) { // setting distance limits between the drone and the watch in [m]
                             mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
+                            Log.i(TAG, "pitch input: "+ pitch_byte);
                         }
 
                         ////////////////////////////////////////////////////////////////////////////////
