@@ -99,31 +99,7 @@
 
 
 
-    <LinearLayout
-        android:id="@+id/layoutWelcome_4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2" />
-
-        <Button
-            android:id="@+id/gallery_btn"
-            android:text="Gallery"
-            android:onClick="OpenGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2" />
-
-    </LinearLayout>
 
 
 

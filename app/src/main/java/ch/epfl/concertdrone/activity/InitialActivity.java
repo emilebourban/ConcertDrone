@@ -49,6 +49,8 @@ public class InitialActivity extends AppCompatActivity {
                 ButtonDebug.setVisibility(View.VISIBLE);
                 return true;
             case R.id.action_gallery:
+                // Leads to the footages (pictures + videos) taken by the drone
+                // --> cf.: https://stackoverflow.com/questions/16928727/open-gallery-app-from-android-intent/23821227
                 Intent galleryIntent = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -70,14 +72,7 @@ public class InitialActivity extends AppCompatActivity {
     }
 
 
-    public void OpenGallery(View view) {
-        // Leads to the footages (pictures + videos) taken by the drone
-        // --> cf.: https://stackoverflow.com/questions/16928727/open-gallery-app-from-android-intent/23821227
-        Intent galleryIntent = new Intent(
-                Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent , RESULT_GALLERY );
-    }
+
 
 
 
