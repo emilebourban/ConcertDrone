@@ -37,7 +37,7 @@ public class MainActivity extends WearableActivity {
         //For Debug
         mTextView = findViewById(R.id.text);
         TextCom =findViewById(R.id.textCom);
-        TextCom.setText("En attente de la Tablette");
+        TextCom.setText(R.string.WaitingString);
     }
 
     //Fonction for DEBUG. It recive a String from the tablete to see if is well conected to the Wacth

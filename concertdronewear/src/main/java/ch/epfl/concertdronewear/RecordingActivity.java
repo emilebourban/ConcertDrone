@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -50,12 +52,22 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
     private int Mincounter;
     private boolean mouvement;
 
-
+    Button ButtonDebug;
+    TextView textViewLocation;
     TextView textMouve;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
+
+        ButtonDebug = findViewById(R.id.buttonDebug1);//Pour le buton debug
+        textViewLocation = findViewById(R.id.Location);
+        textViewLocation.setVisibility(View.INVISIBLE);
+
+        textMouve = findViewById(R.id.textViewMouve);
+        textMouve.setTextColor(Color.GREEN);
+        textMouve.setVisibility(View.INVISIBLE);
 
         //OPTIONAL (Heart Sensor
          sensorManager = (SensorManager) getSystemService(MainActivity.SENSOR_SERVICE);
@@ -98,9 +110,9 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
                 if (locationResult == null) {
                     return;
                 }
-                TextView textViewLocation = findViewById(R.id.Location);
+
                 for (Location location : locationResult.getLocations()) {
-                    Log.i(TAG, (String.format("Wach Location-->Lat: %s Long: %s  Alt; %s", location.getLatitude(), location.getLongitude(),location.getAltitude())));
+                    Log.i(TAG, (String.format("Watch Location-->Lat: %s Long: %s  Alt; %s", location.getLatitude(), location.getLongitude(),location.getAltitude())));
 
                     textViewLocation.setText(String.format("Lat: %s \nLong: %s\nAlt; %s", location.getLatitude(), location.getLongitude(),location.getAltitude()));
                     //Creation of the Intent to WearService that will send to the tablette
@@ -114,8 +126,7 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
             }
         };
 
-        textMouve = findViewById(R.id.textViewMouve);
-        textMouve.setTextColor(Color.GREEN);
+
 
         //For motion sensor
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -241,5 +252,11 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
         super.onDestroy();
 //        sensorManager.unregisterListener(RecordingActivity.this);
         stopLocationUpdates();
+    }
+
+    public void onClickDebug(View view) {
+        ButtonDebug.setVisibility(View.INVISIBLE);
+        textViewLocation.setVisibility(View.VISIBLE);
+        textMouve.setVisibility(View.VISIBLE);
     }
 }
