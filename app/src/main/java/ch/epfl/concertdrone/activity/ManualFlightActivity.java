@@ -325,7 +325,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_LANDED:
                     mTakeOffLandBt.setText("Take off");
                     mTakeOffLandBt.setEnabled(true);
-                    mDownloadBt.setEnabled(true);
                     break;
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_FLYING:
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_HOVERING:
@@ -335,7 +334,6 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                     break;
                 default:
                     mTakeOffLandBt.setEnabled(false);
-                    mDownloadBt.setEnabled(false);
             }
         }
 
@@ -604,27 +602,27 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
         });
 
-        mDownloadBt = (Button) findViewById(R.id.downloadBt);
-        mDownloadBt.setEnabled(true); // --> to disable this button --> "mDownloadBt.setEnabled(false);"
-        mDownloadBt.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i(TAG, "clicking downloadBt ManualFlightActivity");
-
-                mBebopDrone.getLastFlightMedias();
-
-                mDownloadProgressDialog = new ProgressDialog(ManualFlightActivity.this, R.style.AppCompatAlertDialogStyle);
-                mDownloadProgressDialog.setIndeterminate(true);
-                mDownloadProgressDialog.setMessage("Fetching medias");
-                mDownloadProgressDialog.setCancelable(false);
-                mDownloadProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mBebopDrone.cancelGetLastFlightMedias();
-                    }
-                });
-                mDownloadProgressDialog.show();
-            }
-        });
+//        mDownloadBt = (Button) findViewById(R.id.downloadBt);
+//        mDownloadBt.setEnabled(true); // --> to disable this button --> "mDownloadBt.setEnabled(false);"
+//        mDownloadBt.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Log.i(TAG, "clicking downloadBt ManualFlightActivity");
+//
+//                mBebopDrone.getLastFlightMedias();
+//
+//                mDownloadProgressDialog = new ProgressDialog(ManualFlightActivity.this, R.style.AppCompatAlertDialogStyle);
+//                mDownloadProgressDialog.setIndeterminate(true);
+//                mDownloadProgressDialog.setMessage("Fetching medias");
+//                mDownloadProgressDialog.setCancelable(false);
+//                mDownloadProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        mBebopDrone.cancelGetLastFlightMedias();
+//                    }
+//                });
+//                mDownloadProgressDialog.show();
+//            }
+//        });
 
         findViewById(R.id.gazUpBt).setOnTouchListener(new View.OnTouchListener() {
             @Override
