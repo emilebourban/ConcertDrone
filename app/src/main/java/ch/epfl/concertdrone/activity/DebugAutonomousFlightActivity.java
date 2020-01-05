@@ -133,12 +133,14 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
 
     public void onClickStopCrono(View view) {
         Toast.makeText(getApplicationContext(), "Reset Chrono", Toast.LENGTH_SHORT).show();//Debug
-        simpleChronometer.stop();
+
         simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.stop();
     }
 
     public void onClickStartCrono(View view) {
         Toast.makeText(getApplicationContext(), "Start Chrono", Toast.LENGTH_SHORT).show();//Debug
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
         simpleChronometer.start();
     }
 
