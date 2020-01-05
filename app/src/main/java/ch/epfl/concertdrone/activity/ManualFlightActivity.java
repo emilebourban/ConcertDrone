@@ -208,7 +208,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             // Conversion from double to byte
             pitch_byte = (byte) pitch_input;
             //-------------------------------------
-            TextView pitchByteTextView = findViewById(R.id.textViewPitchByte);
+            //TODO ERROR textView PitchByte id
+            TextView pitchByteTextView = findViewById(R.id.textView);
             pitchByteTextView.setText(String.valueOf(pitch_byte));
 
 
