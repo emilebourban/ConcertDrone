@@ -23,12 +23,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="814a9912-25a1-42d3-b566-04069c8bf65d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Hor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Square.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Ver.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Hor.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icon_hor.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Square.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icon_square.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/Icon_Ver.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icon_ver.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,7 +46,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="4JPNU17506003320" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -65,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="708">
-              <caret line="903" lean-forward="true" selection-start-line="903" selection-end-line="904" selection-end-column="68" />
+            <state relative-caret-position="389">
+              <caret line="910" column="66" selection-start-line="910" selection-start-column="56" selection-end-line="910" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#20990#21429#0" expanded="true" />
@@ -135,14 +141,19 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml">
           <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="353" column="39" selection-start-line="353" selection-start-column="39" selection-end-line="353" selection-end-column="39" />
+            <state relative-caret-position="341">
+              <caret line="222" column="38" selection-start-line="222" selection-start-column="38" selection-end-line="222" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/Icon_Square.png">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/icon_hor.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/icon_square.png">
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
@@ -157,12 +168,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>onCr</find>
-      <find>oncr</find>
-      <find>bat</find>
-      <find>cycles</find>
-      <find>mBatteryLabel</find>
-      <find>cycles==</find>
       <find>cycle</find>
       <find>BebopDr</find>
       <find>onCycle</find>
@@ -187,6 +192,12 @@
       <find>toast</find>
       <find>enable_path</find>
       <find>ima</find>
+      <find>exitpat</find>
+      <find>onClick_enable_path_1</find>
+      <find>upbt</find>
+      <find>autono</find>
+      <find>exit</find>
+      <find>chain</find>
     </findStrings>
     <replaceStrings>
       <replace>.concertdrone</replace>
@@ -601,7 +612,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578233101270</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="updated layout">
+      <created>1578236818768</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1578236818768</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -619,13 +637,13 @@
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Debug" order="0" />
       <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49932885" weight="0.3286119" />
-      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" visible="true" weight="0.3212766" />
+      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" weight="0.3212766" />
       <window_info anchor="bottom" id="TODO" order="3" />
       <window_info anchor="bottom" id="Find" order="4" sideWeight="0.49932885" weight="0.3286119" />
       <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.6934968" weight="0.31728044" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.5080537" side_tool="true" weight="0.26628897" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32978722" />
-      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.49261746" weight="0.17659575" />
+      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.49261746" visible="true" weight="0.17659575" />
       <window_info active="true" anchor="bottom" id="Messages" order="9" sideWeight="0.49932885" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Android Profiler" order="10" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -687,7 +705,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="updated layout" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/concertdronewear/build/generated/source/buildConfig/debug/ch/epfl/concertdronewear/BuildConfig.java" />
     <entry file="file://$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/ch/epfl/concertdrone/BuildConfig.java" />
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
@@ -997,10 +1014,13 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/icon_square.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="708">
-          <caret line="903" lean-forward="true" selection-start-line="903" selection-end-line="904" selection-end-column="68" />
+        <state relative-caret-position="389">
+          <caret line="910" column="66" selection-start-line="910" selection-start-column="56" selection-end-line="910" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#20990#21429#0" expanded="true" />
@@ -1009,14 +1029,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/Icon_Square.png">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/icon_hor.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="353" column="39" selection-start-line="353" selection-start-column="39" selection-end-line="353" selection-end-column="39" />
+        <state relative-caret-position="341">
+          <caret line="222" column="38" selection-start-line="222" selection-start-column="38" selection-end-line="222" selection-end-column="38" />
         </state>
       </provider>
     </entry>

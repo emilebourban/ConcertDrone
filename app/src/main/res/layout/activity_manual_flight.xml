@@ -158,7 +158,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.92" />
 
     <Button
         android:id="@+id/rollRightBt"
@@ -167,11 +167,12 @@
         android:width="20dp"
         android:text="right"
         android:background="#A92196F3"
+        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawLeftBt"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.92" />
 
 
     <Button
@@ -180,12 +181,12 @@
         android:layout_height="wrap_content"
         android:text="left"
         android:background="#A92196F3"
-
+        android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/rollRightBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.92" />
 
     <Button
         android:id="@+id/yawRightBt"
@@ -198,7 +199,7 @@
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.92" />
 
     <Button
         android:id="@+id/forwardBt"
@@ -207,6 +208,7 @@
         android:width="90dp"
         android:text="forward"
         android:background="#A92196F3"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@id/rollLeftBt"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt" />
@@ -218,6 +220,7 @@
         android:width="90dp"
         android:text="up"
         android:background="#A92196F3"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@id/yawLeftBt"
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt" />
@@ -229,6 +232,8 @@
         android:width="90dp"
         android:text="back"
         android:background="#A92196F3"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt"
         app:layout_constraintTop_toBottomOf="@id/rollLeftBt" />
@@ -240,10 +245,12 @@
         android:width="90dp"
         android:text="down"
         android:background="#A92196F3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/backBt"
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt"
-        app:layout_constraintTop_toBottomOf="@id/yawLeftBt" />
+ />
 
     <TextView
         android:id="@+id/textView2"
@@ -275,6 +282,7 @@
         android:text="autonom_yaw"
         android:textColor="#f00"
         android:background="#A92196F3"
+        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -290,6 +298,7 @@
         android:text="autonom_att_rep"
         android:textColor="#f00"
         android:background="#A92196F3"
+        android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/button_autonom_yaw"
@@ -298,11 +307,11 @@
 
     <ImageButton
         android:id="@+id/button_test_path"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
         android:scaleType="fitCenter"
         android:background="#312196F3"
-        app:srcCompat="@drawable/Icon_Hor"
+        app:srcCompat="@drawable/icon_hor"
         android:onClick="onClick_enable_path_1"
         android:text="test path 1"
         app:layout_constraintBottom_toTopOf="@id/button_test_path_2"
@@ -314,11 +323,11 @@
 
     <ImageButton
         android:id="@+id/button_test_path_2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
         android:scaleType="fitCenter"
         android:background="#312196F3"
-        app:srcCompat="@drawable/Icon_Ver"
+        app:srcCompat="@drawable/icon_ver"
         android:onClick="onClick_enable_path_2"
         android:text="test path 2"
         app:layout_constraintBottom_toTopOf="@id/button_test_path_3"
@@ -331,15 +340,15 @@
 
     <ImageButton
         android:id="@+id/button_test_path_3"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
         android:scaleType="fitCenter"
         android:background="#312196F3"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:srcCompat="@drawable/Icon_Square"
+        app:srcCompat="@drawable/icon_square"
         android:onClick="onClick_enable_path_3"
-        app:layout_constraintBottom_toTopOf="@id/editCycles_title"
+        app:layout_constraintBottom_toTopOf="@id/forwardBt"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -352,12 +361,13 @@
         android:onClick="exitPath"
         android:text="exit_path"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:background="#A92196F3"
-        app:layout_constraintBottom_toTopOf="@id/forwardBt"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_test_path_2"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintLeft_toLeftOf="@id/button_test_path"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editCycles_title" />
+        app:layout_constraintTop_toBottomOf="@id/button_test_path" />
 
 
     <Button
@@ -366,14 +376,14 @@
         android:layout_height="wrap_content"
         android:text="Take picture"
         android:background="#A92196F3"
-
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@id/takeVideoBt"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toRightOf="@id/button_exit_path"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_autonom_yaw"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintVertical_bias="0.1"/>
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.2"/>
 
     <Button
         android:id="@+id/takeVideoBt"
@@ -381,6 +391,7 @@
         android:layout_height="wrap_content"
         android:text="Record"
         android:background="#A92196F3"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/gazUpBt"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toRightOf="@id/button_exit_path"
@@ -398,7 +409,7 @@
         app:layout_constraintLeft_toRightOf="@id/button_test_path"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/simpleChronometer"
-        app:layout_constraintVertical_bias="0.3"/>
+        app:layout_constraintVertical_bias="0.2"/>
 
     <EditText
         android:id="@+id/editTimeInterval"
@@ -416,9 +427,9 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="Cycles:"
-        app:layout_constraintBottom_toTopOf="@id/button_exit_path"
-        app:layout_constraintLeft_toLeftOf="@id/button_test_path"
-        app:layout_constraintTop_toBottomOf="@id/button_test_path_3"/>
+        app:layout_constraintBottom_toTopOf="@id/button_test_path_3"
+        app:layout_constraintLeft_toLeftOf="@id/button_exit_path"
+        app:layout_constraintTop_toBottomOf="@id/button_test_path_2"/>
 
     <EditText
         android:id="@+id/editCycles"
@@ -480,7 +491,7 @@
         android:id="@+id/number_of_videos_taken_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vid and timelpse:"
+        android:text="Video and timelapse:"
         app:layout_constraintLeft_toRightOf="@id/button_test_path"
         app:layout_constraintRight_toLeftOf="@id/number_of_videos_taken"
         app:layout_constraintBaseline_toBaselineOf="@id/takeVideoBt"
