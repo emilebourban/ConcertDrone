@@ -29,6 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/debugInfos"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="@id/videoView"
         app:layout_constraintRight_toRightOf="@id/videoView">
@@ -107,22 +108,6 @@
             android:text="distance_drone_watch"
             android:textColor="#0A0EFF"
             />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="0dp">
-
-
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>
@@ -413,6 +398,16 @@
         app:layout_constraintLeft_toRightOf="@id/editCycles_title"
         app:layout_constraintBaseline_toBaselineOf="@id/editCycles_title"/>
 
+    <ToggleButton
+        android:id="@+id/debugBt"
+        android:text="Debug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/videoView"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textOff="Debug Off"
+        android:textOn="Debug On"
+        />
 
     <Chronometer
         android:id="@+id/simpleChronometer"
