@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#312196F3"
     tools:context="ch.epfl.concertdrone.activity.ManualFlightActivity">
 
 
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:width="150dp"
         android:text="Emergency"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toBottomOf="@id/videoView"
         app:layout_constraintLeft_toLeftOf="@id/videoView"
         app:layout_constraintRight_toRightOf="@id/videoView"
@@ -138,6 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="100dp"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -150,6 +153,7 @@
         android:layout_height="wrap_content"
         android:width="50dp"
         android:text="left"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt"
@@ -162,6 +166,7 @@
         android:layout_height="wrap_content"
         android:width="20dp"
         android:text="right"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawLeftBt"
@@ -174,6 +179,8 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:text="left"
+        android:background="#A92196F3"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/rollRightBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt"
@@ -185,6 +192,8 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:text="right"
+        android:background="#A92196F3"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toRightOf="parent"
@@ -197,6 +206,7 @@
         android:layout_height="wrap_content"
         android:width="90dp"
         android:text="forward"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="@id/rollLeftBt"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt" />
@@ -207,6 +217,7 @@
         android:layout_height="wrap_content"
         android:width="90dp"
         android:text="up"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="@id/yawLeftBt"
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt" />
@@ -217,6 +228,7 @@
         android:layout_height="wrap_content"
         android:width="90dp"
         android:text="back"
+        android:background="#A92196F3"
         app:layout_constraintLeft_toRightOf="@id/rollLeftBt"
         app:layout_constraintRight_toLeftOf="@id/rollRightBt"
         app:layout_constraintTop_toBottomOf="@id/rollLeftBt" />
@@ -227,6 +239,7 @@
         android:layout_height="wrap_content"
         android:width="90dp"
         android:text="down"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/yawLeftBt"
         app:layout_constraintRight_toLeftOf="@id/yawRightBt"
@@ -261,6 +274,7 @@
         android:onClick="onClick_enable_autonom_yaw"
         android:text="autonom_yaw"
         android:textColor="#f00"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -275,17 +289,20 @@
         android:onClick="onClick_enable_autonom_att_rep"
         android:text="autonom_att_rep"
         android:textColor="#f00"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/button_autonom_yaw"
         app:layout_constraintTop_toBottomOf="@id/videoView"
         app:layout_constraintVertical_bias="0" />
 
-
-    <Button
+    <ImageButton
         android:id="@+id/button_test_path"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="fitCenter"
+        android:background="#312196F3"
+        app:srcCompat="@drawable/Icon_Hor"
         android:onClick="onClick_enable_path_1"
         android:text="test path 1"
         app:layout_constraintBottom_toTopOf="@id/button_test_path_2"
@@ -295,24 +312,33 @@
         app:layout_constraintTop_toBottomOf="@id/button_autonom_yaw"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_test_path_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="fitCenter"
+        android:background="#312196F3"
+        app:srcCompat="@drawable/Icon_Ver"
         android:onClick="onClick_enable_path_2"
         android:text="test path 2"
         app:layout_constraintBottom_toTopOf="@id/button_test_path_3"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_test_path" />
+        app:layout_constraintTop_toBottomOf="@id/button_test_path"
+        android:layout_marginTop="10dp"
+        />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_test_path_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="fitCenter"
+        android:background="#312196F3"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/Icon_Square"
         android:onClick="onClick_enable_path_3"
-        android:text="test path 3"
         app:layout_constraintBottom_toTopOf="@id/editCycles_title"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -325,6 +351,8 @@
         android:layout_height="wrap_content"
         android:onClick="exitPath"
         android:text="exit_path"
+        android:layout_marginTop="10dp"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="@id/forwardBt"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -337,6 +365,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take picture"
+        android:background="#A92196F3"
+
         app:layout_constraintBottom_toTopOf="@id/takeVideoBt"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toRightOf="@id/button_exit_path"
@@ -350,6 +380,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Record"
+        android:background="#A92196F3"
         app:layout_constraintBottom_toTopOf="@id/gazUpBt"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toRightOf="@id/button_exit_path"
@@ -366,7 +397,7 @@
         app:layout_constraintBottom_toTopOf="@id/gazUpBt"
         app:layout_constraintLeft_toRightOf="@id/button_test_path"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/takeVideoBt"
+        app:layout_constraintTop_toBottomOf="@id/simpleChronometer"
         app:layout_constraintVertical_bias="0.3"/>
 
     <EditText
@@ -403,6 +434,7 @@
         android:text="Debug"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#A92196F3"
         app:layout_constraintTop_toBottomOf="@id/videoView"
         app:layout_constraintRight_toRightOf="parent"
         android:textOff="Debug Off"
@@ -413,13 +445,12 @@
         android:id="@+id/simpleChronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FFF"
         android:gravity="center"
         android:padding="10dp"
         android:textColor="#0A0EFF"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/editTimeInterval"
+        app:layout_constraintLeft_toRightOf="@id/editTimeInterval_title"
         app:layout_constraintTop_toBottomOf="@id/takeVideoBt"
         app:layout_constraintHorizontal_bias="0.5"
         />

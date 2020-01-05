@@ -874,7 +874,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private boolean enable_path_1_button = false;
     public void onClick_enable_path_1(View view) {
         // Enabling path 1 in any case
-        if (enable_path_1_button == false) {
+        if (enable_path_1_button == true | enable_path_2_button == true | enable_path_3_button == true ){
+            Toast.makeText(getApplicationContext(), String.format("A path is already running..."), Toast.LENGTH_LONG).show();//Debug
+
+        }
+        else if (enable_path_1_button == false) {
             enable_path_1_button = true;
         }
 
@@ -890,7 +894,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private boolean enable_path_2_button = false;
     public void onClick_enable_path_2(View view) {
         // Enabling path 2 in any case
-        if (enable_path_2_button == false) {
+        if (enable_path_1_button == true | enable_path_2_button == true | enable_path_3_button == true ){
+            Toast.makeText(getApplicationContext(), String.format("A path is already running..."), Toast.LENGTH_LONG).show();//Debug
+
+        }
+        else if (enable_path_2_button == false) {
             enable_path_2_button = true;
         }
 
@@ -906,7 +914,11 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private boolean enable_path_3_button = false;
     public void onClick_enable_path_3(View view) {
         // Enabling path 3 in any case
-        if (enable_path_3_button == false) {
+        if (enable_path_1_button == true | enable_path_2_button == true | enable_path_3_button == true ){
+            Toast.makeText(getApplicationContext(), String.format("A path is already running..."), Toast.LENGTH_LONG).show();//Debug
+
+        }
+        else if (enable_path_3_button == false) {
             enable_path_3_button = true;
         }
 
