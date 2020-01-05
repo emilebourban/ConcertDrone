@@ -176,50 +176,30 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             //Show HR in a TextView
             acceleration = intent.getDoubleExtra(ACCELERATIONVAR, -1);//Get the value of the mAccel
             //----------------
-            // Taking the mean of the absolute value of the acceleration over some iterations Niter
-            sum_acc += Math.abs(acceleration);
-
-            iter += 1;
-
-            if (iter == Niter) {
-
-                acc_average = sum_acc / Niter;
-
-                iter = 1;
-                sum_acc = 0;
-            }
+//            // Taking the mean of the absolute value of the acceleration over some iterations Niter
+//            sum_acc += Math.abs(acceleration);
+//
+//            iter += 1;
+//
+//            if (iter == Niter) {
+//
+//                acc_average = sum_acc / Niter;
+//
+//                iter = 1;
+//                sum_acc = 0;
+//            }
             //----------------
+            acc_average = acceleration;
             mBebopDrone.set_acc_mean_watch(acc_average);
 
-            // Calculating pitch_byte
-            //-------------------------------------
-            // Defining constant K
-            //--------
-            double K = 8;
-            //--------
 
-            // Defining mean_range (the approximate mean of the possible accelerometer values)
-            //--------------------
-            double mean_range = 4;
-            //--------------------
-
-            // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-            //double pitch_input = (acc_average - mean_range)*(-K);
-
-            // Second way to calculate motor input
-            if (acc_average < mean_range) {
-                pitch_input = 5;
-            } else {
-                pitch_input = -5;
-            }
-
-            // Conversion from double to byte
-            pitch_byte = (byte) pitch_input;
-            //-------------------------------------
+            // Getting pitch_byte from BebopDrone.java
             TextView pitchByteTextView = findViewById(R.id.textViewPitchByte);
-            pitchByteTextView.setText(String.valueOf(pitch_byte));
+            pitchByteTextView.setText(String.valueOf(mBebopDrone.getPitchByte()));
 
-
+            // Getting the updated value of dist_drone_watch calculated in BebopDrone.java
+            TextView distanceDroneWatch = findViewById(R.id.textView_distance_drone_watch);
+            distanceDroneWatch.setText(String.valueOf(mBebopDrone.getDistance()));
 
 
             mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement

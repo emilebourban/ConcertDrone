@@ -267,11 +267,18 @@ public class BebopDrone {
 
     ////// Declarations for autonomous attractive/repulsive behaviour
     private static byte pitch_byte;
-    private static double dist_drone_watch;
+    public byte getPitchByte() {
+        return this.pitch_byte;
+    }
+    public static double dist_drone_watch;
+    public double getDistance() {
+        return this.dist_drone_watch;
+    }
     private final int Radius = 6371000; // Earth radius [m]
     private final double minDist = 3; // min distance drone-watch of 3[m]
     private final double maxDist = 10; // max distance drone-watch of 10[m]
     private static double pitch_input = 0;
+
 
 
     ////// Declarations for the paths
@@ -571,7 +578,7 @@ public class BebopDrone {
                         dist_drone_watch = Math.sqrt(Math.pow(diff_angle_y*(Math.PI/180)*Radius,2.0)+Math.pow(diff_angle_x*(Math.PI/180)*Radius,2.0));
                         Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
 
-                        
+
 
                         // setting distance limits between the drone and the watch in [m]
                         if ( (dist_drone_watch > minDist) && (dist_drone_watch < maxDist) ) {
