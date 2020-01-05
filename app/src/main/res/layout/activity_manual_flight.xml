@@ -489,7 +489,7 @@
         android:id="@+id/number_of_videos_taken_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Video and timelapse:"
+        android:text="Videos and timelapses:"
         app:layout_constraintLeft_toRightOf="@id/button_test_path"
         app:layout_constraintRight_toLeftOf="@id/number_of_videos_taken"
         app:layout_constraintBaseline_toBaselineOf="@id/takeVideoBt"
