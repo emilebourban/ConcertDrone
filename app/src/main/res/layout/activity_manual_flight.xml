@@ -276,10 +276,10 @@
 
     <Button
         android:id="@+id/button_autonom_yaw"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:onClick="onClick_enable_autonom_yaw"
-        android:text="autonom_yaw"
+        android:text="Yaw Auto"
         android:textColor="#f00"
         android:background="#A92196F3"
         android:layout_marginRight="10dp"
@@ -292,10 +292,10 @@
 
     <Button
         android:id="@+id/button_autonom_att_rep"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:onClick="onClick_enable_autonom_att_rep"
-        android:text="autonom_att_rep"
+        android:text="Proximity Auto"
         android:textColor="#f00"
         android:background="#A92196F3"
         android:layout_marginLeft="10dp"
@@ -359,7 +359,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="exitPath"
-        android:text="exit_path"
+        android:text="exit path"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:background="#A92196F3"
@@ -372,7 +372,7 @@
 
     <Button
         android:id="@+id/takePictureBt"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:text="Take picture"
         android:background="#A92196F3"
@@ -387,7 +387,7 @@
 
     <Button
         android:id="@+id/takeVideoBt"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:text="Record"
         android:background="#A92196F3"
@@ -406,8 +406,7 @@
         android:inputType="number"
         android:text="Time interval"
         app:layout_constraintBottom_toTopOf="@id/gazUpBt"
-        app:layout_constraintLeft_toRightOf="@id/button_test_path"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="@id/number_of_videos_taken_title"
         app:layout_constraintTop_toBottomOf="@id/simpleChronometer"
         app:layout_constraintVertical_bias="0.2"/>
 
@@ -416,9 +415,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:layout_marginLeft="5dp"
         android:text="0"
         app:layout_constraintLeft_toRightOf="@id/editTimeInterval_title"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@id/editTimeInterval_title" />
 
     <TextView
@@ -472,8 +471,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pictures:"
-        app:layout_constraintLeft_toRightOf="@id/button_test_path"
-        app:layout_constraintRight_toLeftOf="@id/number_of_pictures_taken"
+        app:layout_constraintRight_toRightOf="@id/number_of_videos_taken_title"
         app:layout_constraintBaseline_toBaselineOf="@id/takePictureBt"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_bias="0.8"/>
@@ -496,7 +494,7 @@
         app:layout_constraintRight_toLeftOf="@id/number_of_videos_taken"
         app:layout_constraintBaseline_toBaselineOf="@id/takeVideoBt"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintHorizontal_bias="0.8"/>
+        app:layout_constraintHorizontal_bias="0.85"/>
 
 
     <TextView
