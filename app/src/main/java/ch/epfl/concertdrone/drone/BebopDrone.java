@@ -267,10 +267,18 @@ public class BebopDrone {
 
     ////// Declarations for autonomous attractive/repulsive behaviour
     private static byte pitch_byte;
-    private static double dist_drone_watch;
+    public byte getPitchByte() {
+        return this.pitch_byte;
+    }
+    public static double dist_drone_watch;
+    public double getDistance() {
+        return this.dist_drone_watch;
+    }
     private final int Radius = 6371000; // Earth radius [m]
-    private final double minDist = 2; // min distance drone-watch of 2[m]
-    private final double maxDist = 15; // max distance drone-watch of 15[m]
+    private final double minDist = 3; // min distance drone-watch of 3[m]
+    private final double maxDist = 10; // max distance drone-watch of 10[m]
+    private static double pitch_input = 0;
+
 
 
     ////// Declarations for the paths
@@ -546,11 +554,19 @@ public class BebopDrone {
 
                         // Defining mean_range (the approximate mean of the possible accelerometer values)
                         //--------------------
-                        double mean_range = 4.5; // 2.75, 3.25
+                        double mean_range = 4; // 2.75, 3.25
                         //--------------------
 
                         // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-                        double pitch_input = (acc_mean_watch - mean_range)*(-K);
+                        //double pitch_input = (acc_mean_watch - mean_range)*(-K);
+
+                        // Second way to calculate motor input
+                        if (acc_mean_watch < mean_range) {
+                            pitch_input = 5;
+                        } else {
+                            pitch_input = -5;
+                        }
+
 
                         // Conversion from double to byte
                         pitch_byte = (byte) pitch_input;
@@ -563,18 +579,15 @@ public class BebopDrone {
                         Log.i(TAG, "distance drone - watch: "+dist_drone_watch);
 
 
+
                         // setting distance limits between the drone and the watch in [m]
-                        // if (dist_drone_watch > minDist) && (dist_drone_watch < maxDist)) {...}
-                        setPitch((byte) pitch_byte);
-                        setFlag((byte) 1);
+                        if ( (dist_drone_watch > minDist) && (dist_drone_watch < maxDist) ) {
+                            setPitch((byte) pitch_byte);
+                            setFlag((byte) 1);
+                        }
 
                         Log.i(TAG, "    acc_mean_watch: "+ acc_mean_watch+"    pitch_byte: "+ pitch_byte);
 
-
-//                        if ((mDeviceController != null) && (mState.equals(ARCONTROLLER_DEVICE_STATE_ENUM.ARCONTROLLER_DEVICE_STATE_RUNNING))) {
-//                             // && (dist_drone_watch > 2) && (dist_drone_watch < 15)
-//                            mDeviceController.getFeatureARDrone3().setPilotingPCMDPitch(pitch_byte);
-//                        }
 
                         ////////////////////////////////////////////////////////////////////////////////
                         ////////////////////////////////////////////////////////////////////////////////

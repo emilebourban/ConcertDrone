@@ -21,11 +21,15 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="814a9912-25a1-42d3-b566-04069c8bf65d" name="Default Changelist" comment="">
+    <list default="true" id="814a9912-25a1-42d3-b566-04069c8bf65d" name="Default Changelist" comment="Notification of the cicles et baterie???&#10;Cronometre fait, wifi, fait petit bug fait&#10;&#10;&#10;YANN">
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
@@ -35,8 +39,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARDiscovery_3_12_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARDiscovery_3_12_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARMedia_3_12_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_parrot_libARMedia_3_12_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/concertdronewear/concertdronewear.iml" beforeDir="false" afterPath="$PROJECT_DIR$/concertdronewear/concertdronewear.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +53,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="PE030158" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="4JPNU17506003320" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -55,17 +61,30 @@
       </state>
     </system>
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="ConcertDrone" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/InitialActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="142" column="8" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="65" />
+            <state relative-caret-position="196">
+              <caret line="81" column="5" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5270#5271#0" expanded="true" />
-                <element signature="e#5313#5314#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="191" column="38" selection-start-line="191" selection-start-column="26" selection-end-line="191" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -74,35 +93,51 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/RecordingActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1598">
-              <caret line="197" column="19" lean-forward="true" selection-start-line="197" selection-start-column="19" selection-end-line="197" selection-end-column="19" />
+            <state relative-caret-position="339">
+              <caret line="245" column="10" selection-start-line="245" selection-start-column="10" selection-end-line="245" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="163">
+              <caret line="544" column="38" selection-start-line="544" selection-start-column="38" selection-end-line="544" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#10254#10255#0" expanded="true" />
+                <element signature="e#10298#10299#0" expanded="true" />
+                <element signature="e#10297#10298#0" expanded="true" />
+                <element signature="e#10341#10342#0" expanded="true" />
+                <element signature="e#16567#16764#0" expanded="true" />
+                <element signature="e#16763#16764#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_debug_autonomous_flight.xml">
-          <provider editor-type-id="android-designer2" />
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/layout.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3332">
-              <caret line="196" column="38" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="38" />
+            <state relative-caret-position="45">
+              <caret line="3" column="38" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="38" />
             </state>
           </provider>
+          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="582" column="47" lean-forward="true" selection-start-line="582" selection-start-column="47" selection-end-line="582" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="369">
+              <caret line="291" column="32" selection-start-line="291" selection-start-column="32" selection-end-line="291" selection-end-column="32" />
             </state>
           </provider>
+          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
     </leaf>
@@ -116,14 +151,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Debug</find>
-      <find>W_recordingactivity</find>
-      <find>startRecordingOnWear()</find>
-      <find>sendMessage</find>
-      <find>onResu</find>
-      <find>onStop</find>
-      <find>Lat</find>
-      <find>onRe</find>
       <find>onPau</find>
       <find>takeVi</find>
       <find>VideoState</find>
@@ -132,6 +159,7 @@
       <find>takeV</find>
       <find>buttonAutonomus</find>
       <find>noti</find>
+      <find>notif</find>
       <find>notify</find>
       <find>onCr</find>
       <find>oncr</find>
@@ -145,7 +173,14 @@
       <find>onCy</find>
       <find>toast</find>
       <find>onCre</find>
-      <find>notif</find>
+      <find>recordingActi</find>
+      <find>recordingActivit</find>
+      <find>welcome on</find>
+      <find>enable_autonom_att_rep</find>
+      <find>pitch</find>
+      <find>entering</find>
+      <find>distance</find>
+      <find>dist_drone_watch</find>
     </findStrings>
     <replaceStrings>
       <replace>.concertdrone</replace>
@@ -179,7 +214,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/SDCardModule.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_initial.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/concertdronewear/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/WearService.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
@@ -191,14 +225,15 @@
         <option value="$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/MainActivity.java" />
         <option value="$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_recording.xml" />
         <option value="$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/AutonomousFlightActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/InitialActivity.java" />
         <option value="$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/RecordingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_debug_autonomous_flight.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/InitialActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java" />
       </list>
     </option>
@@ -216,6 +251,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -242,13 +279,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="PE030158" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-01-05T12:03:26.197Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="TKQ7N17410000102" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-01-05T11:49:07.269Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -525,59 +560,47 @@
       <option name="project" value="LOCAL" />
       <updated>1578160123523</updated>
     </task>
-    <task id="LOCAL-00016" summary="Notification of the cicles et baterie???&#10;Cronometre fait, wifi, fait petit bug fait&#10;&#10;&#10;YANN">
-      <created>1578163490361</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1578163490361</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Accelerometre ameliuere&#10;&#10;&#10;YANN">
-      <created>1578222977035</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1578222977035</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Debug Mode finished&#10;&#10;&#10;YANN">
-      <created>1578225004796</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1578225004796</updated>
-    </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.18724832" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49856734" visible="true" weight="0.11731044" />
       <window_info id="Structure" order="2" side_tool="true" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Favorites" order="3" sideWeight="0.50143266" side_tool="true" weight="0.11731044" />
+      <window_info id="Build Variants" order="4" sideWeight="0.50143266" side_tool="true" weight="0.11731044" />
       <window_info id="Image Layers" order="5" />
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" weight="0.3295302" />
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Debug" order="0" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49932885" weight="0.3286119" />
-      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" weight="0.3186969" />
-      <window_info anchor="bottom" id="TODO" order="3" />
+      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49932885" weight="0.328084" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="2" sideWeight="0.49731544" visible="true" weight="0.3766404" />
+      <window_info anchor="bottom" id="TODO" order="3" weight="0.32939634" />
       <window_info anchor="bottom" id="Find" order="4" sideWeight="0.49932885" weight="0.3286119" />
       <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.6934968" weight="0.31728044" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.5080537" side_tool="true" weight="0.26628897" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.49261746" visible="true" weight="0.17705382" />
+      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.49261746" weight="0.30052492" />
       <window_info active="true" anchor="bottom" id="Messages" order="9" sideWeight="0.49932885" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Android Profiler" order="10" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Preview" order="4" weight="0.44778255" />
+      <window_info anchor="right" id="Preview" order="4" weight="0.50143063" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="right" id="Assistant" order="6" visible="true" weight="0.3295302" />
     </layout>
@@ -627,44 +650,17 @@
     <MESSAGE value="Notification of the cicles???&#10;&#10;&#10;YANN" />
     <MESSAGE value="Notification of the cicles et baterie???&#10;&#10;&#10;YANN" />
     <MESSAGE value="Notification of the cicles et baterie???&#10;Cronometre fait, wifi, fait petit bug fait&#10;&#10;&#10;YANN" />
-    <MESSAGE value="Accelerometre ameliuere&#10;&#10;&#10;YANN" />
-    <MESSAGE value="Debug Mode finished&#10;&#10;&#10;YANN" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug Mode finished&#10;&#10;&#10;YANN" />
+    <option name="LAST_COMMIT_MESSAGE" value="Notification of the cicles et baterie???&#10;Cronometre fait, wifi, fait petit bug fait&#10;&#10;&#10;YANN" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/content/Intent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="6393" column="11" selection-start-line="6393" selection-start-column="11" selection-end-line="6393" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/content/Intent.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/WearService.java" />
-    <entry file="file://$PROJECT_DIR$/concertdronewear/build/generated/source/buildConfig/debug/ch/epfl/concertdronewear/BuildConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/ch/epfl/concertdrone/BuildConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="15" column="48" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/concertdronewear/build/generated/source/buildConfig/debug/ch/epfl/concertdronewear/BuildConfig.java" />
+    <entry file="file://$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/ch/epfl/concertdrone/BuildConfig.java" />
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
           <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="58" column="33" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -741,15 +737,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_camera.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_delete.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_info_details.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_camera.png" />
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_delete.png" />
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_info_details.png" />
     <entry file="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/697f71c0c12135256cbfe98df498a7e4/appcompat-1.0.2/res/values/values.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -767,17 +757,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_report_image.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_report_image.png" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_drone_background.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -801,20 +781,14 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
         </state>
       </provider>
-      <provider editor-type-id="android-manifest" />
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/location/Location.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2567">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/location/Location.java" />
     <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cd2555db0203a9129fdeb1355c14dcc8/play-services-location-17.0.0/jars/classes.jar!/com/google/android/gms/location/LocationResult.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -840,24 +814,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_recording.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="55" column="43" lean-forward="true" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#1403#1426#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="519">
           <caret line="42" column="65" lean-forward="true" selection-start-line="42" selection-start-column="65" selection-end-line="42" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2023">
-          <caret line="132" selection-start-line="132" selection-end-line="132" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#12013#12014#0" expanded="true" />
-            <element signature="e#12042#12043#0" expanded="true" />
-            <element signature="e#16214#16411#0" expanded="true" />
-            <element signature="e#16410#16411#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -871,62 +850,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/widget/Chronometer.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/widget/Chronometer.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_debug_autonomous_flight.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-898">
-          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
+        <state relative-caret-position="279">
+          <caret line="275" selection-start-line="275" selection-end-line="286" selection-end-column="47" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="98" column="52" selection-start-line="98" selection-start-column="52" selection-end-line="98" selection-end-column="52" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="75" column="8" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initial.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_recent_history.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_mylocation.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_recent_history.png" />
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/data/res/drawable-hdpi/ic_menu_mylocation.png" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/layout.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
+        <state relative-caret-position="45">
           <caret line="3" column="38" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="38" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="44" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
-        </state>
-      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/res/layout/activity_recording.xml">
-      <provider editor-type-id="android-designer2" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="4" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="37" />
+        <state relative-caret-position="335">
+          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/InitialActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
+        <state relative-caret-position="196">
           <caret line="81" column="5" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -934,42 +905,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_debug_autonomous_flight.xml">
-      <provider editor-type-id="android-designer2" />
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3332">
-          <caret line="196" column="38" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="38" />
+        <state relative-caret-position="169">
+          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_manual_flight.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="291" column="32" selection-start-line="291" selection-start-column="32" selection-end-line="291" selection-end-column="32" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/concertdronewear/src/main/java/ch/epfl/concertdronewear/RecordingActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1598">
-          <caret line="197" column="19" lean-forward="true" selection-start-line="197" selection-start-column="19" selection-end-line="197" selection-end-column="19" />
+        <state relative-caret-position="339">
+          <caret line="245" column="10" selection-start-line="245" selection-start-column="10" selection-end-line="245" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/DebugAutonomousFlightActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="142" column="8" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5270#5271#0" expanded="true" />
-            <element signature="e#5313#5314#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/activity/ManualFlightActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="582" column="47" lean-forward="true" selection-start-line="582" selection-start-column="47" selection-end-line="582" selection-end-column="47" />
+        <state relative-caret-position="423">
+          <caret line="191" column="38" selection-start-line="191" selection-start-column="26" selection-end-line="191" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ch/epfl/concertdrone/drone/BebopDrone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="544" column="38" selection-start-line="544" selection-start-column="38" selection-end-line="544" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10254#10255#0" expanded="true" />
+            <element signature="e#10298#10299#0" expanded="true" />
+            <element signature="e#10297#10298#0" expanded="true" />
+            <element signature="e#10341#10342#0" expanded="true" />
+            <element signature="e#16567#16764#0" expanded="true" />
+            <element signature="e#16763#16764#0" expanded="true" />
           </folding>
         </state>
       </provider>

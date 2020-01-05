@@ -15,8 +15,8 @@ public class BlancDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Developers")
-                .setMessage("This super App was made by:\n- Anthony Guinchard\n- Emile Bourban\n- Yann Houeix Acid" +
-                        "\n \n at EPFL in Lab on App and SmartWatch EPFL")
+                .setMessage("This Drone Concert Photographer App was made by:\n- Bourban Emile\n- Guinchard Anthony\n- Houeix Acid Yann" +
+                        "\n \nFor the course EE-490g – Lab On Apps Development For Tablets, Smartphones And Smartwatches, EPFL, Autumn 2019")
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

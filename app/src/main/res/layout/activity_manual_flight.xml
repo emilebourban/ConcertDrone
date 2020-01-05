@@ -99,6 +99,16 @@
             android:textColor="#0A0EFF"
             />
 
+
+        <TextView
+            android:id="@+id/textView_distance_drone_watch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="distance_drone_watch"
+            android:textColor="#0A0EFF"
+            />
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -265,6 +275,7 @@
         android:layout_height="wrap_content"
         android:onClick="onClick_enable_autonom_yaw"
         android:text="autonom_yaw"
+        android:textColor="#f00"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -278,6 +289,7 @@
         android:layout_height="wrap_content"
         android:onClick="onClick_enable_autonom_att_rep"
         android:text="autonom_att_rep"
+        android:textColor="#f00"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/button_autonom_yaw"
