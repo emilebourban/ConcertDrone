@@ -166,7 +166,7 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
             mAccelCurrent = (double)Math.sqrt(x*x + y*y + z*z);
             double delta = mAccelCurrent - mAccelLast;
 
-            if(Math.abs(delta)>0.5) {//Pour ne pas actualiser toutes les ms
+            if(Math.abs(delta)>0.35) {//Pour ne pas actualiser toutes les ms
                 //Seul les chagements
                 mAccel = mAccel * 0.9 + delta;
                 // Make this higher or lower according to how much

@@ -65,7 +65,7 @@ public class InitialActivity extends AppCompatActivity {
                 final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings");
                 intent.setComponent(cn);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity( intent);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

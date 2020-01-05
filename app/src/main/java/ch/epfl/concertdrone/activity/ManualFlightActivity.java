@@ -122,6 +122,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private static double sum_acc = 0;
     private static double acc_average = 0;
     private static byte pitch_byte;
+    private static double pitch_input = 0;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -199,17 +200,26 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
             // Defining mean_range (the approximate mean of the possible accelerometer values)
             //--------------------
-            double mean_range = 4.5;
+            double mean_range = 4;
             //--------------------
 
             // Calculating motor input for "mBebopDrone.setPitch((byte) n)"
-            double pitch_input = (acc_average - mean_range)*(-K);
+            //double pitch_input = (acc_average - mean_range)*(-K);
+
+            // Second way to calculate motor input
+            if (acc_average < mean_range) {
+                pitch_input = 5;
+            } else {
+                pitch_input = -5;
+            }
 
             // Conversion from double to byte
             pitch_byte = (byte) pitch_input;
             //-------------------------------------
             TextView pitchByteTextView = findViewById(R.id.textViewPitchByte);
             pitchByteTextView.setText(String.valueOf(pitch_byte));
+
+
 
 
             mouvement = intent.getBooleanExtra(MOUVEMENT, false);//Get the value of the mouvement
@@ -841,15 +851,7 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
             }
         });
 
-//        findViewById(R.id.startAutonomousBt).setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View v) {
-//                mVideoView.deInit();
-//                Intent intentStartActivity = new Intent(ManualFlightActivity.this, AutonomousFlightActivity.class);
-//                startActivityForResult(intentStartActivity, START_DEVICE_LIST);
-//            }
-//        });
+
 
         mBatteryLabel = (TextView) findViewById(R.id.batteryLabel);
     }

@@ -61,7 +61,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$USER_HOME$/GoogleDrive/EPFL/MA1_LOADFTS&amp;S_Project/AppIcon/DroneConcertIcon.png" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/GoogleDrive/EPFL/MA1_LOADFTS&amp;S_Project/MenuIcon/wifiSetup.png" />
+                                      <entry key="outputName" value="ic_wifi_setup" />
                                     </map>
                                   </option>
                                 </PersistentState>
