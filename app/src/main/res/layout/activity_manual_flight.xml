@@ -29,6 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/debugInfos"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="@id/videoView"
         app:layout_constraintRight_toRightOf="@id/videoView">
@@ -107,22 +108,6 @@
             android:text="distance_drone_watch"
             android:textColor="#0A0EFF"
             />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="0dp">
-
-
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>
@@ -328,7 +313,7 @@
         android:layout_height="wrap_content"
         android:onClick="onClick_enable_path_3"
         android:text="test path 3"
-        app:layout_constraintBottom_toTopOf="@id/button_exit_path"
+        app:layout_constraintBottom_toTopOf="@id/editCycles_title"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -344,7 +329,7 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_test_path_3" />
+        app:layout_constraintTop_toBottomOf="@id/editCycles_title" />
 
 
     <Button
@@ -357,7 +342,7 @@
         app:layout_constraintLeft_toRightOf="@id/button_exit_path"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_autonom_yaw"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_bias="0.1"/>
 
     <Button
@@ -378,10 +363,11 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="Time interval"
-        app:layout_constraintBottom_toTopOf="@id/editCycles_title"
+        app:layout_constraintBottom_toTopOf="@id/gazUpBt"
         app:layout_constraintLeft_toRightOf="@id/button_test_path"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/takeVideoBt" />
+        app:layout_constraintTop_toBottomOf="@id/takeVideoBt"
+        app:layout_constraintVertical_bias="0.3"/>
 
     <EditText
         android:id="@+id/editTimeInterval"
@@ -399,9 +385,9 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="Cycles:"
-        app:layout_constraintBottom_toTopOf="@id/gazUpBt"
-        app:layout_constraintLeft_toLeftOf="@id/editTimeInterval_title"
-        app:layout_constraintTop_toBottomOf="@id/editTimeInterval_title"/>
+        app:layout_constraintBottom_toTopOf="@id/button_exit_path"
+        app:layout_constraintLeft_toLeftOf="@id/button_test_path"
+        app:layout_constraintTop_toBottomOf="@id/button_test_path_3"/>
 
     <EditText
         android:id="@+id/editCycles"
@@ -409,9 +395,19 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:text="2"
-        app:layout_constraintLeft_toLeftOf="@id/editTimeInterval"
+        app:layout_constraintLeft_toRightOf="@id/editCycles_title"
         app:layout_constraintBaseline_toBaselineOf="@id/editCycles_title"/>
 
+    <ToggleButton
+        android:id="@+id/debugBt"
+        android:text="Debug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/videoView"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textOff="Debug Off"
+        android:textOn="Debug On"
+        />
 
     <Chronometer
         android:id="@+id/simpleChronometer"
@@ -423,9 +419,9 @@
         android:textColor="#0A0EFF"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/videoView"
-        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/editTimeInterval"
+        app:layout_constraintTop_toBottomOf="@id/takeVideoBt"
+        app:layout_constraintHorizontal_bias="0.5"
         />
 
 
@@ -447,8 +443,6 @@
         app:layout_constraintRight_toLeftOf="@id/takePictureBt"
         app:layout_constraintLeft_toRightOf="@id/number_of_pictures_taken_title"
         app:layout_constraintBaseline_toBaselineOf="@id/takePictureBt"/>
-
-
 
 
     <TextView

@@ -19,9 +19,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -74,6 +77,8 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
     private NotificationCompat.Builder mNotifyBuilder;
     private NotificationManager mNotificationManager;
     private static final int NOTIFICATION_ID=0;
+    private ToggleButton mDebuggToggle;
+    private LinearLayout mdebugLayout;
 
     public void callNotificationCycleLeft(){//called in fonction line numeber 278
         mNotifyBuilder = new NotificationCompat.Builder(this);
@@ -319,10 +324,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                 case ARCOMMANDS_ARDRONE3_PILOTINGSTATE_FLYINGSTATECHANGED_STATE_HOVERING:
                     mTakeOffLandBt.setText("Land");
                     mTakeOffLandBt.setEnabled(true);
-                    mDownloadBt.setEnabled(false);
                     break;
                 default:
-                    mTakeOffLandBt.setEnabled(false);
+                    ;
             }
         }
 
@@ -524,6 +528,26 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
         findViewById(R.id.emergencyBt).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mBebopDrone.emergency();
+            }
+        });
+
+        mDebuggToggle = (ToggleButton) findViewById(R.id.debugBt);
+        mdebugLayout = (LinearLayout) findViewById(R.id.debugInfos);
+
+        mdebugLayout.setVisibility(LinearLayout.GONE);
+        mDebuggToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    mdebugLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+                else
+                {
+                    mdebugLayout.setVisibility(LinearLayout.GONE);
+                }
+
             }
         });
 
