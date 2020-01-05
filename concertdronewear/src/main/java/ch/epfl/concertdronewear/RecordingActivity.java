@@ -48,8 +48,8 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
     private double mAccel;
     private double mAccelCurrent;
     private double mAccelLast;
-    private int Maxcounter;
-    private int Mincounter;
+    private int Counter;
+    private double Sum;
     private boolean mouvement;
 
     Button ButtonDebug;
@@ -134,8 +134,8 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
         mAccel = 0.0;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-        Maxcounter =0;
-        Mincounter=0;
+        Counter =0;
+        Sum=0;
         mouvement=false;
 
     }
@@ -166,12 +166,12 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
             mAccelCurrent = (double)Math.sqrt(x*x + y*y + z*z);
             double delta = mAccelCurrent - mAccelLast;
 
-            if(Math.abs(delta)>0.35) {//Pour ne pas actualiser toutes les ms
+           // if(Math.abs(delta)>0.5) {//Pour ne pas actualiser toutes les ms
                 //Seul les chagements
                 mAccel = mAccel * 0.9 + delta;
                 // Make this higher or lower according to how much
                 // motion you want to detect
-
+                /*
                 if (mAccel > 5) {
                     Maxcounter++;
                     Mincounter--;
@@ -193,20 +193,36 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
                     Maxcounter = 0;
                 }
                 //if (Mincounter%10 == 0 && Maxcounter > 0) Maxcounter--;
-                Log.i(TAG, String.format("Accel: [%s]-->Pos X: [%s] Y: [%s]  Z; [%s]", mAccel, x, y, z));
-                Log.i(TAG, String.format("Debug Counter MaxCounter +[%s] MinCounter -[%s]", Maxcounter, Mincounter));
+                  Log.i(TAG, String.format("Debug Counter MaxCounter +[%s] MinCounter -[%s]", Maxcounter, Mincounter));
                 //textMouve.setText(String.format("X: [%s]\n Y: [%s]\n  Z; [%s]", x, y,z));
+                 */
+                Counter++;
+                Sum=Sum+ Math.abs(mAccel);
+                Log.i(TAG, String.format("Sum: [%s]-->Counter [%s]", Sum, Counter));
+                if(Counter>250) {
+                    Log.i(TAG, String.format("Accel: [%s]-->Pos X: [%s] Y: [%s]  Z; [%s]", mAccel, x, y, z));
+                    double TotalAcceleration = Math.abs(Sum / (double) Counter);
+                    if(TotalAcceleration>5){
+                        mouvement=true;
+                        textMouve.setTextColor(Color.RED);
+                    }
+                    else{
+                        mouvement=false;
+                        textMouve.setTextColor(Color.GREEN);
+                    }
+                    textMouve.setText(String.format("Accel: [%s]", TotalAcceleration));
+                    //INTENT
+                    //Creation of the Intent to WearService that will send to the tablette
+                    Intent intentAccel = new Intent(this, WearService.class);
+                    intentAccel.setAction(WearService.ACTION_SEND.ACCELERATION.name());
+                    intentAccel.putExtra(WearService.ACCELERATIONVAR, TotalAcceleration);//Acceleartion
+                    intentAccel.putExtra(WearService.MOUVEMENT, mouvement);//LATITUDE
+                    startService(intentAccel);
 
-                textMouve.setText(String.format("Accel: [%s]", mAccel));
-
-                //INTENT
-                //Creation of the Intent to WearService that will send to the tablette
-                Intent intentAccel = new Intent(this, WearService.class);
-                intentAccel.setAction(WearService.ACTION_SEND.ACCELERATION.name());
-                intentAccel.putExtra(WearService.ACCELERATIONVAR, mAccel);//Acceleartion
-                intentAccel.putExtra(WearService.MOUVEMENT, mouvement);//LATITUDE
-                startService(intentAccel);
-            }
+                    Counter=0;
+                    Sum=0;
+                }
+            //}
 
          }
 
