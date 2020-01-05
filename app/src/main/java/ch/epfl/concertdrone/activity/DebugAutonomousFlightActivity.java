@@ -77,12 +77,21 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     }
 
 
-    public void callNotification1(){
-        simpleChronometer.start();
+    public void callNotificationCycleLeft(){//called in fonction line numeber 278
         mNotifyBuilder = new NotificationCompat.Builder(this);
-        mNotifyBuilder.setContentTitle("That Notifcation");
-        mNotifyBuilder.setContentText("That message");
-        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_delete);
+        mNotifyBuilder.setContentTitle("Only 1 path cycle left");
+        mNotifyBuilder.setContentText("The drone will leave the autonomus path after next path.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+
+        Notification myNotification=mNotifyBuilder.build();
+        mNotifyManager.notify(NOTIFICATION_ID,myNotification);
+    }
+
+    private void callNotificationLowBatery() {
+        mNotifyBuilder = new NotificationCompat.Builder(this);
+        mNotifyBuilder.setContentTitle("Drone Low Batery");
+        mNotifyBuilder.setContentText("Is recomended to land the drone.");
+        mNotifyBuilder.setSmallIcon(android.R.drawable.ic_lock_idle_low_battery);
 
         Notification myNotification=mNotifyBuilder.build();
         mNotifyManager.notify(NOTIFICATION_ID,myNotification);
@@ -98,8 +107,6 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
         sendMessage("Conexion Etablie");//Send that string to the wacht to be sure that wrork
         //For debugging, it stop the Sensors comunication
         stopRecordingOnWear();
-
-        callNotification1();
     }
 
 
@@ -114,10 +121,29 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
 
     //When click in the button Start Recording Activity--> The sensor start to get Data (for heart and location Sensor)
     public void onClickStartSensors(View view) {
-        simpleChronometer.stop();
-        simpleChronometer.setBase(SystemClock.elapsedRealtime());
         startRecordingOnWear();
     }
+
+    public void onClickNotification(View view) {
+        callNotificationCycleLeft();
+    }
+    public void onClickNotify1(View view) {
+        callNotificationLowBatery();
+    }
+
+    public void onClickStopCrono(View view) {
+        Toast.makeText(getApplicationContext(), "Reset Chrono", Toast.LENGTH_SHORT).show();//Debug
+
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.stop();
+    }
+
+    public void onClickStartCrono(View view) {
+        Toast.makeText(getApplicationContext(), "Start Chrono", Toast.LENGTH_SHORT).show();//Debug
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+        simpleChronometer.start();
+    }
+
 
     //Is the fonction called to start the sensor-->It will call the Recording Activity from the wacht
     private  void startRecordingOnWear(){
@@ -194,6 +220,8 @@ public class DebugAutonomousFlightActivity extends AppCompatActivity implements 
     public void onProviderDisabled(String provider) {
 
     }
+
+
 
     //Senesor Recived HP (OPTIONAL)
     private class HeartRateBroadcastReceiver extends BroadcastReceiver {
