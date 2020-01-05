@@ -199,7 +199,7 @@ public class RecordingActivity extends WearableActivity implements SensorEventLi
                 Counter++;
                 Sum=Sum+ Math.abs(mAccel);
                 Log.i(TAG, String.format("Sum: [%s]-->Counter [%s]", Sum, Counter));
-                if(Counter>250) {
+                if(Counter>20) {
                     Log.i(TAG, String.format("Accel: [%s]-->Pos X: [%s] Y: [%s]  Z; [%s]", mAccel, x, y, z));
                     double TotalAcceleration = Math.abs(Sum / (double) Counter);
                     if(TotalAcceleration>5){

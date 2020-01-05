@@ -41,7 +41,6 @@ import ch.epfl.concertdrone.BuildConfig;
 import ch.epfl.concertdrone.R;
 import ch.epfl.concertdrone.WearService;
 import ch.epfl.concertdrone.drone.BebopDrone;
-import ch.epfl.concertdrone.preprogrammed.BebopDroneRoutine;
 import ch.epfl.concertdrone.view.BebopVideoView;
 
 public class ManualFlightActivity extends AppCompatActivity implements LocationListener {
@@ -566,7 +565,9 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
 
 
                 if (takeVideoBtClicked == true) { // recording
+                    simpleChronometer.setBase(SystemClock.elapsedRealtime());//reset le cronometre
                     simpleChronometer.start();//start le cronometre
+
                     numberOfVideosTaken += 1;
                     takeVideoBtClicked = false;
                     takeVideoButton.setText("Recording...");
@@ -576,9 +577,10 @@ public class ManualFlightActivity extends AppCompatActivity implements LocationL
                     takeVideoButton.setText("Record");
                     takeVideoButton.setTextColor(Color.BLACK);
 
-                    simpleChronometer.stop();//Stop le cronometre
                     simpleChronometer.setBase(SystemClock.elapsedRealtime());//reset le cronometre
+                    simpleChronometer.stop();//Stop le cronometre
                 }
+
 
                 TextView numberOfVideosTakenTextView = findViewById(R.id.number_of_videos_taken);
                 numberOfVideosTakenTextView.setText("" + numberOfVideosTaken);
