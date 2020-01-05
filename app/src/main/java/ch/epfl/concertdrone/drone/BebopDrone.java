@@ -275,7 +275,7 @@ public class BebopDrone {
         return this.dist_drone_watch;
     }
     private final int Radius = 6371000; // Earth radius [m]
-    private final double minDist = 10; // min distance drone-watch of 3[m]
+    private final double minDist = 7; // min distance drone-watch of 7[m]
     private final double maxDist = 20; // max distance drone-watch of 10[m]
     private static double pitch_input = 0;
 
@@ -584,6 +584,9 @@ public class BebopDrone {
                         if ( (dist_drone_watch > minDist) && (dist_drone_watch < maxDist) ) {
                             setPitch((byte) pitch_byte);
                             setFlag((byte) 1);
+                        } else { // Hovering
+                            setPitch((byte) 0);
+                            setFlag((byte) 0);
                         }
 
                         Log.i(TAG, "    acc_mean_watch: "+ acc_mean_watch+"    pitch_byte: "+ pitch_byte);
