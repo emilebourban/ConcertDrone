@@ -46,10 +46,10 @@
         </activity>
         <activity
             android:name=".activity.ManualFlightActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AutonomousFlightActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
 
         <service android:name=".WearService">
             <intent-filter>
