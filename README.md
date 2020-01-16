@@ -3,7 +3,7 @@ Drone Concert Photographer Android app
 
 
 -----------------------
-Course: EE-490g – Lab On Apps Development For Tablets, Smartphones And Smartwatches
+EPFL Course: EE-490g – Lab On Apps Development For Tablets, Smartphones And Smartwatches
 
 -----------------------
 Students: Bourban Emile (249833), Guinchard Anthony (237689), Houeix Acid Yann (314046)
